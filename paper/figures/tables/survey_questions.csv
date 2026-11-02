@@ -1,0 +1,15 @@
+answer,question,theme
+a1,"Find candidate genes/enzymes for a pathway/reaction step in a taxon",genes_enzymes
+a2,"Discovery of novel natural products from large plant collection",compounds
+a3,"Find metabolite synthesis routes?",routes
+a4,"Species specific questions about genes involved in pathways.",genes_enzymes
+a5,"How does pathway to product X look in different species.",species_orthologs;routes
+a6,"What are functions of orthologs of my pathway enzymes in other species?",species_orthologs
+a7,"Which genes in my species is related with specific trait.",trait_regulation
+a8,"What enzymes can catalyse this reaction",genes_enzymes
+a8,"What genes are known to be involved in this pathway",genes_enzymes
+a8,"Are the input genes physically clustered",genomic_context
+a8,"Are there orthologous genes in the species neighbourhood",species_orthologs
+a8,"Is there a bioactivity associated with compound X",compounds
+a8,"which TFs are regulating gene X (or pathway Y) in response to stress Z in plant P",trait_regulation
+a9,"Finding chlorinated version of natural products that are expected in Medicago sativa.",compounds

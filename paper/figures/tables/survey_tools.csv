@@ -1,0 +1,7 @@
+respondent,tools
+r1,"SIRIUS (metabolomics); MZmine (metabolomics); SonicParanoid (orthology); OrthoFinder (orthology); Making our own tool for paired omics"
+r2,"SIRIUS (metabolomics); MZmine (metabolomics); OrthoFinder (orthology); plantiSMASH (BGCs); DESeq (coexpression); Pearson correlation; self organizing maps"
+r3,"OrthoFinder (orthology); DESeq (coexpression); UniProt"
+r4,"SIRIUS (metabolomics); MZmine (metabolomics); OrthoFinder (orthology); plantiSMASH (BGCs); DESeq (coexpression); Genie3; GNPS; z-score; Cytoscape (visualisation, GO analyses); ShinyGO; MEME suite"
+r5,"OrthoFinder (orthology); plantiSMASH (BGCs); DESeq (coexpression); GoMapMan; MEME suite; SKM"
+r6,"SIRIUS (metabolomics); MZmine (metabolomics); MEANtools (paired omics); plantiSMASH (BGCs); Kallisto-Sleuth; mixOmics"

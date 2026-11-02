@@ -1,0 +1,7 @@
+respondent,goals,uses
+r1,"Finding (candidate) genes; Reconstructing pathways","Comparative pathway analysis across species; Orthology/homology (e.g. for gene/enzyme searches); Metabolite annotations / Metabolomics; Transcriptomics"
+r2,"Finding enzymes; Finding (candidate) genes; Reconstructing pathways; Finding/annotating metabolites; transcriptional regulation","Comparative pathway analysis across species; Orthology/homology (e.g. for gene/enzyme searches); Transcriptomics"
+r3,"Finding (candidate) genes","Orthology/homology (e.g. for gene/enzyme searches); Transcriptomics; Genomics"
+r4,"Finding enzymes; Finding (candidate) genes; Reconstructing pathways; Finding/annotating metabolites; Finding regulatory relationships between genes and metabolites","Comparative pathway analysis across species; Orthology/homology (e.g. for gene/enzyme searches); Transcriptomics; Transcription factors; BGCs (plant biosynthetic gene clusters)"
+r5,"Finding (candidate) genes; Reconstructing pathways","Comparative pathway analysis across species; Orthology/homology (e.g. for gene/enzyme searches); Transcriptomics; Transcription factors; Genomics"
+r6,"Finding enzymes; Finding (candidate) genes; Reconstructing pathways; Finding/annotating metabolites; Connecting plant resilience to plant metabolism (and gene expression)","Metabolite annotations / Metabolomics; Transcriptomics; Genomics; BGCs (plant biosynthetic gene clusters)"
