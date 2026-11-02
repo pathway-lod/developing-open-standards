@@ -1,5 +1,7 @@
 # BioHackrXiv Publication Template
 
+> **For the Project 3 authors:** the paper is in [paper/paper.md](paper/paper.md). The template's writing instructions (Markdown syntax, tables, figures, Mermaid, CiTO citations, author metadata) were moved to [paper/TEMPLATE_INSTRUCTIONS.md](paper/TEMPLATE_INSTRUCTIONS.md) so that they do not end up in the preprint.
+
 Minimal example of a [BioHackrXiv](https://biohackrxiv.org/) publication that can be generated with the
 [Preview Service](http://preview.biohackrxiv.org/).
 
