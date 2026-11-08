@@ -8,4 +8,4 @@
 
 Redraw: `python scripts/make_survey_figure_v2.py` (needs matplotlib).
 
-The respondent IDs r1-r6 of `survey_tools.csv` are assumed to match those of `survey_responses.csv` (to be confirmed). The answers in `survey_questions.csv` are anonymous and not linked to either.
+The respondent IDs r1-r8 of `survey_tools.csv` are assumed to match those of `survey_responses.csv` (to be confirmed). The answers in `survey_questions.csv` are anonymous and not linked to either.

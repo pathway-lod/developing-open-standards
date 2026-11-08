@@ -58,7 +58,7 @@ for i, (g, ts) in enumerate(GROUPS):
     y0, y1 = y[ts[0] if False else min(ts, key=lambda t: y[t])], y[max(ts, key=lambda t: y[t])]
     if i % 2 == 0: ax.axhspan(y0 - 0.5, y1 + 0.5, color=BAND, zorder=0)
     ax.text(-8.3, (y0 + y1) / 2, g.replace(" and ", " and\n").replace("motifs, ", "motifs,\n").replace("Gene clusters", "Gene\nclusters"), ha="left", va="center", fontsize=9.5, color=MUTED, fontweight="bold")
-xs = {r: i for i, r in enumerate(resp)}; XT = len(resp) + 0.6
+xs = {r: i for i, r in enumerate(resp)}; XT = len(resp) + 1.4
 for t, yv in y.items():
     ax.text(-0.45, yv, t, ha="right", va="center", fontsize=10, color=INK)
     for r in resp:
@@ -67,7 +67,7 @@ for t, yv in y.items():
     ax.text(XT + 0.55, yv, str(total[t]), ha="left", va="center", fontsize=10, color=INK)
 for r in resp: ax.text(xs[r], -1.2, r, ha="center", fontsize=9.5, color=MUTED)
 ax.text(XT, -1.2, "Respondents\n(total)", ha="center", va="center", fontsize=9.5, color=MUTED, fontweight="bold")
-ax.set_xlim(-8.4, XT + 1.2); ax.set_ylim(yy + 0.2, -2.2); ax.axis("off")
+ax.set_xlim(-8.4, XT + 1.4); ax.set_ylim(yy + 0.2, -2.2); ax.axis("off")
 fig.patch.set_facecolor(SURFACE)
 for ext in ("svg", "png"):
     fig.savefig(OUT / f"survey_tools.{ext}", dpi=200, bbox_inches="tight", facecolor=SURFACE)
