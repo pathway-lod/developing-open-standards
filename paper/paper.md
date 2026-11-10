@@ -1,6 +1,6 @@
 ---
 title: 'BioHackEU26 report: Developing Open Standards for a Semantic Framework in Plant Specialized Metabolism'
-title_short: 'BioHackEU26 #3: short title'
+title_short: 'BioHackEU26 #3: Plant Metabolism Multi-Omics Evidence'
 tags:
   - plant specialized metabolism 
   - knowledge graphs
@@ -155,6 +155,39 @@ The script `check_terms.py` of the repository keeps the term table consistent an
 4. **Rendering** (`--render`): regenerates the tables of the specification document and the dashboard from the table, and `--check-render` fails when a generated file is out of date.
 
 GitHub Actions run these steps for every pull request and for every term suggestion that a maintainer accepts with a label, and regenerate the dashboard before it is published, so that the published specification always follows the term table.
+
+## Integrative Ontology Development
+
+Instead of creating a new ontology from scratch, our team decided to build an integrative ontology from existing resources. This idea is built on previous work described in the eNanoMapper project [[ref](https://doi.org/10.1186/s13326-015-0005-5)] and follows the following steps for the technical implementation:
+
+1. Create a basis with the Basic Formal Ontology (BFO)
+
+    tba
+   
+2. Integrate SULO to define the meaning of concepts
+   
+    tba
+   
+3. Review ontologies to include (not terms specifically).
+   
+    An integrative ontology requires decisions on the number of ontologies to include (the more different ones, the higher the maintenance load and potential for conflicting statements). In this section, we want to answer the following questions: How many ontologies are required to capture multi-omics evidence for plant metabolism, how complete are these, what are the pros and cons of each ontology, and which restrictions are needed?
+  
+4. Check specific terms for inclusion.
+
+    For the terms identified as "candidate terms", we analysed how well the match fits the description using the SKOS terminology. We also checked which other terms might be relevant, how the individual terms fit in the overall ontology, availability in BioPortal, version history, description clarity, and match to the described usecases.
+   
+5. Use ROBOT to extract relevant terms (and parent terms) from ontologies automatically
+
+    tba
+   
+6. Create GitHub CI/CD pipeline for ROBOT.
+    
+    tba
+    
+7. Create placeholders for missing terms.
+
+    tba
+
 
 # Results
 
