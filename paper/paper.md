@@ -160,13 +160,13 @@ GitHub Actions run these steps for every pull request and for every term suggest
 
 Instead of creating a new ontology from scratch, our team decided to build an integrative ontology from existing resources. This idea is built on previous work described in the eNanoMapper project [[ref](https://doi.org/10.1186/s13326-015-0005-5)] and follows the following steps for the technical implementation:
 
-1. Create a basis with the Basic Formal Ontology (BFO)
+1. Create a basis for supporting an integrative ontology
 
-    tba
+    The Ontology Development Kit (ODK) [ref](https://doi.org/10.1093/database/baac087) Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [ref](https://doi.org/10.3233/AO-220262).
    
 2. Integrate SULO to define the meaning of concepts
    
-    tba
+    tba --> Mappings from SULO to BFO are missing.
    
 3. Review ontologies to include (not terms specifically).
    
