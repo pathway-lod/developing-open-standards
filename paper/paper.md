@@ -158,15 +158,26 @@ GitHub Actions run these steps for every pull request and for every term suggest
 
 ## Integrative Ontology Development
 
-Instead of creating a new ontology from scratch, our team decided to build an integrative ontology from existing resources. This idea is built on previous work described in the eNanoMapper project [[ref](https://doi.org/10.1186/s13326-015-0005-5)] and follows the following steps for the technical implementation:
+Instead of creating a new ontology from scratch, our team decided to build an integrative ontology from existing resources. This idea is built on previous work described in the eNanoMapper project [[ref](https://doi.org/10.1186/s13326-015-0005-5)], uses five ontology agents (Table X), and follows the following steps for the technical implementation (Table Y).
 
-1. Create a basis for supporting an integrative ontology
+Table X: Ontology agents used to build the integrative ontology
 
-    The Ontology Development Kit (ODK) [ref](https://doi.org/10.1093/database/baac087) Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [ref](https://doi.org/10.3233/AO-220262).
-   
-2. Integrate SULO to define the meaning of concepts
-   
-    tba --> Mappings from SULO to BFO are missing.
+| Number  | Agent Name | Purpose |
+|-------|-----|------------|
+| 1 | ontology-scoper  | Writes competency questions, sets the scope, lists the source resources to integrate, and recommends an upper-level ontology (e.g. BFO) and naming conventions   |
+| 2  | term-reuse-scout  | Searches OLS through OAK before any new term is created; checks definitions and parents, and rates each match as exact, broad, narrow, related or none   |
+| 3  | mapping-curator  | Maps terms across your source resources in SSSOM format, and flags conflicts |
+| 4  | ontology-modeler  | Adds classes and axioms in OBO style, reusing existing terms, using ROBOT templates for bulk terms   |
+| 5  | ontology-qc  | Runs the reasoner and the ROBOT quality report, checks OBO conventions and whether the competency questions are answered, and validates the SSSOM files |
+
+Table Y: Description of technical implementation of the integrative ontology development
+
+| Number  | Title | Details |
+|-------|-----|------------|
+| 1 | Create a basis for supporting an integrative ontology | The Ontology Development Kit (ODK) [ref](https://doi.org/10.1093/database/baac087) Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [ref](https://doi.org/10.3233/AO-220262).  |
+| 2  |  Integrate SULO to define the meaning of concepts |  tba --> Mappings from SULO to BFO are missing.   |
+
+TODO: integrate rest of text in Table structure.
    
 3. Review ontologies to include (not terms specifically).
    
