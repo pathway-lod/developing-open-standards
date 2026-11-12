@@ -17,6 +17,9 @@ authors:
   - name: Kumar Saurabh Singh
     orcid: 0000-0001-8352-5897
     affiliation: 2
+  - name: Niccolò Bianchi
+    orcid: https://orcid.org/0009-0000-4202-7154
+    affiliation: 3
 affiliations:
   - name: Wageningen University & Research, Wageningen, NL
     ror: 04qw24q55
@@ -24,6 +27,9 @@ affiliations:
   - name: Maastricht University, Maastricht, NL
     ror: 02jz4aj89
     index: 2
+  - name: SR-Tiget, Milan, IT
+    ror: 036jn4298
+    index: 3
 date: 8 November 2026
 cito-bibliography: paper.bib
 event: BH26EU
@@ -170,6 +176,7 @@ Each pilot checks how much of a real dataset can be aligned with PlantMetWiki, a
 
 - **Metabolomics** (`pilots/metabolomics_overlap`): LC-MS/MS annotations of 14 Brassicaceae species (Wolters et al. 2026) matched to PlantMetWiki metabolites on the first InChIKey block, with six evidence tiers from the GNPS library match to MS2Query analogues; the three annotation tools are combined in a consensus (agreement of three tools counts 1.0, two tools 0.5).
 - **Paired omics** (`pilots/meantools_overlap`): gene-metabolite associations of MEANtools [@usesMethodIn:Singh2025MEANtools] functional clusters in tomato, with genes mapped to PlantMetWiki pathways in three tiers (locus, UniProt, EC) and metabolite features by exact mass (MS1 only), compared against a chance background.
+- **Transcriptomics** (`pilots/transcriptomics`): (...).
 - **BGC predictions** (`pilots/plantismash_overlap`): plantiSMASH 2.0 [@citesAsDataSource:DelPup2026plantiSMASH] clusters in 430 genomes linked to PlantMetWiki genes and pathways in three tiers.
 - **New pathway from the literature** (`pilots/ipecac_overlap`): the paired ipecac alkaloid data (Colinas et al.). Of the 12 metabolites of the paper, 6 are in PlantMetWiki (secologanin exactly; three with a protonation difference only; two on the connectivity level only) and 6 are absent, among them all those of the acid route. The pathway of emetine biosynthesis (PWY-7135) has 8 conversions, of which 5 are linked to a UniProt enzyme, one only to a PlantCyc monomer, and two to no enzyme. The cloned *Carapichea* genes are 94-98% identical to enzymes already in this pathway, the *Alangium* genes at most 46%. The heterologous expression and infiltration experiments give reaction evidence for the step without an enzyme and for new acid-route compounds (75 comparisons, 41 with a higher product level). The study is targeted metabolomics of known compounds, so it tests reaction-level evidence and not spectral matching.
 
