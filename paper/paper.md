@@ -174,8 +174,8 @@ Table Y: Description of technical implementation of the integrative ontology dev
 
 | Number  | Title | Details |
 |-------|-----|------------|
-| 1 | Create a basis for supporting an integrative ontology | The Ontology Development Kit (ODK) [ref](https://doi.org/10.1093/database/baac087) Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [ref](https://doi.org/10.3233/AO-220262).  |
-| 2  |  Integrate SULO to define the meaning of concepts |  tba --> Mappings from SULO to BFO are missing.   |
+| 1 | Create a basis for supporting an integrative ontology | The Ontology Development Kit (ODK) [ref](https://doi.org/10.1093/database/baac087) Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [ref](https://doi.org/10.3233/AO-220262). The class hierarchy was manually inspected using Protege (v 5.6.9)  |
+| 2  |  Integrate SULO to define the meaning of concepts |  The Simplified Upper Level Ontology (SULO) was used to create a layer between the formal ontology from BFO and expected future requests for new terms from  domain experts. Mappings from SULO to BFO were integrated based on work described here [ref](https://github.com/AIDAVA-DEV/sulo/blob/main/docs/papers/FOUST2025/SULO_FOUST2025-as-published.pdf).   |
 
 TODO: integrate rest of text in Table structure.
    
