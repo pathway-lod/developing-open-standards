@@ -18,7 +18,7 @@ authors:
     orcid: 0000-0001-8352-5897
     affiliation: 2
   - name: Niccolò Bianchi
-    orcid: https://orcid.org/0009-0000-4202-7154
+    orcid: 0009-0000-4202-7154
     affiliation: 3
 affiliations:
   - name: Wageningen University & Research, Wageningen, NL
