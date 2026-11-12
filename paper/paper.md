@@ -17,6 +17,9 @@ authors:
   - name: Kumar Saurabh Singh
     orcid: 0000-0001-8352-5897
     affiliation: 2
+  - name: Martin Engst
+    orcid: 0009-0004-5043-1420
+    affiliation: "3, 4"
 affiliations:
   - name: Wageningen University & Research, Wageningen, NL
     ror: 04qw24q55
@@ -24,6 +27,12 @@ affiliations:
   - name: Maastricht University, Maastricht, NL
     ror: 02jz4aj89
     index: 2
+  - name: Institute of Organic Chemistry and Biochemistry of the Czech Academy of Sciences, Prague, Czech Republic
+    ror: 04nfjn472
+    index: 3
+  - name: University of Chemistry and Technology Prague, Prague, Czech Republic
+    ror: 05ggn0a85
+    index: 4
 date: 8 November 2026
 cito-bibliography: paper.bib
 event: BH26EU
