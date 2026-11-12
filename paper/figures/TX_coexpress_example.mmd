@@ -1,0 +1,34 @@
+---
+title: "Pathway co-expression claim (α-tomatine biosynthesis)"
+config:
+  flowchart:
+    curve: basis
+---
+flowchart TB
+    PW["pathways/PC968_r17.0.0_20260605-171052<br/>wp:Pathway · dc:title α-tomatine biosynthesis"]:::pmw
+    SRC["identifiers.org/plantcyc/PWY18C3-3"]:::pmw
+    PW -- "dcterms:source" --> SRC
+    GS["6 wp:GeneProduct nodes<br/>GAME1, GAME4, GAME8, GAME12, GAME17, GAME18"]:::pmw
+    GS -- "dcterms:isPartOf" --> PW
+    C["<b>claim</b> lodp:PathwayCoexpressionClaim (⊂ rdf:Statement)<br/>IRI from the triple: lodp:claim_PWY18C3-3_type_CoexpressedGenePathway<br/>the genes of α-tomatine biosynthesis are co-expressed more than random gene sets"]:::claim
+    P["rdf:type"]:::term
+    O["lodp:CoexpressedGenePathway<br/>(new placeholder class: a pathway whose genes are<br/>co-expressed more than random gene sets of the same size)"]:::term
+    E1["<b>evidence</b> lodp:evidence_&lt;claim&gt;_meantools_rpkm · ECO:0007590 + ECO:0006069<br/>mean pairwise r 0.960 · empirical p 0.0001<br/>geneCount 6 · randomSetCount 10000"]:::evid
+    E2["<b>evidence</b> lodp:evidence_&lt;claim&gt;_atted_Sly_r_c6_0 · ECO:0007590 + ECO:0006069<br/>mean pairwise r 0.797 (random 0.289) · empirical p 0.0001<br/>geneCount 4 · randomSetCount 10000"]:::evid
+    U1["<b>run</b> pathway co-expression · MEANtools RPKM<br/>seed 20261112"]:::run
+    U2["<b>run</b> pathway co-expression · ATTED-II"]:::run
+    C == "rdf:subject" ==> SRC
+    C == "sio:refers to (kept)" ==> SRC
+    C == "rdf:predicate" ==> P
+    C == "rdf:object" ==> O
+    C == "sio:has evidence" ==> E1
+    C == "sio:has evidence" ==> E2
+    E1 == "prov:wasGeneratedBy" ==> U1
+    E2 == "prov:wasGeneratedBy" ==> U2
+    classDef pmw fill:#e5e7eb,stroke:#6b7280,color:#111827
+    classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111827,stroke-width:2px
+    classDef evid fill:#ffedd5,stroke:#c2410c,color:#111827
+    classDef run fill:#dcfce7,stroke:#15803d,color:#111827
+    classDef ctx fill:#f3e8ff,stroke:#7e22ce,color:#111827
+    classDef ext fill:#fef9c3,stroke:#a16207,color:#111827
+    classDef term fill:#ffffff,stroke:#be185d,color:#111827,stroke-dasharray: 4 3
