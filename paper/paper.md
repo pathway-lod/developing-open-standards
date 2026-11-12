@@ -1,6 +1,6 @@
 ---
 title: 'BioHackEU26 report: Developing Open Standards for a Semantic Framework in Plant Specialized Metabolism'
-title_short: 'BioHackEU26 #3: short title'
+title_short: 'BioHackEU26 #3: Plant Metabolism Multi-Omics Evidence'
 tags:
   - plant specialized metabolism 
   - knowledge graphs
@@ -161,6 +161,50 @@ The script `check_terms.py` of the repository keeps the term table consistent an
 4. **Rendering** (`--render`): regenerates the tables of the specification document and the dashboard from the table, and `--check-render` fails when a generated file is out of date.
 
 GitHub Actions run these steps for every pull request and for every term suggestion that a maintainer accepts with a label, and regenerate the dashboard before it is published, so that the published specification always follows the term table.
+
+## Integrative Ontology Development
+
+Instead of creating a new ontology from scratch, our team decided to build an integrative ontology from existing resources. This idea is built on previous work described in the eNanoMapper project [[ref](https://doi.org/10.1186/s13326-015-0005-5)], uses five ontology agents (Table X), and follows the following steps for the technical implementation (Table Y).
+
+Table X: Ontology agents used to build the integrative ontology
+
+| Number  | Agent Name | Purpose |
+|-------|-----|------------|
+| 1 | ontology-scoper  | Writes competency questions, sets the scope, lists the source resources to integrate, and recommends an upper-level ontology (e.g. BFO) and naming conventions   |
+| 2  | term-reuse-scout  | Searches OLS through OAK before any new term is created; checks definitions and parents, and rates each match as exact, broad, narrow, related or none   |
+| 3  | mapping-curator  | Maps terms across your source resources in SSSOM format, and flags conflicts |
+| 4  | ontology-modeler  | Adds classes and axioms in OBO style, reusing existing terms, using ROBOT templates for bulk terms   |
+| 5  | ontology-qc  | Runs the reasoner and the ROBOT quality report, checks OBO conventions and whether the competency questions are answered, and validates the SSSOM files |
+
+Table Y: Description of technical implementation of the integrative ontology development
+
+| Number  | Title | Details |
+|-------|-----|------------|
+| 1 | Create a basis for supporting an integrative ontology | The Ontology Development Kit (ODK) [ref](https://doi.org/10.1093/database/baac087) Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [ref](https://doi.org/10.3233/AO-220262).  |
+| 2  |  Integrate SULO to define the meaning of concepts |  tba --> Mappings from SULO to BFO are missing.   |
+
+TODO: integrate rest of text in Table structure.
+   
+3. Review ontologies to include (not terms specifically).
+   
+    An integrative ontology requires decisions on the number of ontologies to include (the more different ones, the higher the maintenance load and potential for conflicting statements). In this section, we want to answer the following questions: How many ontologies are required to capture multi-omics evidence for plant metabolism, how complete are these, what are the pros and cons of each ontology, and which restrictions are needed?
+  
+4. Check specific terms for inclusion.
+
+    For the terms identified as "candidate terms", we analysed how well the match fits the description using the SKOS terminology. We also checked which other terms might be relevant, how the individual terms fit in the overall ontology, availability in BioPortal, version history, description clarity, and match to the described usecases.
+   
+5. Use ROBOT to extract relevant terms (and parent terms) from ontologies automatically
+
+    tba
+   
+6. Create GitHub CI/CD pipeline for ROBOT.
+    
+    tba
+    
+7. Create placeholders for missing terms.
+
+    tba
+
 
 # Results
 
