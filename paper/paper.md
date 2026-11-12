@@ -228,48 +228,46 @@ The evidence of all pilots is ranked with the tier queries of `minimum_informati
 
 ## 3. Ranking and Scoring of Predictions 
 
-**Evidence tiers and ranking.** Beyond recording *that* a claim has evidence, we rank how well a candidate pathway component (a metabolite, a reaction or a gene) is supported for a given PlantMetWiki pathway. Each kind of evidence is a *tier*, written as one SPARQL query that returns the component, its type, the pathway and the supporting evidence (the queries are in the SPARQL examples of the project, section "Minimum information tiers"). Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC), or an Rhea identifier on the reaction.
+After modelling, generating the Turtle files and validating them, we want to prioritise the modelled multi-omics results, that is, to decide which candidate metabolites, reactions and genes are best supported and should be tested experimentally first. The approach has five steps:
 
-Tiers that are not independent are put in one *family*: a gene that is in a pathway and in a BGC with a partner also in that pathway is one piece of evidence, not two. A component takes the weight of the strongest tier it passes in each family, and the families are combined with a noisy-OR, so that a further independent family can only raise the score and the score never exceeds 1:
+1. define evidence tiers;
+2. write queries that encode the tiers as optional branches, using also federated services;
+3. query the new multi-omics graph together with PlantMetWiki;
+4. score the resulting reactions, genes and metabolites;
+5. rank them by score, for experimental validation.
+
+**Evidence tiers.** Each kind of evidence is a *tier*, written as one SPARQL query that returns a pathway component (a metabolite, a reaction or a gene), its type, the pathway and the supporting evidence as metadata. Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC, the weakest gene tier) or a Rhea identifier on the reaction. The tiers model the evidence at the level of the graph, and some use federated services inside the query: PlantMetWiki (pathways, reactions, metabolites), Rhea (reaction participants), UniProt (enzymes), OrthoDB (orthologs) and the Sachem/IDSM service (chemical similarity to a pathway metabolite). Because the tiers are queries over a graph, the levels of evidence and the connectivity layers they use can also be inspected in the SPARQL examples visualiser of the SIB.
+
+**Resources.** The tier queries are SPARQL examples in the SIB format, in the repository [sparql-examples-pmw](https://github.com/pathway-lod/sparql-examples-pmw) (folder `examples/MinimumInformationTiers`, one file per tier and the three ranked queries `ranked-pathway-metabolites`, `ranked-pathway-reactions` and `ranked-pathway-genes`), published with their descriptions and keywords at <https://pathway-lod.github.io/sparql-examples-pmw/>. The definitions of the tiers, the explanation of how to read the score, the draft weights and the notebooks that run all queries and keep their outputs are in the `minimum_information/` folder of the community repository ([lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community/tree/edp-visualization/minimum_information); `scoring.md` explains the score, `notebooks/05_ranked_components.ipynb` runs the ranked queries, `notebooks/weights.csv` holds the weights).
+
+**Score.** Tiers that are not independent are put in one *family*: a gene that is in a pathway and in a BGC with a partner also in that pathway is one piece of evidence, not two. A component takes the weight of the strongest tier it passes in each family, and the families are combined with a noisy-OR, so that a further independent family can only raise the score and the score never exceeds 1:
 
 $$\mathrm{score} = 1 - \prod_{f}\,(1 - w_f), \qquad w_f = \max_{t \in f}\; w_t$$
 
-For metabolites the identity weight is also multiplied by the number of annotation tools that agree (0.65 for one tool, 0.80 for two, 1.0 from three). One ranked query per scope (metabolites, reactions, genes) holds all tiers as optional branches, so a component keeps the evidence it has and none is required. The weights (Appendix C) are drafts, and the score is an ordering of evidence, not a probability, until the weights are calibrated.
+For metabolites the identity weight is also multiplied by the number of annotation tools that agree (0.65 for one tool, 0.80 for two, 1.0 from three). One ranked query per scope (metabolites, reactions, genes) holds all tiers as optional branches, so a component keeps the evidence it has and none is required. The weights (Appendix C) are drafts, and until they are calibrated the score is an ordering of the evidence, not a probability.
 
-```mermaid
-flowchart LR
-  subgraph T["1 - Evidence tiers (one SPARQL query each)"]
-    direction TB
-    t1["gene in a PlantMetWiki pathway<br/>w = 0.90"]
-    t2["gene and a BGC partner in the pathway<br/>w = 0.70"]
-    t3["two genes in the same BGC<br/>w = 0.30"]
-    t4["co-expressed with a pathway gene<br/>w = 0.50"]
-    t5["ortholog of a pathway gene<br/>w = 0.50"]
-  end
-  subgraph F["2 - Families (non-independent tiers)"]
-    direction TB
-    f1["membership<br/>strongest tier only"]
-    f2["omics"]
-    f3["sequence"]
-  end
-  t1 --> f1
-  t2 --> f1
-  t3 --> f1
-  t4 --> f2
-  t5 --> f3
-  f1 -- "w = 0.90" --> N
-  f2 -- "w = 0.50" --> N
-  f3 -- "w = 0 (no evidence)" --> N
-  N(("3 - noisy-OR<br/>1 - prod(1 - w)"))
-  N --> S["4 - ranked list<br/>score = 1 - 0.10 x 0.50 x 1 = 0.95<br/>+ tiers passed as metadata"]
-```
+![From evidence to score, shown for a gene. Each tier is a query (federated services included); tiers that are not independent share a family and only the strongest counts; the families are combined with a noisy-OR into a score that ranks the components. Weights are drafts. \label{figureScoring}](./figures/scoring_schema.png)
 
-Figure: From evidence to score, shown for a gene. Each tier is a query; tiers that are not independent share a family and only the strongest counts; the families are combined with a noisy-OR into a score that ranks the components. Weights are drafts. \label{figureScoring}
+**What we have.** The three ranked queries were run on PlantMetWiki r17.0.0_20260605-171052 and the evidence graphs of the pilots (TODO: update the numbers before submission; `minimum_information/notebooks/results/summary.csv`):
 
+Table: Results of the ranked queries (run on 2026-11-12). \label{tableRanked}
 
-**Implementation and results.** The tiers and the score were implemented as three ranked SPARQL queries (metabolites, reactions, genes) and run on the pilot data and PlantMetWiki r17 in a notebook (`minimum_information/notebooks/05_ranked_components.ipynb`). TODO: update the numbers before submission. The metabolite query scored 3,688 metabolite-pathway pairs (492 metabolites, 674 pathways), of which 1,089 reached a score of 0.9 or more; the reaction query scored 7,772 reactions, 1,605 of them without any evidence; the gene query is run on the tomato sample graph only. Changing the weights by a random factor hardly changed the order (rank correlation above 0.99). Two worked examples: a reaction with an Rhea identifier (0.60) and a UniProt enzyme (0.70) in different families scores 1 - 0.40 x 0.30 = 0.88, one with an EC number only scores 0.40; a gene in a pathway (0.90) that is also in a BGC with a partner (0.70) keeps 0.90, because both tiers belong to the same family.
+| Scope | Rows scored | Run time | What the evidence is |
+|---|---|---|---|
+| Metabolites | 3,688 metabolite-pathway pairs (492 metabolites, 674 pathways) | about 10 min | annotation matches of the metabolomics pilot (exact InChIKey or first block), a formula-layer proxy for structure similarity (934 pairs only by this tier) and IDSM similarity to the substrates of one pathway (19) |
+| Reactions | 7,772 (all PlantMetWiki reactions; 1,605 have no evidence and score 0) | 3 s | Rhea identifier, EC number and UniProt enzyme of the reaction |
+| Genes | 12 rows | about 2 min | the BGC of the sample graph and one tomato association; none of the 1,293 MEANtools genes is listed in PlantMetWiki by its locus |
 
-Limits: the weights are drafts; several tiers have no data yet (orthologs, chemical class, similarity links, machine-learning predictions); the Rhea-step tier is too slow for the public endpoint (60 s limit); the exact-InChIKey tier is inflated, because the annotation graph was built from the same match. TODO: calibrate the weights against the experimentally validated pathways of PlantMetWiki (hold out a pathway and rank its components), against a shuffled null model, and with the ipecac pilot as a positive control, and review the top candidates with curators.
+Two worked examples: a reaction with an Rhea identifier (0.60) and a UniProt enzyme (0.70) in different families scores 1 - 0.40 x 0.30 = 0.88, and one with an EC number only scores 0.40; a gene in a pathway (0.90) that is also in a BGC with a partner (0.70) keeps 0.90, because both tiers belong to the same family. Changing all weights by up to 20% hardly changed the order (rank correlation above 0.99).
+
+**What we can say, and what we cannot.**
+
+- The model works end to end: the tiers are queries that run over the pilot graphs and PlantMetWiki (with federated calls to IDSM, and to Rhea and UniProt in the single-tier queries), every score can be traced to the list of tiers passed, and a ranked list of metabolites, reactions and genes can be produced per pathway.
+- For reactions the evidence is complete in the knowledge graph itself (7,772 reactions), so the ranking shows which reactions of PlantMetWiki rest on a UniProt enzyme and which only on an EC number or on nothing. These are the first candidates for curation or for experimental validation.
+- For metabolites the ranking is only as strong as the annotation tools: 1,089 pairs reach 0.9 or more, but the exact-InChIKey tier is inflated, because the annotation graph stores the PlantMetWiki key that the pilot matched. We therefore do not claim a hit rate.
+- For genes we cannot yet say anything about the biology: no MEANtools gene is listed by locus in PlantMetWiki, so only 12 rows were scored.
+- The weights are drafts. Several tiers find nothing because their data are not in the graphs yet (orthologs, chemical classes, similarity links, machine-learning predictions, gene-to-enzyme links); zero rows there say nothing about the biology. The Rhea step between detected metabolites, and some co-expression tiers, exceed the 60 s limit of the public endpoint and are not part of the ranked queries.
+- Next steps: calibrate the weights by holding out one validated PlantMetWiki pathway and ranking its components, against a shuffled null model, and with the ipecac pilot as a positive control; fill the missing data; review the top candidates with curators.
 
 ## 4. Submission system (optional)
 
