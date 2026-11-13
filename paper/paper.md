@@ -251,6 +251,10 @@ The discussion workflow of the specification (issue forms, labels and Actions th
 We thank Nicola Zamboni and Adriano Rutz for the supervision of Elena Del Pup during the preparation of the BioHackathon and the writing of this report. 
 ...
 
+## Funding
+Kumar Saurabh Singh and Sajal Paudyal are supported by NWO Open Science NL fund (project nr. 500.040.2534)
+
+
 # References
 
 ```{=latex}
