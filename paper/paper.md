@@ -199,7 +199,8 @@ TODO: integrate rest of text in Table structure.
    
 6. Create GitHub CI/CD pipeline for ROBOT.
     
-    tba
+      In order to check the consistency of the vocabulary and shapes with external references whenever there are new changes added in the specifications, github Action workflows were created and added. The first workflow runs ROBOT (robot-checks.yml) on the placeholders vocabulary whenever new shapes or specifications are added. The ROBOT check on the current vocabulary file identified three errors (no ontology title, description, license). Also, 67 terms without a standard definition in the OBO-standard property (55 with rdfs:comment, 12 without any description, 3 without a superclass specification) were identified. The missing superclasses show where the vocabulary still needs to be placed
+under an upper-level ontology such as BFO, and the missing definitions must be added before any placeholder term can be proposed for inclusion in an established ontology such as ECO or PSI-MS. The second workflow(borrowed-terms.yml) identifies the terms that are borrowed from external ontologies and checks whether they are still in use or obsolete. A script(list_borrowed_terms.py) run on every pull request collects the borrowed terms from all the ttl files following which ROBOT  looks each one up in the current releases/versions of the source ontologies (ECO, PSI-MS, SIO, EDAM, BFO, OBI, RO, SO, STATO and SWO).  31 borrowed terms were identified,of which 30 were found and current in the present references. One term from the WikiPathways vocabulary could not be checked,which vocabulary could not be loaded as an ontology .  Both checks will be extended to the integrated ontology developed within the project, so that it is validated in the same way as the placeholder vocabulary. 
     
 7. Create placeholders for missing terms.
 
