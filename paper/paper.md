@@ -256,7 +256,7 @@ Table: Results of the ranked queries (run on 2026-11-12). \label{tableRanked}
 |---|---|---|---|
 | Metabolites | 3,688 metabolite-pathway pairs (492 metabolites, 674 pathways) | about 10 min | annotation matches of the metabolomics pilot (exact InChIKey or first block), a formula-layer proxy for structure similarity (934 pairs only by this tier) and IDSM similarity to the substrates of one pathway (19) |
 | Reactions | 7,772 (all PlantMetWiki reactions): 1,062 with a UniProt enzyme (score 0.70 to 0.88), 592 with Rhea but no enzyme (0.60), 4,513 with EC only (0.40), 1,605 with none (0) | 3 s | Rhea identifier, EC number and UniProt enzyme of the reaction |
-| Genes | 266 gene-pathway pairs (62 genes, 213 pathways) | about 2 min | the gene tiers of the pilot: Solyc locus (4 genes), UniProt entry (none), EC number of the gene (47 genes, weak), OrthoDB ortholog of a pathway enzyme (23 genes), and the genes of the tomato and Arabidopsis gene clusters |
+| Genes | 266 gene-pathway pairs (62 genes, 213 pathways) | about 2 min | the gene tiers of the pilot: locus (4 genes: GAME17 of tomato and three genes of the Arabidopsis cluster of the sample graph), UniProt entry (none), EC number of the gene (47 genes, weak), OrthoDB ortholog of a pathway enzyme (23 genes), and the genes of the tomato and Arabidopsis gene clusters |
 
 Two worked examples: a reaction with an Rhea identifier (0.60) and a UniProt enzyme (0.70) in different families scores 1 - 0.40 x 0.30 = 0.88, and one with an EC number only scores 0.40; a gene in a pathway (0.90) that is also in a BGC with a partner (0.70) keeps 0.90, because both tiers belong to the same family. Changing all weights by up to 20% hardly changed the order (rank correlation above 0.99).
 
