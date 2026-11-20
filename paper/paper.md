@@ -145,44 +145,19 @@ Table: Use cases supported by the framework, with the pilot dataset used to test
 
 | # | Use case | Specification | Test data | Pilot |
 | --- | --- | --- | --- | --- |
-| 1 | New pathway from the literature | not yet a use case of its own | Ipecac alkaloid biosynthesis in two evolutionarily distant plants [@citesAsDataSource:Colinas2025] | `pilots/ipecac_overlap` |
+| 1 | New pathway from the literature | uses existing PlantMetWiki vocabulary | Ipecac alkaloid biosynthesis in two evolutionarily distant plants [@citesAsDataSource:Colinas2025] | `pilots/ipecac_overlap` |
 | 2 | PlantCyc (PMN) inferred enzyme function | PMN | PlantCyc evidence codes on PlantMetWiki nodes [@citesAsDataSource:Hawkins2025] | `shape_constraints/rdf/plantcyc.ttl` |
 | 3 | plantiSMASH-predicted biosynthetic gene clusters (BGCs) | BGC | plantiSMASH 2.0 precalculated database, about 30,400 BGCs in 430 genomes [@citesAsDataSource:DelPup2026plantiSMASH] | `pilots/plantismash_overlap` |
-| 4 | **Transcriptomics** | TX | covered inside the paired data of cases 1 and 6 | no separate pilot |
+| 4 | **Transcriptomics** | TX | Tomato co-expression and expression profiles of Jeon et al. [@citesAsDataSource:Jeon2020] (also used in case 6), ATTED-II co-expression matrices [@citesAsDataSource:Obayashi2022] and Expression Atlas E-MTAB-11876 [@citesAsDataSource:Moreno2022] | `pilots/transcriptomics_overlap` |
 | 5 | **Metabolomics** | MET | Brassicaceae metabolic fingerprinting [@citesAsDataSource:Wolters2026] | `pilots/metabolomics_overlap` |
 | 6 | **Paired omics** (transcript–metabolite, transcript–protein, and protein–metabolite associations) | PO | Tomato data of Jeon et al. [@citesAsDataSource:Jeon2020], analysed with MEANtools [@usesMethodIn:Singh2025MEANtools]; *Arabidopsis thaliana* heat-stress multi-omics dataset [@citesAsDataSource:Thirumalaikumar2026] | `pilots/pairedomics_overlap` (tomato); `pilots/pairedomics_overlap/arabidopsis_heat_stress` (Arabidopsis) |
-| 7 | "Unsupervised" graph neural network (GNN) predictions of conversion steps | UN | none yet | none |
+| 7 | "Unsupervised" graph neural network (GNN) predictions of conversion steps | UN | PlantMetBench [@citesAsDataSource:DelPup2026PlantMetBench], a benchmark built on PlantMetWiki for enzyme-reaction link prediction (13,682 proteins, 2,741 genes, 4,577 metabolites, 11,980 curated enzyme-reaction pairs; organism-disjoint split) | `pilots/unsupervised_overlap` (planned: its README describes the test data and the proposed alignment, no code yet) |
 
 \endgroup
 
-## BioHackathon Europe Project 3 Working Groups
-
-The work is organised in four groups, which correspond to the sections of the Results:
-
-1. **Terms.** Discuss and curate the proposed terms and the gaps in the specification, and identify the terms to propose to an existing ontology.
-2. **Pilots.** Test the alignment of the use case datasets with PlantMetWiki.
-3. **Visualization and extraction of results.** Show what the aligned data say, and rank or score predictions.
-4. **Submission system (optional).** Build and test an automated way to submit, integrate and approve new predictions, with decentralised governance.
-
-Eleven people took part in the project: seven face-to-face at the BioHackathon and four remotely, one of them part time. They declared expertise in sixteen areas (Figure \ref{figureParticipants}). Semantic technologies were covered by RDF and SPARQL (four participants each), ontologies and shape constraints with SHACL or ShEx (three each) and evidence and provenance modelling (one). The plant omics and chemistry expertise was led by transcriptomics (seven) and multi-omics (five), followed by chemical identifiers and structures, metabolomics and plant specialised metabolism (three each), mass spectrometry annotation and statistics (two each). Engineering and community skills were GitHub Actions and CI/CD and web development (six each), FAIR data and research data management (four) and governance and community curation (three). Evidence and provenance modelling rests on one person, and mass spectrometry annotation and statistics on two, which shows where the project depends on few participants.
-
-The participants joined the working groups according to this expertise (Table \ref{tableGroups}). Elena Del Pup and Denise Slenter co-led the project.
-
-Table: Working groups of the BioHackathon project and their participants (a participant can be in more than one group). \label{tableGroups}
-
-| Working group | Participants |
-| --- | --- |
-| Terms | Denise Slenter, Sajal Paudyal, Sebastian Beier |
-| Pilots | Genomics and transcriptomics: Niccolò Bianchi. Metabolomics: Liese van Ommeren, Kumar Saurabh Singh, Anshika Chowdhary, Steffen Neumann. Paired omics: Kumar Saurabh Singh, Anastasiia Okhtienko. Also Sajal Paudyal |
-| Visualization and extraction of results | Martin Engst, Kumar Saurabh Singh, Elena Del Pup, Sebastian Beier (partly) |
-
-<!-- TODO: confirm that Sebastian Beier is the "Sebastien" of the planning notes, and that every named participant agrees to be named. -->
-
-![Expertise of the 11 participants (dots; self-declared) and the working groups they joined (T terms, P pilots, R results). Italic grey names: remote participants. \label{figureParticipants}](./figures/participants_expertise.png)
-
 ## The pipeline
 
-The work follows six steps, each with its own folder and documentation in the repository.
+Our proposed workflow follows six steps, each with its own folder and documentation in the repository.
 
 Table: The six steps of the pipeline.
 
@@ -220,6 +195,29 @@ The script `check_terms.py` of the repository keeps the term table consistent an
 4. **Rendering** (`--render`): regenerates the tables of the specification document and the dashboard from the table, and `--check-render` fails when a generated file is out of date.
 
 GitHub Actions run these steps for every pull request and for every term suggestion that a maintainer accepts with a label, and regenerate the dashboard before it is published, so that the published specification always follows the term table.
+
+## BioHackathon Europe Project 3 Working Groups
+
+The work is organised in four groups, which correspond to the sections of the Results:
+
+1. **Terms.** Discuss and curate the proposed terms and the gaps in the specification, and identify the terms to propose to an existing ontology.
+2. **Pilots.** Test the alignment of the use case datasets with PlantMetWiki.
+3. **Visualization and extraction of results.** Show what the aligned data say, and rank or score predictions.
+4. **Submission system (optional).** Build and test an automated way to submit, integrate and approve new predictions, with decentralised governance.
+
+Eleven people took part in the project: seven face-to-face at the BioHackathon and four remotely, one of them part time. They declared expertise in sixteen areas (Figure \ref{figureParticipants}). Semantic technologies were covered by RDF and SPARQL (four participants each), ontologies and shape constraints with SHACL or ShEx (three each) and evidence and provenance modelling (one). The plant omics and chemistry expertise was led by transcriptomics (seven) and multi-omics (five), followed by chemical identifiers and structures, metabolomics and plant specialised metabolism (three each), mass spectrometry annotation and statistics (two each). Engineering and community skills were GitHub Actions and CI/CD and web development (six each), FAIR data and research data management (four) and governance and community curation (three). Evidence and provenance modelling rests on one person, and mass spectrometry annotation and statistics on two, which shows where the project depends on few participants.
+
+The participants joined the working groups according to this expertise (Table \ref{tableGroups}). Elena Del Pup and Denise Slenter co-led the project.
+
+Table: Working groups of the BioHackathon project and their participants (a participant can be in more than one group). \label{tableGroups}
+
+| Working group | Participants |
+| --- | --- |
+| Terms | Denise Slenter, Sajal Paudyal, Sebastian Beier |
+| Pilots | Genomics and transcriptomics: Niccolò Bianchi. Metabolomics: Liese van Ommeren, Kumar Saurabh Singh, Anshika Chowdhary, Steffen Neumann. Paired omics: Kumar Saurabh Singh, Anastasiia Okhtienko. |
+| Visualization and extraction of results | Martin Engst, Kumar Saurabh Singh, Elena Del Pup, Sebastian Beier (partly) |
+
+![Expertise of the 11 participants (dots; self-declared) and the working groups they joined (T terms, P pilots, R results). Italic grey names: remote participants. \label{figureParticipants}](./figures/participants_expertise.png)
 
 # Results of the BioHackathon Europe 2026
 
