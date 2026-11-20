@@ -119,9 +119,9 @@ To ground the requirements in how the data are used, we asked researchers who ge
 
 Eight of the eleven respondents start from transcriptomics, and nine want to find candidate genes; eight want to reconstruct pathways, six to find or annotate metabolites and four to find enzymes (Figure \ref{figureSurvey}). Orthology is the next most common starting point (six respondents), followed by genomics and metabolomics (five each) and comparative pathway analysis (four); three use transcription factors and two gene clusters, and single respondents named knowledge graphs, mechanistic models and genome-scale metabolic models. Two respondents gave goals that are not about pathways, namely stress responses and improving cultivation conditions to increase the yield of natural products. The tools reflect the same picture (Figure \ref{figureTools}): OrthoFinder is named by seven respondents, DESeq by six, SIRIUS and plantiSMASH by five each and MZmine by four; paired-omics tools are named by three respondents (MEANtools by two, mixOmics by one and an in-house tool by one). Thirteen answers to the question of what to ask PlantMetWiki contained 17 questions. Most ask for genes or enzymes of a pathway or reaction step (five questions); others ask for comparisons of pathways and orthologs across species, for routes to a compound, for genes linked to a trait, a stress or a regulator, and for compounds (novel products, bioactivity, chlorinated products), three each, and for the physical clustering of genes (one). We use these questions as test cases for the evidence model. They also show needs that the specification does not yet cover, in particular orthology, transcription factors, traits and regulation.
 
-![Questionnaire to eleven respondents (20 November 2026): what they use (entry point) and what they want to find (goal). Ribbon width is the number of respondents that ticked both, the number in brackets the respondents that ticked the item. \label{figureSurvey}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_entry_exit.png)
+![Questionnaire to eleven respondents (20 November 2026): what they use (entry point) and what they want to find (goal). Ribbon width is the number of respondents that ticked both, the number in brackets the respondents that ticked the item. \label{figureSurvey}](./figures/survey_entry_exit.png)
 
-![Bioinformatics tools named by the eleven respondents, grouped by use. A dot marks a respondent that named the tool. \label{figureTools}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_tools.png){ width=70% }
+![Bioinformatics tools named by the eleven respondents, grouped by use. A dot marks a respondent that named the tool. \label{figureTools}](./figures/survey_tools.png){ width=70% }
 
 ## The evidence model
 
@@ -255,7 +255,7 @@ The alignment was checked against the rules of SULO (which classes exclude each 
 
 Three questions remain open. The first one is how values should be modeled. SULO allows one value per thing, but in the pilot data 9,461 of 13,236 nodes carry two or more values, for example, an anchor tier and a match level on the same annotation. Following the SOLID pattern set by SULO fully would turn every value into a small typed node of its own. Every evidence tier and score would then have a class that can be defined and linked to an existing ontology. The second question concerns the relations borrowed from the shared ontologies. They cannot be placed through their parents as the classes were, hence each relation needs its own decision. The third takes into account the nodes that the data refers to without a type, such as PlantMetWiki pathways and metabolites. They have no place in SULO until they are explicitly typed.
 
-![Without the alignment](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/sulo_shared_before_after.png)
+![Without the alignment](./figures/sulo_shared_before_after.png)
 
 *Figure: Classes borrowed from ECO, SO and EDAM before (left) and after (right) the alignment to SULO. SULO classes are the orange nodes.*
 
@@ -309,7 +309,7 @@ NPClassifier classifies natural products based on their chemical structure using
 
 **Results:** 85 metabolites with an Inchikey could not be translated to a SMILES. Figure X, shows the coverage across the three levels, with a more specific classification level having lower coverage in PlantMetWiki. Even at the broadest level, pathway, coverage is less then 80%.
 
-![image](https://hackmd.io/_uploads/H1jTHLV0ze.png)
+<!-- TODO: NPClassifier coverage figure (Figure X). The HackMD upload is not reachable by the PDF build; save the image as paper/figures/npclassifier_coverage.png and use ![NPClassifier coverage of PlantMetWiki](./figures/npclassifier_coverage.png) -->
 
 **Discussion:** Simmilarly to other chemical classification tools NPClassifier uses ttheir own personal onthology.
 
@@ -332,7 +332,7 @@ The transcriptomics pilot tests the evidence model on measured –not predicted�
 
 **Reference instead of anchor:** The claims refer directly to PlantMetWiki gene nodes, and to PlantCyc pathway ID nodes. They should **not** carry and anchor tier: the pathways and organism of a gene are found by queries. We added an exception in `common.ttl` for transcriptomics claims to pass without direct anchors.
 
-![Pathway co-expression claim for α-tomatine biosynthesis](https://github.com/pathway-lod/developing-open-standards/blob/main/paper/figures/TX_coexpress_example.png?raw=true)
+![Pathway co-expression claim for α-tomatine biosynthesis](./figures/TX_coexpress_example.png)
 
 ### 2.3. Paired-multi-omics Data Modelling
 
