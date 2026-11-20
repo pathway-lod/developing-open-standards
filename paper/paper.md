@@ -297,9 +297,9 @@ Pilots on the other use cases (PMN, UN) are still WIP. The evidence of all pilot
 
 ### 2.1. Metabolomics Classes Modelling 
 
-Within the Metabolomics pilot, the aim was to measure the coverage of the three levels to explore [NPClassifier]((https://doi.org/10.1021/acs.jnatprod.1c00399)) classification for potential integration into [PlantMetWiki](https://plantmetwiki.bioinformatics.nl). 
+Within the Metabolomics pilot, the aim was to measure the coverage of the three levels to explore [NPClassifier](https://doi.org/10.1021/acs.jnatprod.1c00399) classification for potential integration into [PlantMetWiki](https://plantmetwiki.bioinformatics.nl). 
 
-NPClassifier classifies natural products based on their chemical structure using a Deep Neural network [@UsesMethodIn](https://doi.org/10.1021/acs.jnatprod.1c00399).  NPClassifier developed their own ontology for classification based on naatural products found in plants, fungi, marine organisms, and microorganisms. The classification is performed on three levels; pathway (n=7), superclass (n=70) and class (n=672). Were it is possible fo Metabolites to be classfied more then once on the same level, or not at all if there is not enough evidence.
+NPClassifier classifies natural products based on their chemical structure using a Deep Neural network [@usesMethodIn:Kim2021NPClassifier].  NPClassifier developed their own ontology for classification based on naatural products found in plants, fungi, marine organisms, and microorganisms. The classification is performed on three levels; pathway (n=7), superclass (n=70) and class (n=672). Were it is possible fo Metabolites to be classfied more then once on the same level, or not at all if there is not enough evidence.
 
 
 
