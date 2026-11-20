@@ -284,7 +284,7 @@ Each pilot checks how much of a real dataset can be aligned with PlantMetWiki, a
 - **BGC predictions** (`pilots/plantismash_overlap`): plantiSMASH 2.0 [@citesAsDataSource:DelPup2026plantiSMASH] clusters in 430 genomes linked to PlantMetWiki genes and pathways in three tiers.
 - **New pathway from the literature** (`pilots/ipecac_overlap`): the paired ipecac alkaloid data (Colinas et al.). Of the 12 metabolites of the paper, 6 are in PlantMetWiki (secologanin exactly; three with a protonation difference only; two on the connectivity level only) and 6 are absent, among them all those of the acid route. The pathway of emetine biosynthesis (PWY-7135) has 8 conversions, of which 5 are linked to a UniProt enzyme, one only to a PlantCyc monomer, and two to no enzyme. The cloned *Carapichea* genes are 94-98% identical to enzymes already in this pathway, the *Alangium* genes at most 46%. The heterologous expression and infiltration experiments give reaction evidence for the step without an enzyme and for new acid-route compounds (75 comparisons, 41 with a higher product level). The study is targeted metabolomics of known compounds, so it tests reaction-level evidence and not spectral matching.
 
-Pilots on the other use cases (PMN, UN) are still WIP.
+Pilots on the other use cases (PMN, UN) are still WIP. The evidence of all pilots is ranked with the tier queries of `minimum_information/` (see "3. Ranking and Scoring of Predictions").
 
 ### 2.1. Metabolomics Classes Modelling 
 
@@ -342,7 +342,39 @@ We worked to make uncertainty in metabolite annotations explicit and provide a s
 
 ## 3. Ranking and Scoring of Predictions 
 
-The pilots already rank evidence in tiers (for example `gene_direct` over `gene_uniprot` over `gene_ec`, and the six tiers of the metabolite annotations) and the consensus of three annotation tools gives a score between 0 and 1. A scoring framework that ranks candidate pathway components by evidence strength, completeness, provenance and reproducibility, and its benchmark against the experimentally validated pathways of PlantMetWiki, is still to be defined (TODO).
+After modelling, generating the Turtle files and validating them, we want to prioritise the modelled multi-omics results, that is, to decide which candidate metabolites, reactions and genes are best supported and should be tested experimentally first. The approach has five steps:
+
+1. define evidence tiers;
+2. write queries that encode the tiers as optional branches, using also federated services;
+3. query the new multi-omics graph together with PlantMetWiki;
+4. score the resulting reactions, genes and metabolites;
+5. rank them by score, for experimental validation.
+
+**Evidence tiers.** Each kind of evidence is a *tier*, written as one SPARQL query that returns a pathway component (a metabolite, a reaction or a gene), its type, the pathway and the supporting evidence as metadata. Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC, the weakest gene tier) or a Rhea identifier on the reaction. The tiers model the evidence at the level of the graph, and some use federated services inside the query: PlantMetWiki (pathways, reactions, metabolites), Rhea (reaction participants), UniProt (enzymes), OrthoDB (orthologs) and the Sachem/IDSM service (chemical similarity to a pathway metabolite). Because the tiers are queries over a graph, the levels of evidence and the connectivity layers they use can also be inspected in the SPARQL examples visualiser of the SIB.
+
+**Resources.** The tier queries are SPARQL examples in the SIB format, in the repository [sparql-examples-pmw](https://github.com/pathway-lod/sparql-examples-pmw) (folder `examples/MinimumInformationTiers`, one file per tier and the three ranked queries `ranked-pathway-metabolites`, `ranked-pathway-reactions` and `ranked-pathway-genes`), published with their descriptions and keywords at <https://pathway-lod.github.io/sparql-examples-pmw/>. The definitions of the tiers, the explanation of how to read the score, the draft weights and the notebooks that run all queries and keep their outputs are in the `minimum_information/` folder of the community repository ([lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community/tree/edp-visualization/minimum_information); `scoring.md` explains the score, `notebooks/05_ranked_components.ipynb` runs the ranked queries, `notebooks/weights.csv` holds the weights).
+
+**Score.** Tiers that are not independent are put in one *family*: a gene that is in a pathway and in a BGC with a partner also in that pathway is one piece of evidence, not two. A component takes the weight of the strongest tier it passes in each family, and the families are combined with a noisy-OR, so that a further independent family can only raise the score and the score never exceeds 1:
+
+$$\mathrm{score} = 1 - \prod_{f}\,(1 - w_f), \qquad w_f = \max_{t \in f}\; w_t$$
+
+For metabolites the identity weight is also multiplied by the number of annotation tools that agree (0.65 for one tool, 0.80 for two, 1.0 from three). One ranked query per scope (metabolites, reactions, genes) holds all tiers as optional branches, so a component keeps the evidence it has and none is required. The weights (Appendix D) are drafts, and until they are calibrated the score is an ordering of the evidence, not a probability.
+
+![From evidence to score, shown for a gene. Each tier is a query (federated services included); tiers that are not independent share a family and only the strongest counts; the families are combined with a noisy-OR into a score that ranks the components. Weights are drafts. \label{figureScoring}](./figures/scoring_schema.png)
+
+**What we have.** The three ranked queries were run on PlantMetWiki r17.0.0_20260605-171052 and the evidence graphs of the pilots (TODO: update the numbers before submission; `minimum_information/notebooks/results/summary.csv`):
+
+Table: Results of the ranked queries (run on 2026-11-12). \label{tableRanked}
+
+| Scope | Rows scored | Run time | What the evidence is |
+|---|---|---|---|
+| Metabolites | 3,688 metabolite-pathway pairs (492 metabolites, 674 pathways) | about 10 min | annotation matches of the metabolomics pilot (exact InChIKey or first block), a formula-layer proxy for structure similarity (934 pairs only by this tier) and IDSM similarity to the substrates of one pathway (19) |
+| Reactions | 7,772 (all PlantMetWiki reactions): 1,062 with a UniProt enzyme (score 0.70 to 0.88), 592 with Rhea but no enzyme (0.60), 4,513 with EC only (0.40), 1,605 with none (0) | 3 s | Rhea identifier, EC number and UniProt enzyme of the reaction |
+| Genes | 266 gene-pathway pairs (62 genes, 213 pathways) | about 2 min | the gene tiers of the pilot: locus (4 genes: GAME17 of tomato and three genes of the Arabidopsis cluster of the sample graph), UniProt entry (none), EC number of the gene (47 genes, weak), OrthoDB ortholog of a pathway enzyme (23 genes), and the genes of the tomato and Arabidopsis gene clusters |
+
+Two worked examples: a reaction with an Rhea identifier (0.60) and a UniProt enzyme (0.70) in different families scores 1 - 0.40 x 0.30 = 0.88, and one with an EC number only scores 0.40; a gene in a pathway (0.90) that is also in a BGC with a partner (0.70) keeps 0.90, because both tiers belong to the same family. Changing all weights by up to 20% hardly changed the order (rank correlation above 0.99).
+
+The model works end to end: the tiers are queries that run over the pilot graphs and PlantMetWiki, and every score can be traced to the list of tiers it comes from. For the reactions the ranking gives a result by itself: of the 7,772 reactions of PlantMetWiki, 1,062 (14%) have a UniProt enzyme (601 of them also with an Rhea identifier, 430 with an EC number only, 31 with the enzyme alone), 592 (8%) have an Rhea identifier without an enzyme, 4,513 (58%) only an EC number, and 1,605 (21%) none of the three. The 4,513 reactions with an EC number only and the 1,605 without evidence are the first candidates for curation or experimental validation. For metabolites, the ranking is only as strong as the annotation tools, and because the exact-InChIKey tier is inflated in the current annotation graph (it stores the PlantMetWiki key that the pilot matched) we do not claim a hit rate. For genes, the first version found almost nothing (12 rows) because the graph had only the Solyc locus of each gene and PlantMetWiki lists about 30 tomato genes by locus. After adding the UniProt entry, the EC numbers and the OrthoDB orthologs of the genes (supporting graphs of the pilot), 266 gene-pathway pairs are scored: 62 genes reach a pathway, most of them (111 pairs) only through an EC number (score 0.40, weak because an EC number is shared by many genes) or only through an ortholog of a pathway enzyme (0.50), 35 pairs through both (0.70), and 5 through the locus (0.90), among them the gene GAME17 of the alpha-tomatine pathway. We cannot yet say that a gene belongs to a pathway on this evidence alone, because the combined tier does not fire: none of the 721 fully mapped gene-metabolite pairs shares a PlantMetWiki pathway (the same result as the pilot, where about 5 are expected by chance), and only 6 of the 350 genes of the associations lie in a tomato biosynthetic gene cluster. The weights are uncalibrated. Some tiers find nothing because their data are not in the graphs yet (chemical classes, similarity links, machine-learning predictions), so zero rows there say nothing about the biology; others return zero as a computed result and the notebooks say why, and the Rhea step is too slow for the public endpoint (60 s limit) and is not part of the ranked queries. The next steps are to calibrate the weights (holding out one validated PlantMetWiki pathway, a shuffled null model, and the ipecac pilot as a positive control), to fill the data gaps, and to review the top candidates with curators.
 
 ### Visualization tool
 
@@ -359,6 +391,7 @@ The viewer is written in JavaScript with React Flow [@usesMethodIn:ReactFlow] fo
 
 ### Ranking and scoring 
 
+The ranking of candidate components is transparent (every score is the list of tiers passed and their weights) but not yet calibrated; calibration and curator review are the next step.
 
 
 # Discussion
@@ -378,14 +411,12 @@ The discussion workflow of the specification (issue forms, labels and Actions th
 **Governance.** We aim to improve decentralised governance: who may propose, who may approve, and how decisions are traced. Today only people with triage or write access to the repository can approve, and every change passes a reviewed pull request. TODO: describe the governance model agreed by the community.
 
 ## Funding 
-Elena Del Pup and Denise Slenter were supported by the ELIXIR Europe BioHackathon travel grant as co-leaders. 
-
+Elena Del Pup and Denise Slenter were supported by the ELIXIR Europe BioHackathon travel grant as co-leaders. Kumar Saurabh Singh and Sajal Paudyal are supported by NWO Open Science NL fund (project nr. 500.040.2534).
 
 ## Acknowledgements
 We thank Nicola Zamboni and Adriano Rutz for the supervision of Elena Del Pup during the preparation of the BioHackathon and the writing of this report. We also thank the other BioHackathon 2026 project participants for the feedback provided during the brainstorming and poster session. We thank ELIXIR Europe for selecting our project and supporting us with 2 travel grants for onsite participation. 
 
-## Funding
-Kumar Saurabh Singh and Sajal Paudyal are supported by NWO Open Science NL fund (project nr. 500.040.2534)
+
 
 
 # References
@@ -712,3 +743,33 @@ Table: The 22 transcriptomics (TX) requirements in the pilot. \label{tableTXterm
 | TX-22 gene identifiers | only needed to find the PlantMetWiki gene node | remove |
 
 We decide that pathway claims should refer to the PlantCyc ID rather than the PlantMetWiki pathway number, because these numbers change between builds: α-tomatine biosynthesis is PC1159 in the snapshot of 2026-09-29 and PC968 on the live endpoint (2026-11-12), where PC1159 is now coenzyme A biosynthesis I.
+
+## Appendix D: Tier weights of the ranked queries
+
+Draft weights of the evidence tiers  (see "3. Ranking and Scoring of Predictions"), generated from `minimum_information/notebooks/weights.csv`. "Live" marks tiers that are part of the ranked query on the endpoint; "Data" says whether the tier finds anything in the current data. The score is read as described in `minimum_information/scoring.md`.
+
+Table: Evidence tiers, families and draft weights of the ranked queries. \label{tableWeights}
+
+| Scope | Family | Tier | Weight | Live | Data |
+|---|---|---|---|---|---|
+| metabolite | identity | inchikey-exact | 0.95 | yes | data |
+| metabolite | identity | inchikey-first-block | 0.80 | yes | data |
+| metabolite | relatedness | shared-chemical-class | 0.20 | yes | no data yet |
+| metabolite | relatedness | similarity-link | 0.40 | yes | no data yet |
+| metabolite | relatedness | structure-similarity | 0.30 | yes | data (about 10 min) |
+| metabolite | relatedness | idsm-similar-metabolites-in-pathway | 0.50 | yes | data (pathway PC968 only) |
+| metabolite | reaction | rhea-step-between-metabolites | 0.70 | no | too slow for the endpoint (60 s proxy limit) |
+| reaction | database identifiers | rhea | 0.60 | yes | data |
+| reaction | database identifiers | ec | 0.40 | yes | data |
+| reaction | enzyme | uniprot | 0.70 | yes | data |
+| reaction | omics | gene-catalyses-the-transformation | 0.70 | yes | no data yet |
+| reaction | omics | rhea-step-between-metabolites | 0.60 | no | too slow for the endpoint (60 s proxy limit) |
+| reaction | omics | idsm-similar-metabolite-with-coexpressed-catalysing-gene | 0.50 | no | example only |
+| reaction | prediction | ml-predicted-reaction | 0.30 | yes | no data yet |
+| gene | membership | gene-in-plantmetwiki-pathway | 0.90 | yes | data |
+| gene | membership | bgc-both-in-pathway | 0.70 | yes | data (sample graph) |
+| gene | membership | bgc-partner-in-pathway | 0.50 | yes | data (sample graph) |
+| gene | membership | genes-in-same-bgc | 0.30 | yes | data (sample graph) |
+| gene | omics | coexpressed-with-pathway-gene | 0.50 | yes | data |
+| gene | sequence | ortholog-in-pathway-species | 0.50 | yes | no data yet |
+| gene | omics | gene-and-metabolite-in-same-pathway | 0.60 | yes | no data yet |
