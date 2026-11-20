@@ -297,24 +297,19 @@ Pilots on the other use cases (PMN, UN) are still WIP. The evidence of all pilot
 
 ### 2.1. Metabolomics Classes Modelling 
 
-Within the Metabolomics pilot, the aim was to measure the coverage of the three levels to explore [NPClassifier](https://doi.org/10.1021/acs.jnatprod.1c00399) classification for potential integration into [PlantMetWiki](https://plantmetwiki.bioinformatics.nl). 
+Within the Metabolomics pilot, the aim was to explore the [NPClassifier](https://doi.org/10.1021/acs.jnatprod.1c00399) classification for potential integration into [PlantMetWiki](https://plantmetwiki.bioinformatics.nl), by measuring the coverage of its three levels. 
 
-NPClassifier classifies natural products based on their chemical structure using a Deep Neural network [@usesMethodIn:Kim2021NPClassifier].  NPClassifier developed their own ontology for classification based on naatural products found in plants, fungi, marine organisms, and microorganisms. The classification is performed on three levels; pathway (n=7), superclass (n=70) and class (n=672). Were it is possible fo Metabolites to be classfied more then once on the same level, or not at all if there is not enough evidence.
+NPClassifier classifies natural products based on their chemical structure using a deep neural network [@usesMethodIn:Kim2021NPClassifier]. NPClassifier developed its own ontology for classification, based on natural products found in plants, fungi, marine organisms, and microorganisms. The classification is performed on three levels: pathway (n=7), superclass (n=70) and class (n=672). A metabolite can be classified more than once on the same level, or not at all if there is not enough evidence.
 
+**Inputs:** The PlantMetWiki generated in the Metabolomics pilot workflow is the data used as input for the coverage calculation. From there, InChIKeys were translated into SMILES to allow classification by NPClassifier.
 
+**Workflow:** PlantMetWiki contains over 3000 metabolites as of 12 November 2026; of these metabolites, 2974 have an InChIKey annotation. As NPClassifier requires SMILES, the InChIKeys were first translated into SMILES notation. During this step, some InChIKeys could not be translated to SMILES using the PubChem database. All metabolites with a SMILES were then classified with NPClassifier v1.5 on all three levels.
 
-**Inputs:** The PlantMetWIKI generated in the Metabolomics Pilot workflow is teh data used as input for the coverage calculation. From there InChikeys were translated into SMILES to allow classification by NPClassifier.
-
-**Workflow:** PlantMetWiki contains over 3000 metabolites as of 12 November 2026; of these metabolites, 2974 have an InChIKey annotation. As NPClassifier requires SMILES,Inchikey were first traslated into a SMILES notation. During this step, some InChikeys could not be translated to SMILES using the PubChem Database. All metabolites with a SMILES were then classified with NPClassifier v.1.5 on all three levels.
-
-**Results:** 85 metabolites with an Inchikey could not be translated to a SMILES. Figure X, shows the coverage across the three levels, with a more specific classification level having lower coverage in PlantMetWiki. Even at the broadest level, pathway, coverage is less then 80%.
+**Results:** 85 metabolites with an InChIKey could not be translated to a SMILES. Figure X shows the coverage across the three levels, with a more specific classification level having lower coverage in PlantMetWiki. Even at the broadest level, pathway, coverage is less than 80%.
 
 <!-- TODO: NPClassifier coverage figure (Figure X). The HackMD upload is not reachable by the PDF build; save the image as paper/figures/npclassifier_coverage.png and use ![NPClassifier coverage of PlantMetWiki](./figures/npclassifier_coverage.png) -->
 
-**Discussion:** Simmilarly to other chemical classification tools NPClassifier uses ttheir own personal onthology.
-
-
-
+**Discussion:** Similarly to other chemical classification tools, NPClassifier uses its own ontology.
 
 ### 2.2. Transcriptomics experimental data modelling
 
@@ -330,7 +325,7 @@ The transcriptomics pilot tests the evidence model on measured –not predicted�
 
 **Direction on the evidence:** The direction of the effect (_i.e._ over- or under-expressed, positively or negatively correlated, as RO relations) is an edge of the evidence node, not part of the claim. This is necessary so that when datasets disagree, it results on a warning for conflicting evidences based the shapes –instead of two opposite claims.
 
-**Reference instead of anchor:** The claims refer directly to PlantMetWiki gene nodes, and to PlantCyc pathway ID nodes. They should **not** carry and anchor tier: the pathways and organism of a gene are found by queries. We added an exception in `common.ttl` for transcriptomics claims to pass without direct anchors.
+**Reference instead of anchor:** The claims refer directly to PlantMetWiki gene nodes, and to PlantCyc pathway ID nodes. They should **not** carry an anchor tier: the pathways and organism of a gene are found by queries. We added an exception in `common.ttl` for transcriptomics claims to pass without direct anchors.
 
 ![Pathway co-expression claim for α-tomatine biosynthesis](./figures/TX_coexpress_example.png)
 
@@ -387,9 +382,9 @@ The model works end to end: the tiers are queries that run over the pilot graphs
 
 ### Visualization tool
 
-To facilitate exploration of claim-evidence data anchored to PlantMetWiki as well as the developement of the evidence ontology we have built a browser-based viewer. It is part of the work repository (`visualization_tool/`, MIT license) and is published with its GitHub Pages site (<https://pathway-lod.github.io/lod-pathways-community/visualization_tool/>). Users can open their own Turtle file, that is then read and processed in the browser. Three central areas are covered by the viewer.
+To facilitate exploration of claim-evidence data anchored to PlantMetWiki as well as the development of the evidence ontology we have built a browser-based viewer. It is part of the work repository (`visualization_tool/`, MIT license) and is published with its GitHub Pages site (<https://pathway-lod.github.io/lod-pathways-community/visualization_tool/>). Users can open their own Turtle file, that is then read and processed in the browser. Three central areas are covered by the viewer.
 
-1. **Data connection to PlantMetWiki** A global view displays all claims of the file around a representation of PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] built staticaly from a snapshot of PlantMetWiki SPARQL endpoint (release r17.0.0). The pathways the claims are anchored to are highlighted. Claims are linked based on their shared PlantMetWiki annotation, data point or source. Selections of nodes can further be opened in detail view. The claims can be filtered by different scoring methods linkedto their evidence.
+1. **Data connection to PlantMetWiki** A global view displays all claims of the file around a representation of PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] built statically from a snapshot of PlantMetWiki SPARQL endpoint (release r17.0.0). The pathways the claims are anchored to are highlighted. Claims are linked based on their shared PlantMetWiki annotation, data point or source. Selections of nodes can further be opened in detail view. The claims can be filtered by different scoring methods linked to their evidence.
 2. **Detailed visualization of the data** The detail view draws one card per resource, with literal values and types as rows and only links between resources as edges, in columns that follow the evidence model (runs, data and evidence, claims, PlantMetWiki). Clicking a card shows its Turtle and a selection of cards, or everything shown, can be exported as Turtle. The picture can be saved as PNG or SVG.
 3. **SHACL violations** The viewer validates the opened file against the SHACL [@citesAsAuthority:SHACL2017] shapes of the repository directly in the browser and shows violations and warnings on the cards, including required properties that are missing. Claims are listed with violations first, then warnings. The validated data and the report can be saved together and reopened later.
 
