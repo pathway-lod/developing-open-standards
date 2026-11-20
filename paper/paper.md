@@ -164,7 +164,21 @@ The work is organised in four groups, which correspond to the sections of the Re
 3. **Visualization and extraction of results.** Show what the aligned data say, and rank or score predictions.
 4. **Submission system (optional).** Build and test an automated way to submit, integrate and approve new predictions, with decentralised governance.
 
-The expertise of the participants 
+Eleven people took part in the project: seven face-to-face at the BioHackathon and four remotely, one of them part time. They declared expertise in sixteen areas (Figure \ref{figureParticipants}). Semantic technologies were covered by RDF and SPARQL (four participants each), ontologies and shape constraints with SHACL or ShEx (three each) and evidence and provenance modelling (one). The plant omics and chemistry expertise was led by transcriptomics (seven) and multi-omics (five), followed by chemical identifiers and structures, metabolomics and plant specialised metabolism (three each), mass spectrometry annotation and statistics (two each). Engineering and community skills were GitHub Actions and CI/CD and web development (six each), FAIR data and research data management (four) and governance and community curation (three). Evidence and provenance modelling rests on one person, and mass spectrometry annotation and statistics on two, which shows where the project depends on few participants.
+
+The participants joined the working groups according to this expertise (Table \ref{tableGroups}). Elena Del Pup and Denise Slenter co-led the project.
+
+Table: Working groups of the BioHackathon project and their participants (a participant can be in more than one group). \label{tableGroups}
+
+| Working group | Participants |
+| --- | --- |
+| Terms | Denise Slenter, Sajal Paudyal, Sebastian Beier |
+| Pilots | Genomics and transcriptomics: Niccolò Bianchi. Metabolomics: Liese van Ommeren, Kumar Saurabh Singh, Anshika Chowdhary, Steffen Neumann. Paired omics: Kumar Saurabh Singh, Anastasiia Okhtienko. Also Sajal Paudyal |
+| Visualization and extraction of results | Martin Engst, Kumar Saurabh Singh, Elena Del Pup, Sebastian Beier (partly) |
+
+<!-- TODO: confirm that Sebastian Beier is the "Sebastien" of the planning notes, and that every named participant agrees to be named. -->
+
+![Expertise of the 11 participants (dots; self-declared) and the working groups they joined (T terms, P pilots, R results). Italic grey names: remote participants. \label{figureParticipants}](./figures/participants_expertise.png)
 
 ## The pipeline
 

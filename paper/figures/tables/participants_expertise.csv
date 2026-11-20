@@ -1,0 +1,60 @@
+expertise,participant
+RDF,Elena Del Pup
+RDF,Sajal Paudyal
+RDF,Martin Engst
+RDF,Niccolò Bianchi
+SPARQL,Denise Slenter
+SPARQL,Sajal Paudyal
+SPARQL,Niccolò Bianchi
+SPARQL,Martin Engst
+Ontologies,Sajal Paudyal
+Ontologies,Denise Slenter
+Ontologies,Anastasiia Okhtienko
+Shape constraints (SHACL/ShEx),Sajal Paudyal
+Shape constraints (SHACL/ShEx),Denise Slenter
+Shape constraints (SHACL/ShEx),Elena Del Pup
+Evidence and provenance modelling,Denise Slenter
+Multi-omics,Kumar Saurabh Singh
+Multi-omics,Niccolò Bianchi
+Multi-omics,Anastasiia Okhtienko
+Multi-omics,Anshika Chowdhary
+Multi-omics,Elena Del Pup
+Plant specialized metabolism,Kumar Saurabh Singh
+Plant specialized metabolism,Sebastian Beier
+Plant specialized metabolism,Elena Del Pup
+Metabolomics,Kumar Saurabh Singh
+Metabolomics,Denise Slenter
+Metabolomics,Liese van Ommeren
+MS annotations,Kumar Saurabh Singh
+MS annotations,Elena Del Pup
+Transcriptomics,Kumar Saurabh Singh
+Transcriptomics,Sebastian Beier
+Transcriptomics,Niccolò Bianchi
+Transcriptomics,Liese van Ommeren
+Transcriptomics,Anastasiia Okhtienko
+Transcriptomics,Anshika Chowdhary
+Transcriptomics,Elena Del Pup
+Chemical identifiers and structures,Martin Engst
+Chemical identifiers and structures,Denise Slenter
+Chemical identifiers and structures,Elena Del Pup
+Statistics,Sebastian Beier
+Statistics,Elena Del Pup
+Web development,Sajal Paudyal
+Web development,Sebastian Beier
+Web development,Martin Engst
+Web development,Niccolò Bianchi
+Web development,Anshika Chowdhary
+Web development,Elena Del Pup
+GitHub Actions and CI/CD,Sebastian Beier
+GitHub Actions and CI/CD,Sajal Paudyal
+GitHub Actions and CI/CD,Denise Slenter
+GitHub Actions and CI/CD,Niccolò Bianchi
+GitHub Actions and CI/CD,Anshika Chowdhary
+GitHub Actions and CI/CD,Elena Del Pup
+Governance and community curation,Denise Slenter
+Governance and community curation,Martin Engst
+Governance and community curation,Kumar Saurabh Singh
+FAIR data and research data management,Sebastian Beier
+FAIR data and research data management,Martin Engst
+FAIR data and research data management,Denise Slenter
+FAIR data and research data management,Niccolò Bianchi
