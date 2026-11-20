@@ -216,6 +216,7 @@ Table: Working groups of the BioHackathon project and their participants (a part
 | Terms | Denise Slenter, Sajal Paudyal, Sebastian Beier |
 | Pilots | Genomics and transcriptomics: Niccolò Bianchi. Metabolomics: Liese van Ommeren, Kumar Saurabh Singh, Anshika Chowdhary, Steffen Neumann. Paired omics: Kumar Saurabh Singh, Anastasiia Okhtienko. |
 | Visualization and extraction of results | Martin Engst, Kumar Saurabh Singh, Elena Del Pup, Sebastian Beier (partly) |
+| Submission system | 
 
 ![Expertise of the 11 participants (dots; self-declared) and the working groups they joined (T terms, P pilots, R results). Italic grey names: remote participants. \label{figureParticipants}](./figures/participants_expertise.png)
 
