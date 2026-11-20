@@ -20,6 +20,21 @@ authors:
   - name: Niccolò Bianchi
     orcid: 0009-0000-4202-7154
     affiliation: 3
+  - name: Martin Engst
+    orcid: 0009-0004-5043-1420
+    affiliation: 4, 5
+  - name: Anastasiia Okhtienko
+    orcid: 0009-0003-5886-811X
+    affiliation: 6
+  - name: Sebastian Beier
+    orcid: 0000-0002-2177-8781
+    affiliation: 7
+  - name: Liese van Ommeren
+    affiliation: 1
+  - name: Sajal Paudyal
+    affiliation: 2
+  - name: Anshika Chowdhary
+    affiliation: 8
 affiliations:
   - name: Wageningen University & Research, Wageningen, NL
     ror: 04qw24q55
@@ -30,6 +45,21 @@ affiliations:
   - name: SR-Tiget, Milan, IT
     ror: 036jn4298
     index: 3
+  - name: Institute of Organic Chemistry and Biochemistry of the Czech Academy of Sciences, Prague, Czech Republic
+    ror: 04nfjn472
+    index: 4
+  - name: University of Chemistry and Technology Prague, Prague, Czech Republic
+    ror: 05ggn0a85
+    index: 5
+  - name: Technical University of Munich (TUM), Munich, DE
+    ror: 02kkvpp62
+    index: 6
+  - name: Institute of Bio- and Geosciences (IBG-4 Bioinformatics), Bioeconomy Science Center (BioSC), CEPLAS, Forschungszentrum Jülich GmbH, 52425 Jülich, DE
+    ror: 02nv7yv05
+    index: 7
+  - name: Leibniz Institute for Plant Biochemistry (IPB), Halle, DE
+    ror: 01mzk5576
+    index: 8
 date: 8 November 2026
 cito-bibliography: paper.bib
 event: BH26EU
@@ -81,9 +111,9 @@ To ground the requirements in how the data are used, we interviewed eight core l
 
 All eight laboratories start from transcriptomics and all eight want to find candidate genes; seven want to reconstruct pathways, five to find enzymes and five to find or annotate metabolites (Figure \ref{figureSurvey}). Genomics and orthology are the next most common starting points (five laboratories each), followed by comparative pathway analysis and metabolomics (four each). The tools reflect the same picture (Figure \ref{figureTools}): OrthoFinder, SIRIUS, MZmine and plantiSMASH are named by five laboratories each and DESeq by four; paired-omics tools are named by four laboratories (MEANtools by three, mixOmics by two, an in-house tool by one). Nine answers to the question of what to ask PlantMetWiki contained 14 questions. Most ask for genes or enzymes of a pathway or reaction step, or for comparisons of pathways and orthologs across species; others ask for routes to a compound, for genes linked to a trait or stress, for the physical clustering of genes, and for compounds (novel products, bioactivity, chlorinated products). We use these questions as test cases for the evidence model. They also show needs that the specification does not yet cover, in particular orthology, transcription factors and traits.
 
-![Questionnaire to eight core laboratories: what they use (entry point) and what they want to find (goal). Ribbon width is the number of laboratories that ticked both, the number in brackets the laboratories that ticked the item. \label{figureSurvey}](./figures/survey_entry_exit.png)
+![Questionnaire to eight core laboratories: what they use (entry point) and what they want to find (goal). Ribbon width is the number of laboratories that ticked both, the number in brackets the laboratories that ticked the item. \label{figureSurvey}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_entry_exit.png)
 
-![Bioinformatics tools named by the eight laboratories, grouped by use. A dot marks a laboratory that named the tool. \label{figureTools}](./figures/survey_tools.png){ width=70% }
+![Bioinformatics tools named by the eight laboratories, grouped by use. A dot marks a laboratory that named the tool. \label{figureTools}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_tools.png){ width=70% }
 
 ## The evidence model
 
@@ -109,8 +139,9 @@ Table: Use cases supported by the framework, with the pilot dataset used to test
 | 3 | plantiSMASH-predicted biosynthetic gene clusters (BGCs) | BGC | plantiSMASH 2.0 precalculated database, about 30,400 BGCs in 430 genomes | `pilots/plantismash_overlap` |
 | 4 | Transcriptomics | TX | covered inside the paired data of cases 1 and 6 | no separate pilot |
 | 5 | **Metabolomics** | MET | Brassicaceae metabolic fingerprinting (Wolters et al. 2026) | `pilots/metabolomics_overlap` |
-| 6 | **Paired omics** (transcript-metabolite associations) | PO | Tomato data of the MEANtools paper [@citesAsDataSource:Singh2025MEANtools] | `pilots/pairedomics_overlap` |
+| 6 | **Paired omics** (transcript–metabolite, transcript–protein, and protein–metabolite associations) | PO | Tomato data from the MEANtools paper [@citesAsDataSource:Singh2025MEANtools]; *Arabidopsis thaliana* heat-stress multi-omics dataset ([Thirumalaikumar et al., 2026](https://doi.org/10.1038/s41597-026-07813-z)) | `pilots/pairedomics_overlap` (tomato); `pilots/pairedomics_overlap/arabidopsis_heat_stress` (Arabidopsis) |
 | 7 | "Unsupervised" graph neural network (GNN) predictions of conversion steps | UN | none yet | none |
+
 
 ## Working groups
 
@@ -162,7 +193,31 @@ The script `check_terms.py` of the repository keeps the term table consistent an
 
 GitHub Actions run these steps for every pull request and for every term suggestion that a maintainer accepts with a label, and regenerate the dashboard before it is published, so that the published specification always follows the term table.
 
-## Integrative Ontology Development
+# Results
+
+## 1. Discussion and curation of proposed and gap terms
+
+At the time of writing the specification has seven use cases and 119 requirements, described by 188 rows of candidate terms (TODO: update the numbers before submission; they are generated from `ontology_terms.csv`). Of these rows, 75 are a primary term, 37 an alternative, 18 a stand-in, 49 a local term and 9 mark a gap where no term exists. Most requirements still wait for a decision (104 rows proposed, 82 open, 2 rejected). The dashboard makes these numbers current, and is the place where co-authors and the wider community discuss and approve the terms.
+
+**Terms to propose to an existing ontology.** Seven requirements are marked `request_term`: for these we have searched OLS and found no suitable term, and we intend to propose one to an existing ontology (for example EDAM, ECO, STATO or PSI-MS) instead of keeping a local term. An example is metabolite-transcript correlation evidence, for which `ECO:0007590` is only the closest term. TODO: list the final terms to propose, the ontology and the status of each request.
+
+### Mapping of the requirements to ISA
+
+To reuse the data in other resources, we mapped the requirements of the specification to the ISA (Investigation, Study, Assay) metadata framework [@citesAsAuthority:Sansone2012], which MetaboLights and other EBI repositories use. The table `specification/isa/isa_mapping.csv` gives, for each requirement, the ISA-Tab file and field, the ISA-JSON path and how ISA covers it (Table XX \ref{tableISA}. It has 123 rows: the 119 requirements of the term table and four proposed rows for developmental stage and growth conditions (TX-23, TX-24, MET-32, MET-33).
+
+Table XX: How ISA covers the requirements of the specification. \label{tableISA}
+
+| Coverage | Meaning | Rows |
+| --- | --- | --- |
+| `isa_field` | ISA has a field for it, for example `Characteristics[Organism]`, `Factor Value[...]` or `Study Assay Measurement Type` | 21 |
+| `parameter` | ISA has no field for it; it goes into a `Parameter Value[...]` or `Comment[...]` of the protocol that produced the data | 22 |
+| `data_file` | The values are inside a data file that ISA points to, such as a count matrix or a feature table | 22 |
+| `assignment_file` | A column of the MetaboLights Metabolite Assignment File | 5 |
+| `not_in_isa` | A claim or its evidence; it stays in the RDF evidence model | 53 |
+
+ISA describes how the data were produced: the samples, the protocols, the assays and the data files. The requirements about samples, protocols and runs map to ISA. The requirements about claims and evidence do not, for example the attachment to PlantMetWiki, the anchor tier or the PlantCyc evidence codes. All 14 PlantCyc rows and 12 of the 16 BGC rows are `not_in_isa`. Of the 21 `isa_field` rows, 9 are metabolomics and 8 transcriptomics rows. Where ISA leaves the name of a characteristic open, we followed MetaboLights study MTBLS1039 and MIAPPE [@citesAsAuthority:Papoutsoglou2020]. Two gaps remain: ISA has no fixed field for software and its version, so we use protocol components and parameter values, and the Metabolite Assignment File has no column for the InChIKey or the adduct.
+
+### Integrative Ontology Development
 
 Instead of creating a new ontology from scratch, our team decided to build an integrative ontology from existing resources. This idea is built on previous work described in the eNanoMapper project [[ref](https://doi.org/10.1186/s13326-015-0005-5)], uses five ontology agents (Table X), and follows the following steps for the technical implementation (Table Y).
 
@@ -181,7 +236,19 @@ Table Y: Description of technical implementation of the integrative ontology dev
 | Number  | Title | Details |
 |-------|-----|------------|
 | 1 | Create a basis for supporting an integrative ontology | The Ontology Development Kit (ODK) [ref](https://doi.org/10.1093/database/baac087) Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [ref](https://doi.org/10.3233/AO-220262).  |
-| 2  |  Integrate SULO to define the meaning of concepts |  tba --> Mappings from SULO to BFO are missing.   |
+| 2  |  Integrate SULO to define the meaning of concepts |The local vocabulary `lodp` and the classes used in the pilot data shared from established ontologies i.e. ECO, SO, and EDAM were aligned to the Simplified Upper Class Ontology (SULO) [ref](https://ceur-ws.org/Vol-4176/foust-7.pdf), so that every class present in the pilot data has an established meaning outside the project. (The alignment will be compared with BFO ontology.)|
+
+**Integrating SULO**
+
+The pilots describe their results using a local vocabulary (`lodp:`) whose terms are defined only within this project. A program that is unaware of these files cannot tell whether a claim is a physical thing, an event, or a piece of information. To state this, we placed each local term under a class or relation  of SULO, a small upper-level ontology with simple names. Claims and mass spectrometry features became information objects, tool runs were classified  as processes, and the relations that anchor a claim to a pathway or a metabolite became kinds of `refers to`. All the 14 classes used in `lodp` are mapped to SULO and five out of eight local relations have a parent relation and the other three are not used across the pilot yet. The pilot data also uses 17 classes that are borrowed from ECO, SO, and EDAM. These ontologies were not mapped one by one. Each class was followed up the hierarchy of its ontology, and only the top class was placed in SULO i.e. evidence as an information object, a sequence feature as a spatial object and an operation as a process. Finding the shared classes, retrieving their parents and placing them is automated, so the manual work grows with the addition of ontologies rather than the number of terms. 
+
+The alignment was checked against the rules of SULO (which classes exclude each other, and what can stand on either side of the relation as domain and range) and against all 91,926 triples of the pilots. All checks pass, and each one fails when intentional mistakes are introduced, for example when a claim is falsely classified as a process. With RDFS inference, a query only written in SULO terms finds 13,172 information objects, 57 spatial objects, and 9 processes in the pilot data; without the alignment it finds **none**. 
+
+Three questions remain open. The first one is how values should be modeled. SULO allows one value per thing, but in the pilot data 9,461 of 13,236 nodes carry two or more values, for example, an anchor tier and a match level on the same annotation. Following the SOLID pattern set by SULO fully would turn every value into a small typed node of its own. Every evidence tier and score would then have a class that can be defined and linked to an existing ontology. The second question concerns the relations borrowed from the shared ontologies. They cannot be placed through their parents as the classes were, hence each relation needs its own decision. The third takes into account the nodes that the data refers to without a type, such as PlantMetWiki pathways and metabolites. They have no place in SULO until they are explicitly typed.
+
+![Without the alignment](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/sulo_shared_before_after.png)
+
+*Figure: Classes borrowed from ECO, SO and EDAM before (left) and after (right) the alignment to SULO. SULO classes are the orange nodes.*
 
 TODO: integrate rest of text in Table structure.
    
@@ -199,50 +266,116 @@ TODO: integrate rest of text in Table structure.
    
 6. Create GitHub CI/CD pipeline for ROBOT.
     
-    tba
+In order to check the consistency of the vocabulary and shapes with external references whenever there are new changes added in the specifications, github Action workflows were created and added. The first workflow runs ROBOT (robot-checks.yml) [@usesMethodIn:robot] on the placeholders vocabulary whenever new shapes or specifications are added. The ROBOT check on the current vocabulary file identified three errors (no ontology title, description, license). Also, 67 terms without a standard definition in the OBO-standard property (55 with rdfs:comment, 12 without any description, 3 without a superclass specification) were identified. The missing superclasses show where the vocabulary still needs to be placed
+under an upper-level ontology such as BFO, and the missing definitions must be added before any placeholder term can be proposed for inclusion in an established ontology such as ECO or PSI-MS. The second workflow(borrowed-terms.yml) identifies the terms that are borrowed from external ontologies and checks whether they are still in use or obsolete. A script(list_borrowed_terms.py) run on every pull request collects the borrowed terms from all the ttl files following which ROBOT  looks each one up in the current releases/versions of the source ontologies (ECO, PSI-MS, SIO, EDAM, BFO, OBI, RO, SO, STATO and SWO).  31 borrowed terms were identified,of which 30 were found and current in the present references. One term from the WikiPathways vocabulary could not be checked,which vocabulary could not be loaded as an ontology .  Both checks will be extended to the integrated ontology developed within the project, so that it is validated in the same way as the placeholder vocabulary. 
     
 7. Create placeholders for missing terms.
 
     tba
 
 
-# Results
-
-## 1. Discussion and curation of proposed and gap terms
-
-At the time of writing the specification has seven use cases and 119 requirements, described by 188 rows of candidate terms (TODO: update the numbers before submission; they are generated from `ontology_terms.csv`). Of these rows, 75 are a primary term, 37 an alternative, 18 a stand-in, 49 a local term and 9 mark a gap where no term exists. Most requirements still wait for a decision (104 rows proposed, 82 open, 2 rejected). The dashboard makes these numbers current, and is the place where co-authors and the wider community discuss and approve the terms.
-
-**Terms to propose to an existing ontology.** Seven requirements are marked `request_term`: for these we have searched OLS and found no suitable term, and we intend to propose one to an existing ontology (for example EDAM, ECO, STATO or PSI-MS) instead of keeping a local term. An example is metabolite-transcript correlation evidence, for which `ECO:0007590` is only the closest term. TODO: list the final terms to propose, the ontology and the status of each request.
-
-## 2. Test alignment of use case datasets (pilots)
+## 2. Modelling: Test alignment of use case datasets (pilots)
 
 Each pilot checks how much of a real dataset can be aligned with PlantMetWiki, and what evidence is available. TODO: add the headline numbers of the first three pilots from their READMEs.
 
 - **Metabolomics** (`pilots/metabolomics_overlap`): LC-MS/MS annotations of 14 Brassicaceae species (Wolters et al. 2026) matched to PlantMetWiki metabolites on the first InChIKey block, with six evidence tiers from the GNPS library match to MS2Query analogues; the three annotation tools are combined in a consensus (agreement of three tools counts 1.0, two tools 0.5).
-- **Paired omics** (`pilots/meantools_overlap`): gene-metabolite associations of MEANtools [@usesMethodIn:Singh2025MEANtools] functional clusters in tomato, with genes mapped to PlantMetWiki pathways in three tiers (locus, UniProt, EC) and metabolite features by exact mass (MS1 only), compared against a chance background.
-- **Transcriptomics** (`pilots/transcriptomics`): (...).
+- **Paired omics** (`pilots/meantools_overlap`, `pilots/pairedomics_overlap/arabidopsis_heat_stress`): Gene-metabolite associations of MEANtools [@usesMethodIn:Singh2025MEANtools] functional clusters in tomato, with genes mapped to PlantMetWiki pathways in three tiers (locus, UniProt, EC) and metabolite features by exact mass (MS1 only), compared against a chance background. An additional *Arabidopsis thaliana* heat-stress multi-omics pilot (Thirumalaikumar et al. 2026) evaluated Pearson-based transcript–protein, transcript–metabolite and protein–metabolite correlations across 22 matched samples, using tiered identifier mapping to PlantMetWiki/PlantCyc. Of 1,838 significant correlations, 57 had pathway mappings for both features. PlantCyc hierarchy and reaction comparisons identified three transcript–protein associations with shared pathway reactions despite different pathway IDs. Correlation statistics, mapping provenance and pathway assignments were preserved in RDF/Turtle exports.
+- **Transcriptomics** (`pilots/transcriptomics_overlap`): differential expression (Expression Atlas E-MTAB-11876, jasmonate vs mock), response profiles and gene and pathway co-expression (MEANtools [@citesAsDataSource:Singh2025MEANtools] and ATTED-II tomato matrices) of the 21 PlantMetWiki tomato genes with a Solyc locus, processed through [nf-core/rnaseq](https://github.com/nf-core/RNAseq) and [nf-core/differentialabundance](https://github.com/nf-core/differentialabundance) outputs; each claim is an RDF statement whose subject is the PlantMetWiki gene (or the PlantCyc pathway), with no anchor tier; 619 claims in the pilots (_i.e._ 19 differential-expression, 432 response-profile, 163 gene-pair and 5 pathway co-expression claims) were validated against the SHACL shapes (Figure \ref{figureTXcoexpression}).
 - **BGC predictions** (`pilots/plantismash_overlap`): plantiSMASH 2.0 [@citesAsDataSource:DelPup2026plantiSMASH] clusters in 430 genomes linked to PlantMetWiki genes and pathways in three tiers.
 - **New pathway from the literature** (`pilots/ipecac_overlap`): the paired ipecac alkaloid data (Colinas et al.). Of the 12 metabolites of the paper, 6 are in PlantMetWiki (secologanin exactly; three with a protonation difference only; two on the connectivity level only) and 6 are absent, among them all those of the acid route. The pathway of emetine biosynthesis (PWY-7135) has 8 conversions, of which 5 are linked to a UniProt enzyme, one only to a PlantCyc monomer, and two to no enzyme. The cloned *Carapichea* genes are 94-98% identical to enzymes already in this pathway, the *Alangium* genes at most 46%. The heterologous expression and infiltration experiments give reaction evidence for the step without an enzyme and for new acid-route compounds (75 comparisons, 41 with a higher product level). The study is targeted metabolomics of known compounds, so it tests reaction-level evidence and not spectral matching.
 
-Pilots on the other use cases (PMN, TX, UN) are still WIP.
+Pilots on the other use cases (PMN, UN) are still WIP.
+
+### 2.1. Metabolomics Classes Modelling 
+
+Within the Metabolomics pilot, the aim was to measure the coverage of the three levels to explore [NPClassifier]((https://doi.org/10.1021/acs.jnatprod.1c00399)) classification for potential integration into [PlantMetWiki](https://plantmetwiki.bioinformatics.nl). 
+
+NPClassifier classifies natural products based on their chemical structure using a Deep Neural network [@UsesMethodIn](https://doi.org/10.1021/acs.jnatprod.1c00399).  NPClassifier developed their own ontology for classification based on naatural products found in plants, fungi, marine organisms, and microorganisms. The classification is performed on three levels; pathway (n=7), superclass (n=70) and class (n=672). Were it is possible fo Metabolites to be classfied more then once on the same level, or not at all if there is not enough evidence.
+
+
+
+**Inputs:** The PlantMetWIKI generated in the Metabolomics Pilot workflow is teh data used as input for the coverage calculation. From there InChikeys were translated into SMILES to allow classification by NPClassifier.
+
+**Workflow:** PlantMetWiki contains over 3000 metabolites as of 12 November 2026; of these metabolites, 2974 have an InChIKey annotation. As NPClassifier requires SMILES,Inchikey were first traslated into a SMILES notation. During this step, some InChikeys could not be translated to SMILES using the PubChem Database. All metabolites with a SMILES were then classified with NPClassifier v.1.5 on all three levels.
+
+**Results:** 85 metabolites with an Inchikey could not be translated to a SMILES. Figure X, shows the coverage across the three levels, with a more specific classification level having lower coverage in PlantMetWiki. Even at the broadest level, pathway, coverage is less then 80%.
+
+![image](https://hackmd.io/_uploads/H1jTHLV0ze.png)
+
+**Discussion:** Simmilarly to other chemical classification tools NPClassifier uses ttheir own personal onthology.
+
+
+
+
+### 2.2. Transcriptomics experimental data modelling
+
+The transcriptomics pilot tests the evidence model on measured –not predicted– data (details in Appendix C).
+
+**Inputs:** Output files of two nf-core pipelines, [nf-core/rnaseq](https://github.com/nf-core/rnaseq) 3.27.0 and [nf-core/differentialabundance](https://github.com/nf-core/differentialabundance) 2.0.0 [@usesMethodIn:Ewels2020] are converted into RDF by dedicated `to_turtle.py` and `build_rdf.py` scripts. We used published datasets that were not processed with them (*i.e.* Expression Atlas results [@citesAsDataSource:Moreno2022], the MEANtools RPKM matrix [@citesAsDataSource:Singh2025MEANtools], ATTED-II co-expression matrices [@citesAsDataSource:Obayashi2022]) for testing, thus we first had to convert them in the same format as the outputs from the nf-core pipelines via `adapters.py`.
+
+**Four statements:** Each claim is an `rdf:Statement` whose IRI is built from its 'subject-predicate-object' triple: a gene is differentially expressed in a contrast; a gene's expression deviates in a condition; two genes are correlated in expression, with the gene IRIs in alphabetical; and a pathway's genes are co-expressed more than random gene sets of the same size. One claim can be supported by several datasets, thus it will show as one node with several evidence nodes. Since the contrast or condition are the object of the triple, its details (_i.e._ treatment, plant structure, replicates) are statements on the claim –not separate nodes.
+
+**Evidence and run:** For each dataset, the values are added as an ECO-typed evidence node [@citesAsAuthority:Nadendla2022], linked (`prov:wasGeneratedBy`) to a run node that holds the provenance (_i.e._ software, versions, parameters, input matrix and its unit, normalisation method). Both are written by `to_turtle.py` from the tables and provenance files of four scripts:
+- `export_differential.py` reads the [nf-core/differentialabundance](https://github.com/nf-core/differentialabundance) output folder (DESeq2 results [@usesMethodIn:Love2014], plus the parameters and versions in `pipeline_info/`);
+- `coexpression_table.py`, `pathway_coexpression_table.py` and `expression_profile_table.py` read the expression matrix of [nf-core/rnaseq](https://github.com/nf-core/RNAseq) (`salmon.merged.gene_tpm.tsv` [@usesMethodIn:Patro2017]).
+
+**Direction on the evidence:** The direction of the effect (_i.e._ over- or under-expressed, positively or negatively correlated, as RO relations) is an edge of the evidence node, not part of the claim. This is necessary so that when datasets disagree, it results on a warning for conflicting evidences based the shapes –instead of two opposite claims.
+
+**Reference instead of anchor:** The claims refer directly to PlantMetWiki gene nodes, and to PlantCyc pathway ID nodes. They should **not** carry and anchor tier: the pathways and organism of a gene are found by queries. We added an exception in `common.ttl` for transcriptomics claims to pass without direct anchors.
+
+![Pathway co-expression claim for α-tomatine biosynthesis](https://github.com/pathway-lod/developing-open-standards/blob/main/paper/figures/TX_coexpress_example.png?raw=true)
+
+### 2.3. Paired-multi-omics Data Modelling
+
+The *Arabidopsis thaliana* heat-stress case study (Thirumalaikumar et al., 2026) extended the paired-omics pilot beyond the original tomato MEANtools dataset. Transcriptomic, proteomic, and metabolomic measurements from 22 matched samples were integrated using Pearson and Spearman correlations. The resulting molecular associations were represented as evidence-supported connections between biological features, retaining correlation coefficients, significance measures, and association direction (positive or negative).
+
+Molecular features were mapped to PlantMetWiki/PlantCyc using hierarchical identifier matching: AGI loci, UniProt accessions, and EC numbers for transcripts and proteins, and exact or connectivity-level InChIKeys for metabolites. Only the first successful mapping tier was retained, preserving all pathway assignments within that tier and their provenance. Associations were linked to pathway knowledge through PlantCyc identifiers. Of 1,838 significant Pearson correlations, 57 had pathway annotations for both features. To identify relationships beyond exact pathway matches, we extracted 295 parent–subpathway relationships and 5,199 pathway–reaction memberships from PlantCyc. Reaction-level comparison revealed three additional transcript–protein associations whose mapped pathways shared biochemical reactions despite having different pathway identifiers.
+
+The pilot informed proposed extensions to the LODP paired-omics requirements (PO-01–PO-22). In particular, PO-04/15 should support explicitly typed quantitative metrics with defined scopes, accommodating correlation coefficients as well as factor loadings, explained variance, and network weights generated by methods such as MOFA and network-based integration. PO-11/12 should distinguish identifier-mapping provenance from pathway relationships, including exact matches, hierarchy, and shared reactions. Further requirements address pairwise and non-pairwise integration results, evidence direction, experimental conditions, timepoints, matched samples, statistical models, and computational provenance (PO-01/13, PO-16–20). These extensions remain to be implemented and evaluated against LODP SHACL constraints.
 
 ## 3. Ranking and Scoring of Predictions 
 
 The pilots already rank evidence in tiers (for example `gene_direct` over `gene_uniprot` over `gene_ec`, and the six tiers of the metabolite annotations) and the consensus of three annotation tools gives a score between 0 and 1. A scoring framework that ranks candidate pathway components by evidence strength, completeness, provenance and reproducibility, and its benchmark against the experimentally validated pathways of PlantMetWiki, is still to be defined (TODO).
 
-## 4. Submission system (optional)
+### Visualization tool
+
+To facilitate exploration of claim-evidence data anchored to PlantMetWiki as well as the developement of the evidence ontology we have built a browser-based viewer. It is part of the work repository (`visualization_tool/`, MIT license) and is published with its GitHub Pages site (<https://pathway-lod.github.io/lod-pathways-community/visualization_tool/>). Users can open their own Turtle file, that is then read and processed in the browser. Three central areas are covered by the viewer.
+
+1. **Data connection to PlantMetWiki** A global view displays all claims of the file around a representation of PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] built staticaly from a snapshot of PlantMetWiki SPARQL endpoint (release r17.0.0). The pathways the claims are anchored to are highlighted. Claims are linked based on their shared PlantMetWiki annotation, data point or source. Selections of nodes can further be opened in detail view. The claims can be filtered by different scoring methods linkedto their evidence.
+2. **Detailed visualization of the data** The detail view draws one card per resource, with literal values and types as rows and only links between resources as edges, in columns that follow the evidence model (runs, data and evidence, claims, PlantMetWiki). Clicking a card shows its Turtle and a selection of cards, or everything shown, can be exported as Turtle. The picture can be saved as PNG or SVG.
+3. **SHACL violations** The viewer validates the opened file against the SHACL [@citesAsAuthority:SHACL2017] shapes of the repository directly in the browser and shows violations and warnings on the cards, including required properties that are missing. Claims are listed with violations first, then warnings. The validated data and the report can be saved together and reopened later.
+
+The viewer is written in JavaScript with React Flow [@usesMethodIn:ReactFlow] for the detail view, Cytoscape.js [@usesMethodIn:Franz2016] for the global view and N3.js [@usesMethodIn:N3js] for parsing RDF. SHACL validation in the browser uses shacl-engine [@usesMethodIn:ShaclEngine], which evaluates SPARQL-based constraints with Comunica [@usesMethodIn:Taelman2018], the example data and the precomputed reports are built in Python with RDFLib [@usesMethodIn:RDFLib] and pySHACL [@usesMethodIn:pySHACL].
+
+### Modelling queries as graphs 
+(Marvin)
+
+### Ranking and scoring 
+
+
+
+# Discussion
+
+
+The paired-omics use cases revealed gaps in both evidence classification and reporting requirements. Existing ECO terms do not clearly distinguish the cross-omics abundance associations considered here, motivating evaluation of a new term, provisionally named *cross-omics abundance association evidence*. At the same time, the LODP specification must accommodate methods producing different result structures and metrics: correlations generate molecular pairs and coefficients, MOFA produces latent factors, feature weights, and explained variance, while network approaches generate modules and connectivity scores. We therefore propose a common representation of integration results with method-specific, typed metrics linked to their appropriate scope, rather than a fixed set of correlation-related properties. Experimental conditions, matched samples, timepoints, preprocessing, and analysis parameters must remain traceable through the computational provenance. Where applicable, evidence direction should be represented separately from the biological assertion, distinguishing negative correlations, signed factor weights, and differential abundance effects without equating them with biological inhibition or activation.
+
+
+## Reuse of data in public repositories
+
+The ISA mapping separates the information that can go to a public repository (samples, protocols, runs and data files) from the information that stays in PlantMetWiki (claims and their evidence). A paired omics dataset described with our specification can therefore also be described in ISA-JSON. ISA-JSON is the metadata format of MARS (Multi-omics Adapter for Repository Submissions) [@usesMethodIn:MARS], a framework for submitting multi-omics studies to several EMBL-EBI repositories. Its command-line tool, MARS-CLI, submits the ISA-JSON and adds the accession numbers that the repositories return. At the time of writing, MARS has proof-of-concept adapters for BioSamples, ENA and MetaboLights, none of them deployed yet. MARS was started at BioHackathon Europe 2022 [@citesAsAuthority:DAnna2023]. BioHackathon Europe 2026 project #2, "Enhancing AI-readiness of multi-modal data submission: a reference workflow" [@citesForInformation:BHEU26Project2], builds a documented reference workflow for submission with MARS.
+
+## Submission system 
 
 The discussion workflow of the specification (issue forms, labels and Actions that open pull requests) is already an automated, reviewed way to approve *terms*. TODO: test an automated system to submit, validate (against the SHACL shapes) and approve new *predictions*; a design note and a local test of Nanodash, a tool for publishing signed nanopublications, are being explored for this.
 
 **Governance.** We aim to improve decentralised governance: who may propose, who may approve, and how decisions are traced. Today only people with triage or write access to the repository can approve, and every change passes a reviewed pull request. TODO: describe the governance model agreed by the community.
 
-# Discussion
+## Funding 
+Elena Del Pup and Denise Slenter were supported by the ELIXIR Europe BioHackathon travel grant as co-leaders. 
 
-...
 
 ## Acknowledgements
-We thank Nicola Zamboni and Adriano Rutz for the supervision of Elena Del Pup during the preparation of the BioHackathon and the writing of this report. 
-...
+We thank Nicola Zamboni and Adriano Rutz for the supervision of Elena Del Pup during the preparation of the BioHackathon and the writing of this report. We also thank the other BioHackathon 2026 project participants for the feedback provided during the brainstorming and poster session. We thank ELIXIR Europe for selecting our project and supporting us with 2 travel grants for onsite participation. 
 
 # References
 
@@ -523,3 +656,48 @@ Table: Phrases searched in the Ontology Lookup Service, in the order of the sear
 | 12 | mass-only annotation | MS1 spectrum | ms |
 | 12 | mass-only annotation | full scan | ms |
 | 12 | mass-only annotation | mass error | ms |
+
+## Appendix C: Transcriptomics pilot
+
+The `pilots/transcriptomics_overlap` in `lod-pathways-community` covers the 21 PlantMetWiki tomato genes that carry a Solyc locus.
+
+Table: Claims of the transcriptomics pilot, with the datasets they come from. \label{tableTXclaims}
+
+| Claim | Triple (subject, predicate, object) | Data | Claims | Evidence nodes |
+|---|---|---|---|---|
+| differential expression | gene `lodp:differentiallyExpressedIn` contrast | Expression Atlas E-MTAB-11876 [@citesAsDataSource:Moreno2022] (tomato hairy roots, 50 µM jasmonate vs untreated, 3 + 3 samples), processed in three ways: reads run with nf-core, Atlas counts rerun with nf-core, Atlas published results reshaped | 19 | 55 |
+| response profile | gene `lodp:expressionDeviatesIn` condition | MEANtools RPKM matrix [@citesAsDataSource:Singh2025MEANtools], 27 conditions | 432 | 432 |
+| gene co-expression | gene `RO:0002610` gene | MEANtools, ATTED-II `Sly-r.c6-0` [@citesAsDataSource:Obayashi2022] (1,608 RNA-seq runs), E-MTAB-11876 | 163 | 334 |
+| pathway co-expression | PlantCyc pathway `rdf:type` `lodp:CoexpressedGenePathway` | MEANtools, ATTED-II | 5 | 10 |
+| total | | | 619 | 831 |
+
+The pilot keeps every result rather than filtering by significance –thus weak results are expected. The shapes accept them and flag them as warnings instead of rejecting them: validation of the transcriptomics pilot gives 0 violations and 1,009 warnings (_e.g._ z-score below 2, p-value greater or equal than 0.05, disagreement in direction).
+
+Table \ref{tableTXterms} shows how the pilot uses each TX requirement of the specification, and the changes it suggests.
+
+Table: The 22 transcriptomics (TX) requirements in the pilot. \label{tableTXterms}
+
+| Requirement | In the pilot | Suggested change |
+|---|---|---|
+| TX-01 RNA-seq assay | not used: the ECO class of the evidence (TX-02) states the assay | remove |
+| TX-02 RNA-seq evidence | `ECO:0006069` on every evidence node; co-expression also `ECO:0007590` | add `ECO:0007590`, and `ECO:0007301` for microarrays |
+| TX-03 raw read count | input unit of a DESeq2 run (`STATO:0000064`) | the term is defined for one count, not a matrix |
+| TX-04 normalised value | input unit of the run (TPM or RPKM) | – |
+| TX-05 normalisation method | normalisation method of a DESeq2 run (`STATO:0000590`) | `STATO:0000590` as the primary term |
+| TX-06 z-score | response profile claims (gene `lodp:expressionDeviatesIn` condition) | state what the z-score is computed against |
+| TX-07 differential expression method | run type; claims gene `lodp:differentiallyExpressedIn` contrast | – |
+| TX-08 log2 fold change | on the evidence, unshrunken | state whether it is shrunken |
+| TX-09 to TX-11 Wald statistic, lfcSE, baseMean | on the evidence | – |
+| TX-12 adjusted p-value | on the evidence | note that the Expression Atlas `p-value` column is adjusted |
+| TX-13 multiple-testing correction | run type `OBI:0200036` | – |
+| TX-14 correlation | Pearson and Spearman on co-expression evidence; mean pairwise r for pathway claims | Spearman (`STATO:0000201`) as an accepted alternative |
+| TX-15 two genes are co-expressed | claims gene `RO:0002610` (correlated with) gene | `RO:0002610` instead of `INO:0000231`, which is a process |
+| TX-16 mutual rank | on co-expression evidence [@usesMethodIn:Obayashi2009] | state over which genes it is computed |
+| TX-17 contrast | the claim’s object; test and reference condition stated on the claim | add a time point |
+| TX-18 replicates | a replicate count on the claim (test and reference for a contrast) | ask for a count, not a class for samples |
+| TX-19 plant structure | a PO term [@citesAsAuthority:Cooper2013] on the claim | name the property; hairy root has no PO term |
+| TX-20 treatment | condition type treatment (`EFO:0000727`) on the claim | allow a control and the applied substance |
+| TX-21 sequencing dataset | covered by `prov:used` on the run | remove |
+| TX-22 gene identifiers | only needed to find the PlantMetWiki gene node | remove |
+
+We decide that pathway claims should refer to the PlantCyc ID rather than the PlantMetWiki pathway number, because these numbers change between builds: α-tomatine biosynthesis is PC1159 in the snapshot of 2026-09-29 and PC968 on the live endpoint (2026-11-12), where PC1159 is now coenzyme A biosynthesis I.
