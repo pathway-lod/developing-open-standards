@@ -6,7 +6,7 @@
 One row per tool, grouped by what it is used for. A bubble in a respondent column means that respondent named the tool;
 the last column sums the respondents (bubble area and number). The groups are ours, the answers are the respondents'.
 Spelling was normalised (planitSMASH -> plantiSMASH, DEseq -> DESeq, Uniprot -> UniProt, MEMEsuite and MEME -> MEME suite,
-"Kallisto-Sleuth / mixOmics" split in two). The tools were split on ";" in survey_tools.csv, so commas inside brackets stay.
+"Kallisto-Sleuth / mixOmics" split in two, "xcms + custom python" split in two). The tools were split on ";" in survey_tools.csv, so commas inside brackets stay.
 """
 import csv
 from collections import Counter
@@ -21,16 +21,16 @@ TABLES, OUT = HERE.parent / "tables", HERE.parent      # tables/ holds the answe
 INK, MUTED, BUBBLE, BAND, SURFACE = "#1f2933", "#52606d", "#1d4e6b", "#eef2f6", "#ffffff"
 
 GROUPS = [
-    ("Metabolomics", ["SIRIUS", "MZmine", "GNPS"]),
+    ("Metabolomics", ["SIRIUS", "MZmine", "GNPS", "xcms"]),
     ("Orthology", ["OrthoFinder", "SonicParanoid"]),
     ("Gene clusters", ["plantiSMASH"]),
     ("Paired omics", ["MEANtools", "mixOmics", "Own paired-omics tool"]),
-    ("Expression and statistics", ["DESeq", "Kallisto-Sleuth", "Genie3", "Pearson correlation", "z-score", "Self-organizing maps"]),
+    ("Expression and statistics", ["DESeq", "Kallisto-Sleuth", "Genie3", "Pearson correlation", "z-score", "Self-organizing maps", "cNMF"]),
     ("Annotation, motifs, visualisation", ["Cytoscape", "ShinyGO", "GoMapMan", "UniProt", "MEME suite"]),
-    ("Not classified", ["SKM"]),
+    ("Not classified", ["SKM", "Custom Python scripts"]),
 ]
 RENAME = {"planitSMASH": "plantiSMASH", "Making our own tool for paired omics": "Own paired-omics tool",
-          "self organizing maps": "Self-organizing maps", "Uniprot": "UniProt", "MEMEsuite": "MEME suite", "MEME": "MEME suite"}
+          "self organizing maps": "Self-organizing maps", "Uniprot": "UniProt", "MEMEsuite": "MEME suite", "MEME": "MEME suite", "custom Python scripts": "Custom Python scripts"}
 
 def parse(cell):
     out = []
@@ -41,7 +41,7 @@ def parse(cell):
 
 rows = list(csv.DictReader(open(TABLES / "survey_tools.csv", newline="")))
 used = {r["respondent"]: set(parse(r["tools"])) for r in rows}
-resp = sorted(used)
+resp = sorted(used, key=lambda r: int(r[1:]))
 total = Counter(t for s in used.values() for t in s)
 known = {t for _, ts in GROUPS for t in ts}
 assert set(total) <= known, set(total) - known
@@ -57,17 +57,17 @@ for g, t in order:
 for i, (g, ts) in enumerate(GROUPS):
     y0, y1 = y[ts[0] if False else min(ts, key=lambda t: y[t])], y[max(ts, key=lambda t: y[t])]
     if i % 2 == 0: ax.axhspan(y0 - 0.5, y1 + 0.5, color=BAND, zorder=0)
-    ax.text(-8.3, (y0 + y1) / 2, g.replace(" and ", " and\n").replace("motifs, ", "motifs,\n").replace("Gene clusters", "Gene\nclusters"), ha="left", va="center", fontsize=9.5, color=MUTED, fontweight="bold")
+    ax.text(-10.6, (y0 + y1) / 2, g.replace(" and ", " and\n").replace("motifs, ", "motifs,\n").replace("Gene clusters", "Gene\nclusters"), ha="left", va="center", fontsize=9.5, color=MUTED, fontweight="bold")
 xs = {r: i for i, r in enumerate(resp)}; XT = len(resp) + 1.4
 for t, yv in y.items():
     ax.text(-0.45, yv, t, ha="right", va="center", fontsize=10, color=INK)
     for r in resp:
         if t in used[r]: ax.scatter(xs[r], yv, s=110, color=BUBBLE, edgecolor=SURFACE, linewidth=1.5, zorder=3)
-    ax.scatter(XT, yv, s=110 * total[t], color=BUBBLE, alpha=0.45, edgecolor=BUBBLE, linewidth=1, zorder=3)
-    ax.text(XT + 0.55, yv, str(total[t]), ha="left", va="center", fontsize=10, color=INK)
+    ax.scatter(XT, yv, s=70 + 55 * total[t], color=BUBBLE, alpha=0.45, edgecolor=BUBBLE, linewidth=1, zorder=3)
+    ax.text(XT + 0.8, yv, str(total[t]), ha="left", va="center", fontsize=10, color=INK)
 for r in resp: ax.text(xs[r], -1.2, r, ha="center", fontsize=9.5, color=MUTED)
 ax.text(XT, -1.2, "Respondents\n(total)", ha="center", va="center", fontsize=9.5, color=MUTED, fontweight="bold")
-ax.set_xlim(-8.4, XT + 1.4); ax.set_ylim(yy + 0.2, -2.2); ax.axis("off")
+ax.set_xlim(-10.8, XT + 1.6); ax.set_ylim(yy + 0.2, -2.2); ax.axis("off")
 fig.patch.set_facecolor(SURFACE)
 for ext in ("svg", "png"):
     fig.savefig(OUT / f"survey_tools.{ext}", dpi=200, bbox_inches="tight", facecolor=SURFACE)

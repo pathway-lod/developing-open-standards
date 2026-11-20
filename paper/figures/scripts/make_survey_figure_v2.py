@@ -37,16 +37,18 @@ short = {"Comparative pathway analysis across species": "Comparative pathway ana
          "Orthology/homology (e.g. for gene/enzyme searches)": "Orthology / homology",
          "Metabolite annotations / Metabolomics": "Metabolomics",
          "BGCs (plant biosynthetic gene clusters)": "Biosynthetic gene clusters",
-         "Finding regulatory relationships between genes and metabolites": "Regulatory relationships\ngenes - metabolites",
-         "Connecting plant resilience to plant metabolism (and gene expression)": "Plant resilience\nand metabolism",
+         "Finding regulatory relationships between genes and metabolites": "Gene-metabolite regulation",
+         "Connecting plant resilience to plant metabolism (and gene expression)": "Plant resilience and metabolism",
          "Finding/annotating metabolites": "Finding / annotating\nmetabolites",
          "Finding (candidate) genes": "Finding candidate genes",
-         "transcriptional regulation": "Transcriptional regulation"}
+         "transcriptional regulation": "Transcriptional regulation",
+         "Improving cultivation conditions for natural-product yield": "Improving cultivation conditions",
+         "Mechanistic models": "Mechanistic models", "GEMs": "Genome-scale models (GEMs)"}
 lab = lambda s: short.get(s, s)
 
 uses = sorted(uses_n, key=lambda k: (-uses_n[k], k))
 goals = sorted(goals_n, key=lambda k: (-goals_n[k], k))
-GAP = 1.2
+GAP = 1.6
 def layout(order, side):
     y, pos = 0.0, {}
     for k in order:
@@ -88,14 +90,14 @@ tn = Counter(t for q in qs for t in q["theme"].split(";"))
 nans, nq = len({q["answer"] for q in qs}), len(qs)
 XP, SC, PB = XR + 8.6, 1.0, "#8a5a00"
 ax.text(XP, -1.7, "Questions to ask PlantMetWiki", ha="left", fontsize=11.5, fontweight="bold", color=INK)
-ax.text(XP, 0.6, f"{nq} questions in {nans} answers, not linked to the ribbons", ha="left", fontsize=8.5, color=MUTED)
-step = (H - 6.0) / (len(THEMES) - 1)
+ax.text(XP, 1.6, f"{nq} questions in {nans} answers, not linked to the ribbons", ha="left", fontsize=8.5, color=MUTED)
+step = (H - 9.0) / (len(THEMES) - 1)
 for i, (key, label) in enumerate(sorted(THEMES, key=lambda t: -tn[t[0]])):
-    yc = 4.2 + i * step
+    yc = 7.4 + i * step
     ax.text(XP, yc, label, ha="left", va="center", fontsize=9.5, color=INK)
     ax.add_patch(Rectangle((XP + 6.2, yc - 1.5), tn[key] * SC, 3.0, fc=PB, ec="none"))
     ax.text(XP + 6.2 + tn[key] * SC + 0.15, yc, str(tn[key]), ha="left", va="center", fontsize=10, color=INK)
-ax.text(XP, H + 4.0, "Themes are our grouping; a question can fall under two (counts add up to more than 14).", ha="left", fontsize=8.5, color=MUTED)
+ax.text(XP, H + 4.0, f"Themes are our grouping; a question can fall under two (counts add up to more than {nq}).", ha="left", fontsize=8.5, color=MUTED)
 ax.set_xlim(-3.6, XR + 21); ax.set_ylim(-2.6, H + 5.0); ax.invert_yaxis(); ax.axis("off")
 fig.patch.set_facecolor(SURFACE)
 for ext in ("svg", "png"):

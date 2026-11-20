@@ -33,16 +33,18 @@ short = {"Comparative pathway analysis across species": "Comparative pathway ana
          "Orthology/homology (e.g. for gene/enzyme searches)": "Orthology / homology",
          "Metabolite annotations / Metabolomics": "Metabolomics",
          "BGCs (plant biosynthetic gene clusters)": "Biosynthetic gene clusters",
-         "Finding regulatory relationships between genes and metabolites": "Regulatory relationships\ngenes - metabolites",
-         "Connecting plant resilience to plant metabolism (and gene expression)": "Plant resilience\nand metabolism",
+         "Finding regulatory relationships between genes and metabolites": "Gene-metabolite regulation",
+         "Connecting plant resilience to plant metabolism (and gene expression)": "Plant resilience and metabolism",
          "Finding/annotating metabolites": "Finding / annotating\nmetabolites",
          "Finding (candidate) genes": "Finding candidate genes",
-         "transcriptional regulation": "Transcriptional regulation"}
+         "transcriptional regulation": "Transcriptional regulation",
+         "Improving cultivation conditions for natural-product yield": "Improving cultivation conditions",
+         "Mechanistic models": "Mechanistic models", "GEMs": "Genome-scale models (GEMs)"}
 lab = lambda s: short.get(s, s)
 
 uses = sorted(uses_n, key=lambda k: (-uses_n[k], k))
 goals = sorted(goals_n, key=lambda k: (-goals_n[k], k))
-GAP = 1.2
+GAP = 1.6
 def layout(order, side):
     y, pos = 0.0, {}
     for k in order:

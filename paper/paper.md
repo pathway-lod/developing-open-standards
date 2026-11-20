@@ -1,5 +1,5 @@
 ---
-title: 'BioHackEU26 report: Developing Open Standards for a Semantic Framework in Plant Specialized Metabolism'
+title: 'BioHackEU26 Project 3 Report: Developing Open Standards for a Semantic Framework in Plant Specialized Metabolism'
 title_short: 'BioHackEU26 #3: Plant Metabolism Multi-Omics Evidence'
 tags:
   - plant specialized metabolism 
@@ -74,46 +74,54 @@ git_url: https://github.com/pathway-lod/developing-open-standards
 authors_short: Elena Del Pup \emph{et al.}
 ---
 
+# Abstract 
+
+Minimum Information guideline for the integration of pathway multi-omics evidence 
+
+The work will deliver a community-supported validation schema for aligning and integrating multi-omics datasets, and an evidence-based scoring method for predictions from multi-omics pipelines, interoperable with existing standards.
+
+These outcomes will enable scalable community annotation of pathway information, improved integration of multi-omics data, prioritization of candidate pathway components, and more reproducible and transparent bioinformatics analyses.
+
 
 # Introduction
-
-Plant specialized metabolites are a major source of innovative pharmaceuticals, novel foods, and biobased natural products. However, resolving the metabolic pathways that biosynthesize these compounds remains a key scientific challenge, as plant biosynthetic genes are often genomically dispersed and duplicated, resulting in highly branched, diversified, and promiscuous underlying metabolic networks. Additionally, knowledge of plant metabolic pathways remains scattered across disconnected resources, with limited interoperable annotations, and valuable experimental multi-omics datasets remain siloed and underused. To address these gaps, we developed the Linked Open Data knowledge graph PlantMetWiki (<https://plantmetwiki.bioinformatics.nl/>) [@citesAsDataSource:DelPup2026PlantMetWiki], the first semantically enriched knowledge base for querying experimentally validated pathway information for plant biosynthetic reactions, including predictions of biosynthetic gene clusters. Still, researchers lack an open, standardized, and reusable AI-ready format for integrating new datasets with community knowledge in the form of a Minimum Information Standard (MIS). Additionally, there is no framework to apply such a MIS to systematically link computational evidence from bioinformatics tools and paired plant transcriptomics-metabolomics datasets to predict or validate pathway-level knowledge.
-
-## Background
 
 Plant specialized metabolites are a major source of pharmaceuticals, food ingredients, crop protection compounds, and bio-based products [@citesAsAuthority:Huang2023]. Discovery of plant natural products depends on resolving the enzymatic routes that produce them, yet the biosynthesis of the majority remains uncharacterized [@citesAsAuthority:Owen2026]. The obstacle is that plant pathways resist reconstruction from any single data modality: extensive genome duplication distributes pathway genes across large, paralog-rich families that are only partially clustered, the enzymes they encode are catalytically promiscuous, and the resulting networks are highly branched and biosynthesis enzymes are shared with primary metabolism [@citesAsAuthority:Ji2024].
 
 Metabolomics, transcriptomics, and genome sequencing are now generating promising data that can be integrated with dedicated multi-omics analysis pipelines to address this gap [@citesAsAuthority:Wolters2024]. However, this evidence accumulates in domain-specific resources and individual publications that each capture one complementary facet of metabolism, such as enzymatic reactions, metabolite structures, or genomic context [@citesAsAuthority:Singh2022], and that are often curated to different standards and incompatible identifiers. Pathway resources such as the Plant Metabolic Network [@citesAsAuthority:Hawkins2025] are by design restricted to experimentally validated knowledge, and provide no mechanism for recording computational predictions, the evidence supporting them, or their confidence. Predictions are therefore published as static supplementary tables rather than as traceable assertions that can be compared across tools and revised with novel experimental evidence.
 
-To make curated pathway knowledge reusable and machine-actionable, I developed PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki], a semantically enriched and queryable knowledge graph dedicated to plant biosynthetic pathways, integrating experimentally validated pathway information across hundreds of plant taxa with existing ontologies, harmonized chemical annotations, and crosslinks to biosynthetic gene clusters predicted by plantiSMASH [@citesAsDataSource:DelPup2026plantiSMASH]. PlantMetWiki provides a foundation for FAIR data representation and reuse, but there is no open, standardized format for adding new experimental datasets to this curated pool, and no framework for linking computational evidence from bioinformatics tools and from paired transcriptomics-metabolomics experiments. Extending curated knowledge with traceable predictions requires a shared representation of entities, relations, evidence types, provenance, and confidence, and an evaluative framework that the field currently lacks.
+To make curated pathway knowledge reusable and machine-actionable, PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] was developed as a semantically enriched and queryable knowledge graph dedicated to plant biosynthetic pathways, integrating experimentally validated pathway information across hundreds of plant taxa with existing ontologies, harmonized chemical annotations, and crosslinks to biosynthetic gene clusters predicted by plantiSMASH 2.0 [@citesAsDataSource:DelPup2026plantiSMASH] and experimentally validated in MIBiG 4.0 [@citesAsDataSource:Zdouc2025]. 
 
-During the proposed scientific exchange, I will address this through collaboration with researchers involved in the MetaboLinkAI project at ETH Zurich, which develops FAIR and AI-ready metabolomics workflows based on knowledge graphs, federated data integration, graph machine learning, and large language models. The project will provide me with direct access to state-of-the-art developments in semantic interoperability standards, AI-assisted discovery methods, and metabolomics knowledge representation, and to (part of) the multi-omics communities whose involvement any adopted standard requires.
+PlantMetWiki provides a foundation for FAIR data representation and reuse, but there is no open, standardized format for adding new experimental datasets to this curated pool, and no framework for linking computational evidence from bioinformatics tools and from paired transcriptomics-metabolomics experiments. Extending curated knowledge with traceable predictions requires a shared representation of entities, relations, evidence types, provenance, and confidence, and an evaluative framework that the field currently lacks.. Additionally, there is no framework to systematically link computational evidence from bioinformatics tools and paired plant transcriptomics-metabolomics datasets to predict or validate pathway-level knowledge.
 
-The work will deliver a community-supported validation schema for aligning and integrating multi-omics datasets, and an evidence-based scoring method for predictions from multi-omics pipelines, interoperable with existing standards. Together, these render plant pathway knowledge FAIR and AI-ready, representing curated pathways, omics evidence, and scored predictions in a single machine-actionable graph. In the future, our proposed workflow will be capable of supporting scalable community annotation, enabling AI-assisted discovery of plant specialized metabolic pathways through graph-based prioritization of candidate pathway components and the generation of experimentally testable biosynthetic hypotheses.
+In this report, we report the progress of BioHackathon Europe 2026, we here report about the progress of project 3 "Developing Open Standards for a Semantic Framework in Plant Specialized Metabolism" during the event. 
 
-## Objectives
-
-As part of the BioHackathon Europe 2026, in this project we aim to:
+Our goals during BioHackathon Europe 2026, were :
 
 1. Co-develop a community-supported Minimum Information Standard (MIS) for predicted plant pathway knowledge representation;
 2. Design validation schemas to integrate experimental multi-omics datasets and predictions in alignment with the MIS;
 3. Establish methods to align pathway-related predictions across bioinformatics pipelines, and approaches for scoring and prioritization of these predictions based on evidence strength, provenance, and community-defined criteria.
 
-The project expands the plant metabolism knowledge graph PlantMetWiki with predictions from (multi-)omics plant knowledge coming from the community, which requires community-supported standards with feedback from the plant science community. We build an *evidence model* that says, for any prediction or experimental result attached to a PlantMetWiki pathway, enzyme, gene or metabolite, why it is believed (a typed evidence statement), where it comes from (tool, version, input data) and how strongly it is anchored in the knowledge graph. Users can then filter the graph by the kind of support behind a statement. The terms come from existing ontologies wherever possible; what no ontology provides is collected as candidates for new terms. These outcomes will enable scalable community annotation of pathway information, improved integration of multi-omics data, prioritization of candidate pathway components, and more reproducible and transparent bioinformatics analyses.
+
+ Together, these render plant pathway knowledge FAIR and AI-ready, representing curated pathways, omics evidence, and scored predictions in a single machine-actionable graph. We hope that in future developments, our proposed workflow will be capable of supporting scalable community annotation, enabling AI-assisted discovery of plant specialized metabolic pathways through graph-based prioritization of candidate pathway components and the generation of experimentally testable biosynthetic hypotheses.
+
+## Objectives
+
+
+The project expands the plant metabolism knowledge graph PlantMetWiki with predictions from (multi-)omics plant knowledge coming from the community, which requires community-supported standards with feedback from the plant science community. We build an *evidence model* that says, for any prediction or experimental result attached to a PlantMetWiki pathway, enzyme, gene or metabolite, why it is believed (a typed evidence statement), where it comes from (tool, version, input data) and how strongly it is anchored in the knowledge graph. Users can then filter the graph by the kind of support behind a statement. The terms come from existing ontologies wherever possible; what no ontology provides is collected as candidates for new terms. 
 
 # Implementation
 
 All work is open and lives in the repository [pathway-lod/lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community): the specification, the discussion workflow, the validation shapes, the pilots and the generated outputs.
 
-## Questionnaire to Plant Science Labs 
+## Collecting Requirements from the Plant Multi Omics Community: Questionnaire to Plant Science Labs 
 
-To ground the requirements in how the data are used, we interviewed eight core laboratories that generate paired plant omics data, with a questionnaire. It asked for the key research question or goal of each laboratory, what they use to answer it (data types and analyses), which bioinformatics tools they use, and what they would like to ask a knowledge graph such as PlantMetWiki. All four questions allowed several answers. The answers are anonymised and kept in the repository together with the scripts that draw the figures (`paper/figures/`).
+To ground the requirements in how the data are used, we asked researchers who generate plant omics data to fill in a questionnaire. As of 20 November 2026, fifteen people had answered; eleven of them, from ten institutions (academic groups and industry), also described the key research question or goal of their group, what they use to answer it (data types and analyses), and which bioinformatics tools they use. Thirteen answered the question of what they would like to ask a knowledge graph such as PlantMetWiki. The questions on goals, data and tools allowed several answers. The answers are anonymised and kept in the repository together with the scripts that draw the figures (`paper/figures/`).
 
-All eight laboratories start from transcriptomics and all eight want to find candidate genes; seven want to reconstruct pathways, five to find enzymes and five to find or annotate metabolites (Figure \ref{figureSurvey}). Genomics and orthology are the next most common starting points (five laboratories each), followed by comparative pathway analysis and metabolomics (four each). The tools reflect the same picture (Figure \ref{figureTools}): OrthoFinder, SIRIUS, MZmine and plantiSMASH are named by five laboratories each and DESeq by four; paired-omics tools are named by four laboratories (MEANtools by three, mixOmics by two, an in-house tool by one). Nine answers to the question of what to ask PlantMetWiki contained 14 questions. Most ask for genes or enzymes of a pathway or reaction step, or for comparisons of pathways and orthologs across species; others ask for routes to a compound, for genes linked to a trait or stress, for the physical clustering of genes, and for compounds (novel products, bioactivity, chlorinated products). We use these questions as test cases for the evidence model. They also show needs that the specification does not yet cover, in particular orthology, transcription factors and traits.
+Eight of the eleven respondents start from transcriptomics, and nine want to find candidate genes; eight want to reconstruct pathways, six to find or annotate metabolites and four to find enzymes (Figure \ref{figureSurvey}). Orthology is the next most common starting point (six respondents), followed by genomics and metabolomics (five each) and comparative pathway analysis (four); three use transcription factors and two gene clusters, and single respondents named knowledge graphs, mechanistic models and genome-scale metabolic models. Two respondents gave goals that are not about pathways, namely stress responses and improving cultivation conditions to increase the yield of natural products. The tools reflect the same picture (Figure \ref{figureTools}): OrthoFinder is named by seven respondents, DESeq by six, SIRIUS and plantiSMASH by five each and MZmine by four; paired-omics tools are named by three respondents (MEANtools by two, mixOmics by one and an in-house tool by one). Thirteen answers to the question of what to ask PlantMetWiki contained 17 questions. Most ask for genes or enzymes of a pathway or reaction step (five questions); others ask for comparisons of pathways and orthologs across species, for routes to a compound, for genes linked to a trait, a stress or a regulator, and for compounds (novel products, bioactivity, chlorinated products), three each, and for the physical clustering of genes (one). We use these questions as test cases for the evidence model. They also show needs that the specification does not yet cover, in particular orthology, transcription factors, traits and regulation.
 
-![Questionnaire to eight core laboratories: what they use (entry point) and what they want to find (goal). Ribbon width is the number of laboratories that ticked both, the number in brackets the laboratories that ticked the item. \label{figureSurvey}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_entry_exit.png)
+![Questionnaire to eleven respondents (20 November 2026): what they use (entry point) and what they want to find (goal). Ribbon width is the number of respondents that ticked both, the number in brackets the respondents that ticked the item. \label{figureSurvey}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_entry_exit.png)
 
-![Bioinformatics tools named by the eight laboratories, grouped by use. A dot marks a laboratory that named the tool. \label{figureTools}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_tools.png){ width=70% }
+![Bioinformatics tools named by the eleven respondents, grouped by use. A dot marks a respondent that named the tool. \label{figureTools}](https://raw.githubusercontent.com/pathway-lod/developing-open-standards/refs/heads/main/paper/figures/survey_tools.png){ width=70% }
 
 ## The evidence model
 
@@ -142,8 +150,7 @@ Table: Use cases supported by the framework, with the pilot dataset used to test
 | 6 | **Paired omics** (transcript–metabolite, transcript–protein, and protein–metabolite associations) | PO | Tomato data from the MEANtools paper [@citesAsDataSource:Singh2025MEANtools]; *Arabidopsis thaliana* heat-stress multi-omics dataset ([Thirumalaikumar et al., 2026](https://doi.org/10.1038/s41597-026-07813-z)) | `pilots/pairedomics_overlap` (tomato); `pilots/pairedomics_overlap/arabidopsis_heat_stress` (Arabidopsis) |
 | 7 | "Unsupervised" graph neural network (GNN) predictions of conversion steps | UN | none yet | none |
 
-
-## Working groups
+## BioHackathon Europe Project 3 Working Groups
 
 The work is organised in four groups, which correspond to the sections of the Results:
 
@@ -151,6 +158,8 @@ The work is organised in four groups, which correspond to the sections of the Re
 2. **Pilots.** Test the alignment of the use case datasets with PlantMetWiki.
 3. **Visualization and extraction of results.** Show what the aligned data say, and rank or score predictions.
 4. **Submission system (optional).** Build and test an automated way to submit, integrate and approve new predictions, with decentralised governance.
+
+The expertise of the participants 
 
 ## The pipeline
 
@@ -193,7 +202,7 @@ The script `check_terms.py` of the repository keeps the term table consistent an
 
 GitHub Actions run these steps for every pull request and for every term suggestion that a maintainer accepts with a label, and regenerate the dashboard before it is published, so that the published specification always follows the term table.
 
-# Results
+# Results of the BioHackathon Europe 2026
 
 ## 1. Discussion and curation of proposed and gap terms
 
@@ -435,7 +444,7 @@ The plan consists of three interconnected work packages corresponding to the pro
 
 The first month establishes what a minimum information specification for predicted plant biosynthetic pathway knowledge must contain. Requirements will be collected through a structured questionnaire, disseminated to an identified list of stakeholders across European institutions, and through targeted interviews with researchers in metabolomics, plant biology, semantic web technologies, and the relevant ELIXIR communities. Questions will cover data modalities in routine use, metadata that is recorded in practice, analytical workflows, predictive tools, and datasets available for reuse.
 
-In parallel, existing ontologies, controlled vocabularies, and interoperability resources will be reviewed, including WikiPathways [@usesMethodIn:Zdouc2025], BridgeDb [@usesMethodIn:Rutz2026], Identifiers.org, and the Ontology Lookup Service. A gap analysis will identify concepts that no current vocabulary expresses to describe evidence, provenance, and confidence, and will document where existing terms can be reused. The specification will follow the structure of MIBiG [@citesAsDataSource:Singh2025MEANtools] and MITE [@citesForInformation:Sansone2019], which are already familiar to the natural product community, while being built directly on a machine-actionable RDF-based model.
+In parallel, existing ontologies, controlled vocabularies, and interoperability resources will be reviewed, including WikiPathways [@usesMethodIn:Agrawal2024], BridgeDb [@usesMethodIn:vanIersel2010], Identifiers.org, and the Ontology Lookup Service. A gap analysis will identify concepts that no current vocabulary expresses to describe evidence, provenance, and confidence, and will document where existing terms can be reused. The specification will follow the structure of MIBiG [@citesAsDataSource:Zdouc2025] and MITE [@citesForInformation:Rutz2026], which are already familiar to the natural product community, while being built directly on a machine-actionable RDF-based model.
 
 In parallel, I will participate in the meetings of the MetaboLinkAI project and present PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] and the project objectives to partners to identify synergies with existing tools and involve them in the standard development process. Together with the host laboratory, I will select one paired transcriptomics-metabolomics dataset as the proof-of-concept for Months 2 and 3, prioritizing a species for which PlantMetWiki already holds curated pathways, so that predictions can later be assessed against known biology.
 
