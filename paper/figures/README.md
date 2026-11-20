@@ -13,3 +13,8 @@ Redraw: `python scripts/make_survey_figure_v2.py` (needs matplotlib).
 ## Participants figure
 
 `participants_expertise.*` (script `scripts/make_participants_figure.py`) shows the 11 participants of the BioHackathon project, their self-declared expertise and their working groups. Tables: `tables/participants.csv` (name, attendance), `tables/participants_expertise.csv` (expertise, participant) and `tables/working_groups.csv` (group, subgroup, participant). The tables hold names only (no email addresses). They were compiled from the planning notes of the project (updated 2026-11-20): "Sebastien" in the working-group list is Sebastian Beier (confirmed by the author).
+
+## Ontology coverage figures
+
+`ontology_terms_per_ontology.*` and `ontology_coverage.*` (script `scripts/make_ontology_figures.py`) are static versions of the charts of the specification dashboard: distinct terms per ontology split by use case, requirements by use case and status, and candidate terms by ontology and fit. Data: `tables/ontology_terms_snapshot.csv`, the columns row_id, req_id, use_case, role, curie, label, ontology, coverage and decision of `specification/ontology_terms.csv` of the community repository (main branch, term table of 3 November 2026). The search phrases of the Ontology Lookup Service are in `specification/ols_search_phrases.csv` of that repository (223 phrases in 12 rounds) and no longer in the paper.
+

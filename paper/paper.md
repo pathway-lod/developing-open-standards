@@ -104,10 +104,6 @@ Our goals during BioHackathon Europe 2026, were :
 
  Together, these render plant pathway knowledge FAIR and AI-ready, representing curated pathways, omics evidence, and scored predictions in a single machine-actionable graph. We hope that in future developments, our proposed workflow will be capable of supporting scalable community annotation, enabling AI-assisted discovery of plant specialized metabolic pathways through graph-based prioritization of candidate pathway components and the generation of experimentally testable biosynthetic hypotheses.
 
-## Objectives
-
-
-The project expands the plant metabolism knowledge graph PlantMetWiki with predictions from (multi-)omics plant knowledge coming from the community, which requires community-supported standards with feedback from the plant science community. We build an *evidence model* that says, for any prediction or experimental result attached to a PlantMetWiki pathway, enzyme, gene or metabolite, why it is believed (a typed evidence statement), where it comes from (tool, version, input data) and how strongly it is anchored in the knowledge graph. Users can then filter the graph by the kind of support behind a statement. The terms come from existing ontologies wherever possible; what no ontology provides is collected as candidates for new terms. 
 
 # Implementation
 
@@ -171,18 +167,13 @@ Table: The six steps of the pipeline.
 | 3. Community discussion | The table is shown as a web dashboard; discussion happens in GitHub issues; maintainers' labels turn decisions into pull requests (see below) | `.github/`, dashboard |
 | 4. Shape constraints | The chosen terms become SHACL shapes that say what a statement must contain before it is added to the knowledge graph. Problems are either rejected (violations) or flagged (warnings) | `shape_constraints/` |
 | 5. Pilots | Each use case is tried on a real dataset | `pilots/` |
-| 6. Outputs | RDF (Turtle) validated against the shapes, a sample graph, the local vocabulary `lodp:` with placeholder terms for what no ontology provides (see "The specification dashboard"), and the terms to propose to larger ontologies | `shape_constraints/rdf/`, `examples/` |
+| 6. Outputs | RDF (Turtle, Table \ref{tableTurtle}) validated against the shapes, a sample graph, the local vocabulary `lodp:` with placeholder terms for what no ontology provides (see "The specification dashboard"), and the terms to propose to larger ontologies | `shape_constraints/rdf/`, `examples/` |
 
 \endgroup
 
 ## Pilots and generated Turtle files
 
-Two pilots were prepared before the BioHackathon:
-
-- **BGC predictions** (`pilots/plantismash_overlap`): plantiSMASH 2.0 [@citesAsDataSource:DelPup2026plantiSMASH] clusters in 430 genomes linked to PlantMetWiki genes and pathways in three tiers.
-- **New pathway from the literature** (`pilots/ipecac_overlap`): the paired ipecac alkaloid data [@citesAsDataSource:Colinas2025]. Of the 12 metabolites of the paper, 6 are in PlantMetWiki (secologanin exactly; three with a protonation difference only; two on the connectivity level only) and 6 are absent, among them all those of the acid route. The pathway of emetine biosynthesis (PWY-7135) has 8 conversions, of which 5 are linked to a UniProt enzyme [@citesAsDataSource:UniProt2025], one only to a PlantCyc monomer, and two to no enzyme. The cloned *Carapichea* genes are 94-98% identical to enzymes already in this pathway, the *Alangium* genes at most 46%. The heterologous expression and infiltration experiments give reaction evidence for the step without an enzyme and for new acid-route compounds (75 comparisons, 41 with a higher product level). The study is targeted metabolomics of known compounds, so it tests reaction-level evidence and not spectral matching.
-
-The pilots produce Turtle files that follow the evidence model and the shapes. The script `build_rdf.py` of the community repository writes the RDF of four use cases (BGC, paired omics, metabolomics and PlantCyc) from the pilot results and validates each file against the SHACL shapes. The files are available in the repository and can be used for testing, by validating them with `validate.py`, and for visualization, because the browser viewer opens them directly (see "Visualization tool" in the Results). Table \ref{tableTurtle} lists them.
+Pilots with testing data and example turtle files were provided to the participants as described in table turtle. 
 
 \begingroup
 \footnotesize
@@ -203,9 +194,7 @@ Table: Turtle files generated for the project and available in the community rep
 
 \endgroup
 
-Further Turtle files are produced by pilots that are on branches of the repository and are added as these pilots are merged: the three correlation files of the *Arabidopsis thaliana* heat-stress pilot and the files of the falcarindiol evidence pilot.
 
-<!-- TODO: add the Turtle files of the transcriptomics pilot (619 claims) and of the ipecac pilot, and their location; both pilot folders are not on the main branch of the community repository yet. -->
 
 ## The specification dashboard: how terms are discussed and approved
 
@@ -222,7 +211,7 @@ Terms that no ontology provides are rows of the same table. While no suitable on
 
 ## How the candidate terms were found and checked
 
-For each requirement we searched candidate terms in the Ontology Lookup Service (OLS4) through its search API (`https://www.ebi.ac.uk/ols4/api/search`). The query was a free-text phrase taken from the requirement (for example "co-expression", "mass error" or "area under the ROC curve"), usually restricted to one ontology (ECO, PSI-MS, EDAM, SIO [@citesAsAuthority:Dumontier2014SIO], STATO, SO, CHEMINF, CHMO, SWO, AIO, OBI and others), and we read the first four to six hits (identifier, label and sometimes the definition). The searches were run interactively from the command line with the help of an AI coding assistant (Claude Code), and the scripts were not kept. We reconstructed the phrases afterwards from the log of the working session: 223 distinct phrases in 12 rounds (Appendix B). They are the starting point and do not have to match the final terms, because terms were also taken from other sources (the BioCyc evidence ontology for the PlantCyc evidence codes, the papers and supplementary tables of the pilot data sets) and many phrases led to no term or to a term that was not used. The hits were chosen by reading labels and definitions, and the role (primary, alternative, stand-in, local, gap) and coverage (exact, partial, none) of each term were set by hand. A requirement for which no candidate fits and no term can be taken from the data sources is a *gap*; it is given a placeholder term of our local vocabulary `lodp:`, as a *local* term, so that the pilots can already use it, or it is marked for a request to an existing ontology. The table was then reviewed manually by the project members and is revised by the community through the dashboard (issues, labels and reviewed pull requests, as described above).
+For each requirement we searched candidate terms in the Ontology Lookup Service (OLS4) through its search API (`https://www.ebi.ac.uk/ols4/api/search`). The query was a free-text phrase taken from the requirement (for example "co-expression", "mass error" or "area under the ROC curve"), usually restricted to one ontology (ECO, PSI-MS, EDAM, SIO [@citesAsAuthority:Dumontier2014SIO], STATO, SO, CHEMINF, CHMO, SWO, AIO, OBI and others), and we read the first four to six hits (identifier, label and sometimes the definition). The searches were run interactively from the command line with the help of an AI coding assistant (Claude Code), and the scripts were not kept. We reconstructed the phrases afterwards from the log of the working session: 223 distinct phrases in 12 rounds, which are listed in the file `specification/ols_search_phrases.csv` of the community repository (<https://github.com/pathway-lod/lod-pathways-community/blob/main/specification/ols_search_phrases.csv>). They are the starting point and do not have to match the final terms, because terms were also taken from other sources (the BioCyc evidence ontology for the PlantCyc evidence codes, the papers and supplementary tables of the pilot data sets) and many phrases led to no term or to a term that was not used. The hits were chosen by reading labels and definitions, and the role (primary, alternative, stand-in, local, gap) and coverage (exact, partial, none) of each term were set by hand. A requirement for which no candidate fits and no term can be taken from the data sources is a *gap*; it is given a placeholder term of our local vocabulary `lodp:`, as a *local* term, so that the pilots can already use it, or it is marked for a request to an existing ontology. The table was then reviewed manually by the project members and is revised by the community through the dashboard (issues, labels and reviewed pull requests, as described above).
 
 The script `check_terms.py` of the repository keeps the term table consistent and generates everything derived from it. It uses only the Python standard library (`requests` for the online check). It performs four tasks:
 
@@ -232,6 +221,13 @@ The script `check_terms.py` of the repository keeps the term table consistent an
 4. **Rendering** (`--render`): regenerates the tables of the specification document and the dashboard from the table, and `--check-render` fails when a generated file is out of date.
 
 GitHub Actions run these steps for every pull request and for every term suggestion that a maintainer accepts with a label, and regenerate the dashboard before it is published, so that the published specification always follows the term table.
+
+The coverage of the requirements by the candidate terms can be seen in the dashboard and is summarised here (Figures \ref{figureOntologies} and \ref{figureCoverage}; the term table of 3 November 2026). The 158 distinct terms of the table come from 27 vocabularies. Of these, 45 are terms of our local vocabulary `lodp:`, and the other 113 come from 26 existing ontologies: ECO (26 terms), PSI-MS (24), STATO (14), EDAM (8), OBI and SIO (7 each); the remaining 20 ontologies contribute one to three terms each. Of the 119 requirements, 59 are covered by a term of an existing ontology, 19 partly and 41 are a gap. Metabolomics has the most requirements (31) and PlantCyc (PMN) the best coverage (10 of 14 covered), while half of the requirements of paired omics (PO) and of the unsupervised predictions (UN) are a gap. Of the 130 candidate terms from existing ontologies, 75 are an exact fit and 55 a partial fit; the 49 rows of local terms are the ones without a fit.
+
+![Distinct terms of the specification per ontology, split by use case (PMN: PlantCyc inferred, BGC: gene clusters, MET: metabolomics, PO: paired omics, UN: unsupervised predictions, TX: transcriptomics, COM: shared by all). A term that is used by several use cases is counted once in each, so the bars can be longer than the number of distinct terms; MS is the PSI-MS ontology. \label{figureOntologies}](./figures/ontology_terms_per_ontology.png)
+
+![Coverage of the requirements. (A) Requirements by use case: covered (a primary term with an exact fit), partial (a primary term with a partial fit, or a stand-in) or a gap. (B) Candidate terms (rows of the term table) by ontology and fit; the local terms of `lodp:` have no fit. \label{figureCoverage}](./figures/ontology_coverage.png)
+
 
 ## BioHackathon Europe Project 3 Working Groups
 
@@ -367,7 +363,7 @@ Each pilot checks how much of a real dataset can be aligned with PlantMetWiki, a
 
 ### Transcriptomics experimental data modelling
 
-The transcriptomics pilot tests the evidence model on measured –not predicted– data (details in Appendix C).
+The transcriptomics pilot tests the evidence model on measured –not predicted– data (details in Appendix A).
 
 **Inputs:** Output files of two nf-core pipelines, [nf-core/rnaseq](https://github.com/nf-core/rnaseq) 3.27.0 and [nf-core/differentialabundance](https://github.com/nf-core/differentialabundance) 2.0.0 [@usesMethodIn:Ewels2020] are converted into RDF by dedicated `to_turtle.py` and `build_rdf.py` scripts. We used published datasets that were not processed with them (*i.e.* Expression Atlas results [@citesAsDataSource:Moreno2022], the RPKM matrix of the tomato data of Jeon et al. [@citesAsDataSource:Jeon2020], as used in MEANtools [@usesMethodIn:Singh2025MEANtools], ATTED-II co-expression matrices [@citesAsDataSource:Obayashi2022]) for testing, thus we first had to convert them in the same format as the outputs from the nf-core pipelines via `adapters.py`.
 
@@ -416,7 +412,7 @@ NPClassifier classifies natural products based on their chemical structure using
 
 ## 3. Ranking and Scoring of Predictions 
 
-After modelling, generating the Turtle files and validating them, we want to prioritise the modelled multi-omics results, that is, to decide which candidate metabolites, reactions and genes are best supported and should be tested experimentally first. The approach has five steps:
+After modelling, generating the Turtle files (Table \ref{tableTurtle}) and validating them, we want to prioritise the modelled multi-omics results, that is, to decide which candidate metabolites, reactions and genes are best supported and should be tested experimentally first. The approach has five steps:
 
 1. define evidence tiers;
 2. write queries that encode the tiers as optional branches, using also federated services;
@@ -432,7 +428,7 @@ After modelling, generating the Turtle files and validating them, we want to pri
 
 $$\mathrm{score} = 1 - \prod_{f}\,(1 - w_f), \qquad w_f = \max_{t \in f}\; w_t$$
 
-For metabolites the identity weight is also multiplied by the number of annotation tools that agree (0.65 for one tool, 0.80 for two, 1.0 from three). One ranked query per scope (metabolites, reactions, genes) holds all tiers as optional branches, so a component keeps the evidence it has and none is required. The weights (Appendix D) are drafts, and until they are calibrated the score is an ordering of the evidence, not a probability.
+For metabolites the identity weight is also multiplied by the number of annotation tools that agree (0.65 for one tool, 0.80 for two, 1.0 from three). One ranked query per scope (metabolites, reactions, genes) holds all tiers as optional branches, so a component keeps the evidence it has and none is required. The weights (Appendix B) are drafts, and until they are calibrated the score is an ordering of the evidence, not a probability.
 
 ![From evidence to score, shown for a gene. Each tier is a query (federated services included); tiers that are not independent share a family and only the strongest counts; the families are combined with a noisy-OR into a score that ranks the components. Weights are drafts. \label{figureScoring}](./figures/scoring_schema.png)
 
@@ -457,7 +453,7 @@ The model works end to end: the tiers are queries that run over the pilot graphs
 
 ### Visualization tool
 
-To facilitate exploration of claim-evidence data anchored to PlantMetWiki as well as the development of the evidence ontology we have built a browser-based viewer. It is part of the work repository (`visualization_tool/`, MIT license) and is published with its GitHub Pages site (<https://pathway-lod.github.io/lod-pathways-community/visualization_tool/>). Users can open their own Turtle file, that is then read and processed in the browser. Three central areas are covered by the viewer.
+To facilitate exploration of claim-evidence data anchored to PlantMetWiki as well as the development of the evidence ontology we have built a browser-based viewer. It is part of the work repository (`visualization_tool/`, MIT license) and is published with its GitHub Pages site (<https://pathway-lod.github.io/lod-pathways-community/visualization_tool/>). Users can open their own Turtle file, that is then read and processed in the browser; the Turtle files of the pilots (Table \ref{tableTurtle}) are available as example data. Three central areas are covered by the viewer.
 
 1. **Data connection to PlantMetWiki** A global view displays all claims of the file around a representation of PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] built statically from a snapshot of PlantMetWiki SPARQL endpoint (release r17.0.0). The pathways the claims are anchored to are highlighted. Claims are linked based on their shared PlantMetWiki annotation, data point or source. Selections of nodes can further be opened in detail view. The claims can be filtered by different scoring methods linked to their evidence.
 2. **Detailed visualization of the data** The detail view draws one card per resource, with literal values and types as rows and only links between resources as edges, in columns that follow the evidence model (runs, data and evidence, claims, PlantMetWiki). Clicking a card shows its Turtle and a selection of cards, or everything shown, can be exported as Turtle. The picture can be saved as PNG or SVG.
@@ -476,7 +472,34 @@ The ranking of candidate components is transparent (every score is the list of t
 # Discussion
 
 
+The project expands the plant metabolism knowledge graph PlantMetWiki with predictions from (multi-)omics plant knowledge coming from the community, which requires community-supported standards with feedback from the plant science community. We build an *evidence model* that says, for any prediction or experimental result attached to a PlantMetWiki pathway, enzyme, gene or metabolite, why it is believed (a typed evidence statement), where it comes from (tool, version, input data) and how strongly it is anchored in the knowledge graph. Users can then filter the graph by the kind of support behind a statement. The terms come from existing ontologies wherever possible; what no ontology provides is collected as candidates for new terms. 
+
 The paired-omics use cases revealed gaps in both evidence classification and reporting requirements. Existing ECO terms do not clearly distinguish the cross-omics abundance associations considered here, motivating evaluation of a new term, provisionally named *cross-omics abundance association evidence*. At the same time, the LODP specification must accommodate methods producing different result structures and metrics: correlations generate molecular pairs and coefficients, MOFA produces latent factors, feature weights, and explained variance, while network approaches generate modules and connectivity scores. We therefore propose a common representation of integration results with method-specific, typed metrics linked to their appropriate scope, rather than a fixed set of correlation-related properties. Experimental conditions, matched samples, timepoints, preprocessing, and analysis parameters must remain traceable through the computational provenance. Where applicable, evidence direction should be represented separately from the biological assertion, distinguishing negative correlations, signed factor weights, and differential abundance effects without equating them with biological inhibition or activation.
+
+A minimum information criteria taking inspiration from the MIBiG [@citesAsDataSource:Zdouc2025] and MITE [@citesForInformation:Rutz2026], which are already familiar to the natural product community, while being built directly on a machine-actionable RDF-based model.
+
+Outputs: 
+
+Expected outputs: stakeholder requirements report; gap analysis of existing vocabularies; draft minimum information specification expressed as an RDF data model; selected proof-of-concept dataset.
+
+prototype an end-to-end workflow connecting pathway knowledge, metabolomics data, transcriptomics evidence, and computational predictions within a common semantic framework. Semantic data shapes (SHACL or ShEx) will be written to encode the required metadata, provenance, quality criteria, and interoperability constraints, giving machine-actionable validation of multi-omics datasets (transcriptomics and metabolomics).
+
+
+
+The selected transcriptomics-metabolomics dataset will be transformed into a semantically enriched representation and linked to pathway entities in PlantMetWiki following Linked Open Data principles and the FAIR guiding principles [@citesForInformation:Agrawal2024]. 
+
+
+Expected outputs: validation schema implementing the specification; tested end-to-end FAIR integration workflow; semantically enriched proof-of-concept dataset; demonstration of interoperable querying across PlantMetWiki and multi-omics-supported predictions.
+
+ focuses on integrating computational predictions and experimental evidence into a unified framework for pathway prioritization and hypothesis generation. Pr
+
+A scoring framework will be defined to rank candidate pathway components by evidence strength, completeness, provenance, and reproducibility. Its performance will be benchmarked using the experimentally validated pathways already curated in PlantMetWiki as ground truth. This provides an objective measure of whether evidence-based scoring adds discriminative power, and yields a prioritised list of candidate components that are well supported but not yet experimentally described, which are of direct interest for follow-up work in both laboratories.
+
+The Minimum information guidelines will be at some point released openly and registered on FAIRsharing [@citesAsAuthority:Wilkinson2016] to maximize visibility, reuse, and long-term sustainability.
+
+Expected outputs: benchmarked scoring scheme; prioritized candidate pathway components for the proof-of-concept species; openly released specification, schemas, and workflows.
+
+Overall, the work will contribute towards establishing a FAIR and interoperable framework for integrating experimentally validated pathway knowledge, multi-omics evidence, and computational predictions, enabling more reproducible and scalable discovery of plant specialized metabolic pathways.
 
 
 **Future developments.** We intend to submit the seven term requests of section 1 of the Results to the maintainers of the existing ontologies, mainly ECO and STATO, and to replace the local `lodp:` terms by the accepted ones in the specification and the shapes.
@@ -498,294 +521,23 @@ Elena Del Pup and Denise Slenter were supported by the ELIXIR Europe BioHackatho
 We thank Nicola Zamboni and Adriano Rutz for the supervision of Elena Del Pup during the preparation of the BioHackathon and the writing of this report. We also thank the other BioHackathon 2026 project participants for the feedback provided during the brainstorming and poster session. We thank ELIXIR Europe for selecting our project and supporting us with 2 travel grants for onsite participation. 
 
 
-
-
 # References
 
 ```{=latex}
 \AtEndDocument{%
 ```
 
-# Appendices
 
-## Appendix A: Original project plan (from the proposal)
 
-The plan consists of three interconnected work packages corresponding to the project objectives. The BioHackathon Europe 2026 (9 - 14 November 2026, Barcelona) extends this work to a broader international community.
 
-### Community requirements and draft semantic framework (Objective 1)
-
-The first month establishes what a minimum information specification for predicted plant biosynthetic pathway knowledge must contain. Requirements will be collected through a structured questionnaire, disseminated to an identified list of stakeholders across European institutions, and through targeted interviews with researchers in metabolomics, plant biology, semantic web technologies, and the relevant ELIXIR communities. Questions will cover data modalities in routine use, metadata that is recorded in practice, analytical workflows, predictive tools, and datasets available for reuse.
-
-In parallel, existing ontologies, controlled vocabularies, and interoperability resources will be reviewed, including WikiPathways [@usesMethodIn:Agrawal2024], BridgeDb [@usesMethodIn:vanIersel2010], Identifiers.org, and the Ontology Lookup Service. A gap analysis will identify concepts that no current vocabulary expresses to describe evidence, provenance, and confidence, and will document where existing terms can be reused. The specification will follow the structure of MIBiG [@citesAsDataSource:Zdouc2025] and MITE [@citesForInformation:Rutz2026], which are already familiar to the natural product community, while being built directly on a machine-actionable RDF-based model.
-
-In parallel, I will participate in the meetings of the MetaboLinkAI project and present PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] and the project objectives to partners to identify synergies with existing tools and involve them in the standard development process. Together with the host laboratory, I will select one paired transcriptomics-metabolomics dataset as the proof-of-concept for Months 2 and 3, prioritizing a species for which PlantMetWiki already holds curated pathways, so that predictions can later be assessed against known biology.
-
-Expected outputs: stakeholder requirements report; gap analysis of existing vocabularies; draft minimum information specification expressed as an RDF data model; selected proof-of-concept dataset.
-
-### Prototype validation schema (Objective 2)
-
-The second month implements and tests the specification to prototype an end-to-end workflow connecting pathway knowledge, metabolomics data, transcriptomics evidence, and computational predictions within a common semantic framework. Semantic data shapes (SHACL or ShEx) will be written to encode the required metadata, provenance, quality criteria, and interoperability constraints, giving machine-actionable validation of multi-omics datasets (transcriptomics and metabolomics).
-
-The selected transcriptomics-metabolomics dataset will be transformed into a semantically enriched representation and linked to pathway entities in PlantMetWiki following Linked Open Data principles and the FAIR guiding principles [@citesForInformation:Agrawal2024]. Achieving this requires resolving identifier mismatches, provenance modeling, and vocabulary alignment between resources, which will be supported by the expertise of the Zamboni Lab and MetaboLinkAI partners.
-
-Interactions with MetaboLinkAI researchers and collaborators from the ELIXIR BioHackathon project "Developing Open Standards for a Semantic Framework in Plant Specialized Metabolism" (9 - 14 November 2026 in Barcelona) will keep the schema aligned with parallel developments in federated querying, semantic enrichment, and FAIRification workflows, and will ensure that what is prototyped here is what the community will later be asked to adopt.
-
-Expected outputs: validation schema implementing the specification; tested end-to-end FAIR integration workflow; semantically enriched proof-of-concept dataset; demonstration of interoperable querying across PlantMetWiki and multi-omics-supported predictions.
-
-### Evidence integration, benchmarking, and dissemination (Objective 3)
-
-The final month focuses on integrating computational predictions and experimental evidence into a unified framework for pathway prioritization and hypothesis generation. Predictions for the proof-of-concept species by plantiSMASH [@citesAsDataSource:DelPup2026plantiSMASH] and MEANtools [@citesForInformation:vanIersel2010] will be mapped to a common semantic representation and aligned with experimental observations.
-
-A scoring framework will be defined to rank candidate pathway components by evidence strength, completeness, provenance, and reproducibility. Its performance will be benchmarked using the experimentally validated pathways already curated in PlantMetWiki as ground truth. This provides an objective measure of whether evidence-based scoring adds discriminative power, and yields a prioritised list of candidate components that are well supported but not yet experimentally described, which are of direct interest for follow-up work in both laboratories.
-
-The resulting workflows, standards, and validation approaches will be reviewed with collaborators from MetaboLinkAI, ELIXIR, and WikiPathways, released openly and registered on FAIRsharing [@citesAsAuthority:Wilkinson2016] to maximize visibility, reuse, and long-term sustainability. The ELIXIR BioHackathon in Barcelona (9-14 November 2026) will extend the outreach to a broader international community to refine, test, and adopt them, beyond the duration of the fellowship.
-
-Expected outputs: benchmarked scoring scheme; prioritized candidate pathway components for the proof-of-concept species; openly released specification, schemas, and workflows.
-
-The three packages are sequential but independently deliverable: the specification and gap analysis stand alone as a community contribution even if integration proves more complex than anticipated, and the validation schema is useful independently of the scoring results. Overall, the work will contribute towards establishing a FAIR and interoperable framework for integrating experimentally validated pathway knowledge, multi-omics evidence, and computational predictions, enabling more reproducible and scalable discovery of plant specialized metabolic pathways.
 
 ```{=latex}
 }
 ```
 
-## Appendix B: Phrases searched in the Ontology Lookup Service
+# Appendices
 
-Table \ref{tableOLS} lists the phrases used to start the search for candidate terms (see "How the candidate terms were found and checked"), reconstructed from the log of the working session. The search was restricted to one ontology where one is named, otherwise it covered all ontologies of OLS. The final terms were selected and reviewed manually, so they do not necessarily appear here. The same table is in the repository (`specification/ols_search_phrases.csv`).
-
-\begingroup
-\footnotesize
-
-Table: Phrases searched in the Ontology Lookup Service, in the order of the search rounds. \label{tableOLS}
-
-| Round | Topic | Search phrase | Ontology |
-|---|---|---|---|
-| 1 | evidence types, gene clusters, similarity | biosynthetic gene cluster | so |
-| 1 | evidence types, gene clusters, similarity | gene cluster | so |
-| 1 | evidence types, gene clusters, similarity | computational evidence used in automatic assertion | eco |
-| 1 | evidence types, gene clusters, similarity | match to sequence model evidence | eco |
-| 1 | evidence types, gene clusters, similarity | sequence similarity evidence | eco |
-| 1 | evidence types, gene clusters, similarity | genomic context evidence | eco |
-| 1 | evidence types, gene clusters, similarity | correlation evidence | eco |
-| 1 | evidence types, gene clusters, similarity | expression pattern evidence | eco |
-| 1 | evidence types, gene clusters, similarity | co-expression | eco |
-| 1 | evidence types, gene clusters, similarity | mass spectrometry evidence | eco |
-| 1 | evidence types, gene clusters, similarity | combinatorial computational and experimental evidence | eco |
-| 1 | evidence types, gene clusters, similarity | author inference | eco |
-| 1 | evidence types, gene clusters, similarity | curator inference | eco |
-| 1 | evidence types, gene clusters, similarity | imported information | eco |
-| 1 | evidence types, gene clusters, similarity | biosynthetic gene cluster | mibig |
-| 1 | evidence types, gene clusters, similarity | percent identity | sio |
-| 1 | evidence types, gene clusters, similarity | overlap | sio |
-| 2 | evidence, paired omics, annotation tools | coexpression evidence | eco |
-| 2 | evidence, paired omics, annotation tools | statistical association evidence | eco |
-| 2 | evidence, paired omics, annotation tools | gene neighbors evidence used in automatic assertion | eco |
-| 2 | evidence, paired omics, annotation tools | machine learning | eco |
-| 2 | evidence, paired omics, annotation tools | inference from background scientific knowledge | eco |
-| 2 | evidence, paired omics, annotation tools | genomic context evidence used in automatic assertion | eco |
-| 2 | evidence, paired omics, annotation tools | Pearson correlation coefficient | stato |
-| 2 | evidence, paired omics, annotation tools | Spearman | stato |
-| 2 | evidence, paired omics, annotation tools | mutual rank | stato |
-| 2 | evidence, paired omics, annotation tools | p-value | obi |
-| 2 | evidence, paired omics, annotation tools | has version | swo |
-| 2 | evidence, paired omics, annotation tools | software version | iao |
-| 2 | evidence, paired omics, annotation tools | antiSMASH | edam |
-| 2 | evidence, paired omics, annotation tools | gene cluster prediction | edam |
-| 2 | evidence, paired omics, annotation tools | metabolic pathway prediction | edam |
-| 2 | evidence, paired omics, annotation tools | tandem mass spectrometry | msio |
-| 3 | paired omics | coexpression | eco |
-| 3 | paired omics | gene expression correlation | eco |
-| 3 | paired omics | correlation | eco |
-| 3 | paired omics | statistical inference | eco |
-| 3 | paired omics | network | eco |
-| 3 | paired omics | clustering | eco |
-| 3 | paired omics | mutual rank | all |
-| 3 | paired omics | co-expression network | all |
-| 3 | paired omics | gene-metabolite association | all |
-| 3 | paired omics | correlation coefficient | stato |
-| 3 | paired omics | association | sio |
-| 3 | paired omics | cluster | edam |
-| 3 | paired omics | gene-chemical association | sio |
-| 3 | paired omics | chemical-gene association | sio |
-| 3 | paired omics | has evidence | sio |
-| 3 | paired omics | has value | sio |
-| 3 | paired omics | refers to | sio |
-| 3 | paired omics | p-value | sio |
-| 3 | paired omics | gene | sio |
-| 3 | paired omics | chemical entity | sio |
-| 3 | paired omics | expression pattern evidence used in automatic assertion | eco |
-| 3 | paired omics | clustering | edam |
-| 3 | paired omics | gene expression correlation analysis | edam |
-| 4 | gene clusters, evidence | gene cluster | edam |
-| 4 | gene clusters, evidence | biosynthetic gene cluster | edam |
-| 4 | gene clusters, evidence | secondary metabolite | edam |
-| 4 | gene clusters, evidence | combinatorial computational evidence used in automatic assertion | eco |
-| 4 | gene clusters, evidence | imported information used in automatic assertion | eco |
-| 4 | gene clusters, evidence | sequence similarity evidence used in automatic assertion | eco |
-| 4 | gene clusters, evidence | match to sequence model evidence used in automatic assertion | eco |
-| 4 | gene clusters, evidence | has part | ro |
-| 4 | gene clusters, evidence | overlaps | ro |
-| 4 | gene clusters, evidence | percent identity | all |
-| 4 | gene clusters, evidence | similarity score | sio |
-| 5 | PlantCyc evidence codes | EV-EXP-IDA | eco |
-| 5 | PlantCyc evidence codes | EV-EXP-IEP | eco |
-| 5 | PlantCyc evidence codes | EV-COMP-HINF-SEQ-ORTHOLOGY | eco |
-| 5 | PlantCyc evidence codes | EV-IC | eco |
-| 5 | PlantCyc evidence codes | EV-AS-TAS | eco |
-| 5 | PlantCyc evidence codes | EV-COMP-AINF | eco |
-| 5 | PlantCyc evidence codes | direct assay evidence used in manual assertion | eco |
-| 5 | PlantCyc evidence codes | expression pattern evidence used in manual assertion | eco |
-| 5 | PlantCyc evidence codes | sequence orthology evidence used in manual assertion | eco |
-| 5 | PlantCyc evidence codes | traceable author statement used in manual assertion | eco |
-| 5 | PlantCyc evidence codes | inferred by curator | eco |
-| 5 | PlantCyc evidence codes | automatic assertion computational inference | eco |
-| 6 | evidence, identification confidence | experimental evidence | eco |
-| 6 | evidence, identification confidence | metabolite identification confidence level | all |
-| 6 | evidence, identification confidence | metabolomics standards initiative level | all |
-| 6 | evidence, identification confidence | machine learning method evidence used in automatic assertion | eco |
-| 6 | evidence, identification confidence | spectral library match evidence | eco |
-| 6 | evidence, identification confidence | deep learning neural network method evidence used in automatic assertion | eco |
-| 6 | evidence, identification confidence | compound identification confidence level | ms |
-| 7 | metabolomics, evidence model | spectral library search | all |
-| 7 | metabolomics, evidence model | spectral library search | edam |
-| 7 | metabolomics, evidence model | mass spectra similarity | edam |
-| 7 | metabolomics, evidence model | positive scan | ms |
-| 7 | metabolomics, evidence model | negative scan | ms |
-| 7 | metabolomics, evidence model | retention time | ms |
-| 7 | metabolomics, evidence model | selected ion m/z | ms |
-| 7 | metabolomics, evidence model | adduct ion | ms |
-| 7 | metabolomics, evidence model | InChIKey | cheminf |
-| 7 | metabolomics, evidence model | topic model | all |
-| 7 | metabolomics, evidence model | topic modelling | edam |
-| 7 | metabolomics, evidence model | substructure | cheminf |
-| 7 | metabolomics, evidence model | mass spectrometry feature | all |
-| 7 | metabolomics, evidence model | SEPIO | all |
-| 7 | metabolomics, evidence model | evidence line | sepio |
-| 7 | metabolomics, evidence model | assertion | sepio |
-| 7 | metabolomics, evidence model | probability value | sio |
-| 7 | metabolomics, evidence model | software | swo |
-| 7 | metabolomics, evidence model | evidence | eco |
-| 7 | metabolomics, evidence model | nanopublication | all |
-| 7 | metabolomics, evidence model | molecular network | all |
-| 7 | metabolomics, evidence model | fragmentation pattern | all |
-| 8 | evidence (manual assertion) | computational evidence used in manual assertion | eco |
-| 8 | evidence (manual assertion) | evidence used in manual assertion | eco |
-| 8 | evidence (manual assertion) | computational inference used in manual assertion | eco |
-| 8 | evidence (manual assertion) | author statement used in manual assertion | eco |
-| 8 | evidence (spectral, unsupervised) | Mass2Motif | all |
-| 8 | evidence (spectral, unsupervised) | MS2LDA | all |
-| 8 | evidence (spectral, unsupervised) | unsupervised | eco |
-| 8 | evidence (spectral, unsupervised) | unsupervised | all |
-| 8 | evidence (spectral, unsupervised) | clustering evidence | eco |
-| 8 | evidence (spectral, unsupervised) | spectral library | eco |
-| 8 | evidence (spectral, unsupervised) | mass spectral library | eco |
-| 8 | evidence (spectral, unsupervised) | spectrum matching | eco |
-| 8 | evidence (spectral, unsupervised) | molecular family | all |
-| 8 | evidence (spectral, unsupervised) | molecular networking | all |
-| 8 | evidence (spectral, unsupervised) | mass spectrometry | eco |
-| 9 | machine learning predictions | graph neural network | aio |
-| 9 | machine learning predictions | link prediction | all |
-| 9 | machine learning predictions | knowledge graph embedding | all |
-| 9 | machine learning predictions | hyperparameter | all |
-| 9 | machine learning predictions | machine learning model | aio |
-| 9 | machine learning predictions | model evaluation | all |
-| 9 | machine learning predictions | area under the ROC curve | all |
-| 9 | machine learning predictions | area under curve | stato |
-| 9 | machine learning predictions | average precision | all |
-| 9 | machine learning predictions | precision at k | all |
-| 9 | machine learning predictions | training data set | all |
-| 9 | machine learning predictions | data split | aio |
-| 9 | machine learning predictions | cross validation | stato |
-| 9 | machine learning predictions | prediction score | all |
-| 9 | machine learning predictions | protein language model | all |
-| 9 | machine learning predictions | predicted | sio |
-| 9 | machine learning predictions | confidence score | all |
-| 9 | machine learning predictions | model | iao |
-| 9 | machine learning predictions | data transformation | obi |
-| 10 | transcriptomics | z-score | all |
-| 10 | transcriptomics | z-score | stato |
-| 10 | transcriptomics | standard score | all |
-| 10 | transcriptomics | DESeq2 | all |
-| 10 | transcriptomics | differential expression analysis | edam |
-| 10 | transcriptomics | differential gene expression | all |
-| 10 | transcriptomics | log fold change | all |
-| 10 | transcriptomics | fold change | all |
-| 10 | transcriptomics | false discovery rate | stato |
-| 10 | transcriptomics | Benjamini-Hochberg | all |
-| 10 | transcriptomics | adjusted p-value | all |
-| 10 | transcriptomics | Wald test | all |
-| 10 | transcriptomics | RNA sequencing assay | obi |
-| 10 | transcriptomics | RNA-seq | all |
-| 10 | transcriptomics | read count | all |
-| 10 | transcriptomics | transcripts per million | all |
-| 10 | transcriptomics | RPKM | all |
-| 10 | transcriptomics | FPKM | all |
-| 10 | transcriptomics | normalized read count | all |
-| 10 | transcriptomics | gene expression level | all |
-| 10 | transcriptomics | expression profile | all |
-| 10 | transcriptomics | RNA-sequencing evidence | eco |
-| 10 | transcriptomics | differential expression evidence | eco |
-| 10 | transcriptomics | co-expression | all |
-| 10 | transcriptomics | coexpression network | all |
-| 10 | transcriptomics | rank correlation | all |
-| 10 | transcriptomics | variance stabilizing transformation | all |
-| 10 | transcriptomics | library size | all |
-| 10 | transcriptomics | replicate | all |
-| 10 | transcriptomics | biological replicate | obi |
-| 10 | transcriptomics | treatment | all |
-| 10 | transcriptomics | plant structure | po |
-| 10 | transcriptomics | leaf | po |
-| 10 | transcriptomics | experimental factor | efo |
-| 10 | transcriptomics | base mean | all |
-| 10 | transcriptomics | dispersion | stato |
-| 10 | transcriptomics | standard error | stato |
-| 10 | transcriptomics | mean | stato |
-| 10 | transcriptomics | log2 | all |
-| 11 | metabolomics acquisition and processing | Orbitrap Exploris 120 | ms |
-| 11 | metabolomics acquisition and processing | instrument model | ms |
-| 11 | metabolomics acquisition and processing | heated electrospray ionization | ms |
-| 11 | metabolomics acquisition and processing | electrospray ionization | ms |
-| 11 | metabolomics acquisition and processing | normalized collision energy | ms |
-| 11 | metabolomics acquisition and processing | higher energy beam-type collision-induced dissociation | ms |
-| 11 | metabolomics acquisition and processing | resolution | ms |
-| 11 | metabolomics acquisition and processing | scan window | ms |
-| 11 | metabolomics acquisition and processing | data-dependent acquisition | ms |
-| 11 | metabolomics acquisition and processing | dynamic exclusion | ms |
-| 11 | metabolomics acquisition and processing | exclusion list | ms |
-| 11 | metabolomics acquisition and processing | isolation window | ms |
-| 11 | metabolomics acquisition and processing | MZmine | ms |
-| 11 | metabolomics acquisition and processing | SIRIUS | ms |
-| 11 | metabolomics acquisition and processing | feature detection | ms |
-| 11 | metabolomics acquisition and processing | peak picking | ms |
-| 11 | metabolomics acquisition and processing | alignment | ms |
-| 11 | metabolomics acquisition and processing | blank subtraction | ms |
-| 11 | metabolomics acquisition and processing | feature-based molecular networking | edam |
-| 11 | metabolomics acquisition and processing | molecular networking | edam |
-| 11 | metabolomics acquisition and processing | mzmine | swo |
-| 11 | metabolomics acquisition and processing | MS2LDA | swo |
-| 11 | metabolomics acquisition and processing | liquid chromatography | chmo |
-| 11 | metabolomics acquisition and processing | untargeted metabolomics | chmo |
-| 11 | metabolomics acquisition and processing | peak area | all |
-| 11 | metabolomics acquisition and processing | feature abundance | all |
-| 11 | metabolomics acquisition and processing | ion intensity | all |
-| 11 | metabolomics acquisition and processing | ClassyFire | all |
-| 11 | metabolomics acquisition and processing | NPClassifier | all |
-| 11 | metabolomics acquisition and processing | chemical taxonomy | all |
-| 11 | metabolomics acquisition and processing | precursor exclusion | all |
-| 11 | metabolomics acquisition and processing | mass spectral motif | all |
-| 11 | metabolomics acquisition and processing | substructure motif | all |
-| 11 | metabolomics acquisition and processing | heated electrospray | all |
-| 11 | metabolomics acquisition and processing | blank | all |
-| 12 | mass-only annotation | liquid chromatography mass spectrometry evidence | eco |
-| 12 | mass-only annotation | accurate mass | ms |
-| 12 | mass-only annotation | exact mass | chmo |
-| 12 | mass-only annotation | mass-to-charge ratio | ms |
-| 12 | mass-only annotation | MS1 spectrum | ms |
-| 12 | mass-only annotation | full scan | ms |
-| 12 | mass-only annotation | mass error | ms |
-
-\endgroup
-
-## Appendix C: Transcriptomics pilot
+## Appendix A: Transcriptomics pilot
 
 The `pilots/transcriptomics_overlap` in `lod-pathways-community` covers the 21 PlantMetWiki tomato genes that carry a Solyc locus. Table \ref{tableTXclaims} shows its claims.
 
@@ -840,7 +592,7 @@ Table: The 22 transcriptomics (TX) requirements in the pilot. \label{tableTXterm
 
 We decide that pathway claims should refer to the PlantCyc ID rather than the PlantMetWiki pathway number, because these numbers change between builds: α-tomatine biosynthesis is PC1159 in the snapshot of 2026-09-29 and PC968 on the live endpoint (2026-11-12), where PC1159 is now coenzyme A biosynthesis I.
 
-## Appendix D: Tier weights of the ranked queries
+## Appendix B: Tier weights of the ranked queries
 
 Table \ref{tableWeights} gives the draft weights of the evidence tiers (see "3. Ranking and Scoring of Predictions"), generated from `minimum_information/notebooks/weights.csv`. "Live" marks tiers that are part of the ranked query on the endpoint; "Data" says whether the tier finds anything in the current data. The score is read as described in `minimum_information/scoring.md`.
 
