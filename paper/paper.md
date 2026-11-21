@@ -29,6 +29,9 @@ authors:
   - name: Sebastian Beier
     orcid: 0000-0002-2177-8781
     affiliation: 7
+  - name: Marvin Martens
+    orcid: 0000-0003-2230-0840
+    affiliation: 2
   - name: Liese van Ommeren
     affiliation: 1
   - name: Sajal Paudyal
@@ -240,7 +243,7 @@ The work is organised in four groups, which correspond to the sections of the Re
 
 Eleven people took part in the project: seven face-to-face at the BioHackathon and four remotely, one of them part time. They declared expertise in sixteen areas (Figure \ref{figureParticipants}). Semantic technologies were covered by RDF and SPARQL (four participants each), ontologies and shape constraints with SHACL or ShEx (three each) and evidence and provenance modelling (one). The plant omics and chemistry expertise was led by transcriptomics (seven) and multi-omics (five), followed by chemical identifiers and structures, metabolomics and plant specialised metabolism (three each), mass spectrometry annotation and statistics (two each). Engineering and community skills were GitHub Actions and CI/CD and web development (six each), FAIR data and research data management (four) and governance and community curation (three). Evidence and provenance modelling rests on one person, and mass spectrometry annotation and statistics on two, which shows where the project depends on few participants.
 
-The participants joined the working groups according to this expertise (Table \ref{tableGroups}). Elena Del Pup and Denise Slenter co-led the project.
+The participants joined the working groups according to this expertise (Table \ref{tableGroups}). Elena Del Pup, Denise Slenter, and Kumar Saurabh Singh co-led the project.
 
 \begingroup
 \footnotesize
@@ -264,7 +267,7 @@ The results of working groups were organised in three different objectives/topic
 
 1. Ontology modelling: new proposed ontology terms and integrative ontology prototype with CI/CD  
 2. Data integration and modelling: validation framework for transcriptomics, paired omics, and metabollite evidence 
-3. Prioritization and querying: visualization tool for multi-omics eevidence and scoring method prototype 
+3. Prioritization and querying: visualization tool for multi-omics evidence and scoring method prototype 
 
 ## 1. Ontology modelling: new proposed ontology terms and integrative ontology prototype with CI/CD  
 
@@ -410,7 +413,27 @@ NPClassifier classifies natural products based on their chemical structure using
 
 **Discussion:** Similarly to other chemical classification tools, NPClassifier uses its own ontology.
 
-## 3. Ranking and Scoring of Predictions 
+### Visualization tool
+
+To facilitate exploration of claim-evidence data anchored to PlantMetWiki as well as the development of the evidence ontology we have built a browser-based viewer. It is part of the work repository (`visualization_tool/`, MIT license) and is published with its GitHub Pages site (<https://pathway-lod.github.io/lod-pathways-community/visualization_tool/>). Users can open their own Turtle file, that is then read and processed in the browser; the Turtle files of the pilots (Table \ref{tableTurtle}) are available as example data. Three central areas are covered by the viewer: the global view and the scoring (Figure \ref{figureScore}), the detail view (Figure \ref{figureDetail}) and the SHACL validation.
+
+1. **Data connection to PlantMetWiki** A global view displays all claims of the file around a representation of PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] built statically from a snapshot of PlantMetWiki SPARQL endpoint (release r17.0.0). The pathways the claims are anchored to are highlighted. Claims are linked based on their shared PlantMetWiki annotation, data point or source. Selections of nodes can further be opened in detail view. The claims can be filtered by different scoring methods linked to their evidence (see below and Figure \ref{figureScore}).
+2. **Detailed visualization of the data** The detail view draws one card per resource, with literal values and types as rows and only links between resources as edges, in columns that follow the evidence model (runs, data and evidence, claims, PlantMetWiki). Clicking a card shows its Turtle and a selection of cards, or everything shown, can be exported as Turtle. The picture can be saved as PNG or SVG.
+
+3. **SHACL violations** The viewer validates the opened file against the SHACL [@citesAsAuthority:SHACL2017] shapes of the repository directly in the browser and shows violations and warnings on the cards, including required properties that are missing. Claims are listed with violations first, then warnings. The validated data and the report can be saved together and reopened later.
+
+The viewer is written in JavaScript with React Flow [@usesMethodIn:ReactFlow] for the detail view, Cytoscape.js [@usesMethodIn:Franz2016] for the global view and N3.js [@usesMethodIn:N3js] for parsing RDF. SHACL validation in the browser uses shacl-engine [@usesMethodIn:ShaclEngine], which evaluates SPARQL-based constraints with Comunica [@usesMethodIn:Taelman2018], the example data and the precomputed reports are built in Python with RDFLib [@usesMethodIn:RDFLib] and pySHACL [@usesMethodIn:pySHACL].
+
+![The detail view of one claim of the pilots, a metabolite annotation of feature 1004 of the dataset MTBLS14270 with a DreaMS similarity of 0.5881. The cards are coloured by role (claim, evidence, data), the rows by the status of their term, and the labels at the right of each row give the requirements of the term table that the property serves. The legend at the bottom right explains the colours and marks. \label{figureDetail}](./figures/viewer_detail_view.png){ width=100% }
+
+**Scoring of the claims.** The claims can be ranked by a strength metric that comes with their evidence, in the score panel of the global view (Figure \ref{figureScore}). Three metrics are implemented at present: the DreaMS similarity of the top hit of the metabolite annotations (1798 claims), the approximate confidence of SIRIUS (585 claims) and the p-value of the correlation between a gene and a metabolite (1293 claims); each claim carries at most the metrics of its own evidence, so a claim passes only the metrics that apply to it. For the chosen metric the panel gives the property, whether higher or lower values are better, the theoretical range (marked as assumed when it is not defined by the method), the range and median in the file, and the number of claims with the score, together with a histogram of the values over the theoretical range. The user then sets a cut-off as the number of best claims (top 100 in the figure), the claims above the cut-off are circled in the global view around the pathways they are anchored to, and they can be opened in the detail view. The three metrics are not comparable and are not combined here; combining them is the aim of the scoring method described in Section 3.
+
+![The global view with the score panel. The claims are placed around PlantMetWiki (pathways in the inner rings, grouped by category), and the panel at the right shows the DreaMS similarity of the 1798 claims that carry it (range 0.438 to 0.972, median 0.65) with the cut-off of the top 100 (0.843); these claims are circled in the global view and listed below. \label{figureScore}](./figures/viewer_score_panel.png){ width=100% }
+
+
+## 3. Prioritization and querying: visualization tool for multi-omics evidence and scoring method prototype 
+
+### Prioritization framework 
 
 After modelling, generating the Turtle files (Table \ref{tableTurtle}) and validating them, we want to prioritise the modelled multi-omics results, that is, to decide which candidate metabolites, reactions and genes are best supported and should be tested experimentally first. The approach has five steps:
 
@@ -423,6 +446,8 @@ After modelling, generating the Turtle files (Table \ref{tableTurtle}) and valid
 **Evidence tiers.** Each kind of evidence is a *tier*, written as one SPARQL query that returns a pathway component (a metabolite, a reaction or a gene), its type, the pathway and the supporting evidence as metadata. Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC, the weakest gene tier) or a Rhea identifier on the reaction [@citesAsDataSource:Bansal2022Rhea]. The tiers model the evidence at the level of the graph, and some use federated services inside the query: PlantMetWiki (pathways, reactions, metabolites), Rhea (reaction participants), UniProt [@citesAsDataSource:UniProt2025] (enzymes), OrthoDB (orthologs) and the Sachem/IDSM service (chemical similarity to a pathway metabolite). Because the tiers are queries over a graph, the levels of evidence and the connectivity layers they use can also be inspected in the SPARQL examples visualiser of the SIB.
 
 **Resources.** The tier queries are SPARQL examples in the SIB format, in the repository [sparql-examples-pmw](https://github.com/pathway-lod/sparql-examples-pmw) (folder `examples/MinimumInformationTiers`, one file per tier and the three ranked queries `ranked-pathway-metabolites`, `ranked-pathway-reactions` and `ranked-pathway-genes`), published with their descriptions and keywords at <https://pathway-lod.github.io/sparql-examples-pmw/>. The definitions of the tiers, the explanation of how to read the score, the draft weights and the notebooks that run all queries and keep their outputs are in the `minimum_information/` folder of the community repository ([lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community/tree/edp-visualization/minimum_information); `scoring.md` explains the score, `notebooks/05_ranked_components.ipynb` runs the ranked queries, `notebooks/weights.csv` holds the weights).
+
+**Versioned example queries.** The 36 example queries of the PlantMetWiki SPARQL Explorer have been converted to Turtle files in the SIB sparql-examples format [@usesMethodIn:Bolleman2025] (pull request #18 of pathway-lod/SPARQLQueries). Besides the query and its description, each file holds a persistent identifier (PMWQ001 to PMWQ036) with a resolvable IRI, the creators by ORCID, a creation date, a licence, a category, keywords and a version number. A CI job checks the files against a SHACL profile, runs them through the SIB test tools and publishes an index with every version of every query. A second pull request (#17 of pathway-lod/Snorql-UI) rebuilds the explorer as a thin configuration layer on the Snorql-UI engine that WikiPathways and AOP-Wiki also use. Once both are merged and deployed, the explorer reads that index, shows the metadata next to each query, lets users pick an older version, and opens a query from a link with its parameters filled in, for example from a tutorial. The tier queries in sparql-examples-pmw use the same SIB format and could be added to the explorer in the same way.
 
 **Score.** Tiers that are not independent are put in one *family*: a gene that is in a pathway and in a BGC with a partner also in that pathway is one piece of evidence, not two. A component takes the weight of the strongest tier it passes in each family, and the families are combined with a noisy-OR (Figure \ref{figureScoring}), so that a further independent family can only raise the score and the score never exceeds 1:
 
@@ -451,18 +476,10 @@ Two worked examples: a reaction with an Rhea identifier (0.60) and a UniProt enz
 
 The model works end to end: the tiers are queries that run over the pilot graphs and PlantMetWiki, and every score can be traced to the list of tiers it comes from. For the reactions the ranking gives a result by itself: of the 7,772 reactions of PlantMetWiki, 1,062 (14%) have a UniProt enzyme (601 of them also with an Rhea identifier, 430 with an EC number only, 31 with the enzyme alone), 592 (8%) have an Rhea identifier without an enzyme, 4,513 (58%) only an EC number, and 1,605 (21%) none of the three. The 4,513 reactions with an EC number only and the 1,605 without evidence are the first candidates for curation or experimental validation. For metabolites, the ranking is only as strong as the annotation tools, and because the exact-InChIKey tier is inflated in the current annotation graph (it stores the PlantMetWiki key that the pilot matched) we do not claim a hit rate. For genes, the first version found almost nothing (12 rows) because the graph had only the Solyc locus of each gene and PlantMetWiki lists about 30 tomato genes by locus. After adding the UniProt entry, the EC numbers and the OrthoDB orthologs of the genes (supporting graphs of the pilot), 266 gene-pathway pairs are scored: 62 genes reach a pathway, most of them (111 pairs) only through an EC number (score 0.40, weak because an EC number is shared by many genes) or only through an ortholog of a pathway enzyme (0.50), 35 pairs through both (0.70), and 5 through the locus (0.90), among them the gene GAME17 of the alpha-tomatine pathway. We cannot yet say that a gene belongs to a pathway on this evidence alone, because the combined tier does not fire: none of the 721 fully mapped gene-metabolite pairs shares a PlantMetWiki pathway (the same result as the pilot, where about 5 are expected by chance), and only 6 of the 350 genes of the associations lie in a tomato biosynthetic gene cluster. The weights are uncalibrated. Some tiers find nothing because their data are not in the graphs yet (chemical classes, similarity links, machine-learning predictions), so zero rows there say nothing about the biology; others return zero as a computed result and the notebooks say why, and the Rhea step is too slow for the public endpoint (60 s limit) and is not part of the ranked queries. The next steps are to calibrate the weights (holding out one validated PlantMetWiki pathway, a shuffled null model, and the ipecac pilot as a positive control), to fill the data gaps, and to review the top candidates with curators.
 
-### Visualization tool
-
-To facilitate exploration of claim-evidence data anchored to PlantMetWiki as well as the development of the evidence ontology we have built a browser-based viewer. It is part of the work repository (`visualization_tool/`, MIT license) and is published with its GitHub Pages site (<https://pathway-lod.github.io/lod-pathways-community/visualization_tool/>). Users can open their own Turtle file, that is then read and processed in the browser; the Turtle files of the pilots (Table \ref{tableTurtle}) are available as example data. Three central areas are covered by the viewer.
-
-1. **Data connection to PlantMetWiki** A global view displays all claims of the file around a representation of PlantMetWiki [@citesAsDataSource:DelPup2026PlantMetWiki] built statically from a snapshot of PlantMetWiki SPARQL endpoint (release r17.0.0). The pathways the claims are anchored to are highlighted. Claims are linked based on their shared PlantMetWiki annotation, data point or source. Selections of nodes can further be opened in detail view. The claims can be filtered by different scoring methods linked to their evidence.
-2. **Detailed visualization of the data** The detail view draws one card per resource, with literal values and types as rows and only links between resources as edges, in columns that follow the evidence model (runs, data and evidence, claims, PlantMetWiki). Clicking a card shows its Turtle and a selection of cards, or everything shown, can be exported as Turtle. The picture can be saved as PNG or SVG.
-3. **SHACL violations** The viewer validates the opened file against the SHACL [@citesAsAuthority:SHACL2017] shapes of the repository directly in the browser and shows violations and warnings on the cards, including required properties that are missing. Claims are listed with violations first, then warnings. The validated data and the report can be saved together and reopened later.
-
-The viewer is written in JavaScript with React Flow [@usesMethodIn:ReactFlow] for the detail view, Cytoscape.js [@usesMethodIn:Franz2016] for the global view and N3.js [@usesMethodIn:N3js] for parsing RDF. SHACL validation in the browser uses shacl-engine [@usesMethodIn:ShaclEngine], which evaluates SPARQL-based constraints with Comunica [@usesMethodIn:Taelman2018], the example data and the precomputed reports are built in Python with RDFLib [@usesMethodIn:RDFLib] and pySHACL [@usesMethodIn:pySHACL].
 
 ### Modelling queries as graphs 
-(Marvin)
+
+Thanks
 
 ### Ranking and scoring 
 
