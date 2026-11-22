@@ -516,8 +516,9 @@ We thank Nicola Zamboni and Adriano Rutz (ETH) for supervising Elena Del Pup dur
 
 # References
 
-::: {#refs}
-:::
+```{=latex}
+\AtEndDocument{%
+```
 
 # Appendices
 
@@ -610,3 +611,7 @@ Table: Evidence tiers, families and draft weights of the ranked queries. \label{
 | gene | omics | gene-and-metabolite-in-same-pathway | 0.60 | yes | no data yet |
 
 \endgroup
+
+```{=latex}
+}
+```
