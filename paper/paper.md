@@ -430,9 +430,11 @@ The viewer is written in JavaScript with React Flow [@usesMethodIn:ReactFlow] fo
 
 ## 3. Prioritization and querying: visualization tool for multi-omics evidence and scoring method prototype 
 
+After modelling, generating the Turtle files (Table \ref{tableTurtle}) and validating them, we want to prioritise the modelled multi-omics results, that is, to decide which candidate metabolites, reactions and genes are best supported and should be tested experimentally first. 
+
 ### Prioritization framework 
 
-After modelling, generating the Turtle files (Table \ref{tableTurtle}) and validating them, we want to prioritise the modelled multi-omics results, that is, to decide which candidate metabolites, reactions and genes are best supported and should be tested experimentally first. The approach has five steps:
+Our prioritization framework has five steps:
 
 1. define evidence tiers;
 2. write queries that encode the tiers as optional branches, using also federated services;
@@ -440,11 +442,11 @@ After modelling, generating the Turtle files (Table \ref{tableTurtle}) and valid
 4. score the resulting reactions, genes and metabolites;
 5. rank them by score, for experimental validation.
 
-**Evidence tiers.** Each kind of evidence is a *tier*, written as one SPARQL query that returns a pathway component (a metabolite, a reaction or a gene), its type, the pathway and the supporting evidence as metadata. Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC, the weakest gene tier) or a Rhea identifier on the reaction [@citesAsDataSource:Bansal2022Rhea]. The tiers model the evidence at the level of the graph, and some use federated services inside the query: PlantMetWiki (pathways, reactions, metabolites), Rhea (reaction participants), UniProt [@citesAsDataSource:UniProt2025] (enzymes), OrthoDB (orthologs) and the IDSM service [@usesMethodIn:Kratochvil2019IDSM] (chemical similarity to a pathway metabolite). Because the tiers are queries over a graph, the levels of evidence and the connectivity layers they use can also be inspected in the SPARQL examples visualiser of the SIB.
+**Evidence tiers.** Each kind of evidence is a *tier*, written as one SPARQL query that returns a pathway component (a metabolite, a reaction or a gene), its type, the pathway and the supporting evidence as metadata. Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC, the weakest gene tier) or a Rhea identifier on the reaction [@citesAsDataSource:Bansal2022Rhea]. The tiers model the evidence at the level of the graph, and some use federated services inside the query: PlantMetWiki (pathways, reactions, metabolites), Rhea (reaction participants), UniProt [@citesAsDataSource:UniProt2025] (enzymes), OrthoDB (orthologs) and the IDSM service [@usesMethodIn:Kratochvil2019IDSM] (chemical similarity to a pathway metabolite). 
 
-**Resources.** The tier queries are SPARQL examples in the SIB format, in the repository [sparql-examples-pmw](https://github.com/pathway-lod/sparql-examples-pmw) (folder `examples/MinimumInformationTiers`, one file per tier and the three ranked queries `ranked-pathway-metabolites`, `ranked-pathway-reactions` and `ranked-pathway-genes`), published with their descriptions and keywords at <https://pathway-lod.github.io/sparql-examples-pmw/>. The definitions of the tiers, the explanation of how to read the score, the draft weights and the notebooks that run all queries and keep their outputs are in the `minimum_information/` folder of the community repository ([lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community/tree/edp-visualization/minimum_information); `scoring.md` explains the score, `notebooks/05_ranked_components.ipynb` runs the ranked queries, `notebooks/weights.csv` holds the weights).
+**Resources.** Because the tiers are queries over a graph, the levels of evidence and the connectivity layers they use can also be inspected. To achieve this, we have modelled the tier queries as .ttl files using the SHACL vocabulary and made them available as SPARQL examples, following the template of the SIB sparql-examples collection [@usesMethodIn:Bolleman2025], in the repository [sparql-examples-pmw](https://github.com/pathway-lod/sparql-examples-pmw) (folder `examples/MinimumInformationTiers`, one file per tier and the three ranked queries `ranked-pathway-metabolites`, `ranked-pathway-reactions` and `ranked-pathway-genes`), published with their descriptions and keywords at <https://pathway-lod.github.io/sparql-examples-pmw/>. The definitions of the tiers, the explanation of how to read the score, the draft weights and the notebooks that run all queries and keep their outputs are in the `minimum_information/` folder of the community repository ([lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community/tree/edp-visualization/minimum_information); `scoring.md` explains the score, `notebooks/05_ranked_components.ipynb` runs the ranked queries, `notebooks/weights.csv` holds the weights).
 
-**Versioned example queries.** The 36 example queries of the PlantMetWiki SPARQL Explorer have been converted to Turtle files in the SIB sparql-examples format [@usesMethodIn:Bolleman2025] (pull request #18 of pathway-lod/SPARQLQueries). Besides the query and its description, each file holds a persistent identifier (PMWQ001 to PMWQ036) with a resolvable IRI, the creators by ORCID, a creation date, a licence, a category, keywords and a version number. A CI job checks the files against a SHACL profile, runs them through the SIB test tools and publishes an index with every version of every query. A second pull request (#17 of pathway-lod/Snorql-UI) rebuilds the explorer as a thin configuration layer on the Snorql-UI engine that WikiPathways and AOP-Wiki also use. Once both are merged and deployed, the explorer reads that index, shows the metadata next to each query, lets users pick an older version, and opens a query from a link with its parameters filled in, for example from a tutorial. The tier queries in sparql-examples-pmw use the same SIB format and could be added to the explorer in the same way.
+**Versioned example queries.** In addition to the multi-omics evidence tier queries, also the 36 example queries of the PlantMetWiki SPARQL Explorer have been converted to Turtle files in the SIB sparql-examples format [@usesMethodIn:Bolleman2025]  (pull request #18 of pathway-lod/SPARQLQueries). Besides the query and its description, each file holds a persistent identifier (PMWQ001 to PMWQ036) with a resolvable IRI, the creators by ORCID, a creation date, a licence, a category, keywords and a version number. A CI job checks the files against a SHACL profile, runs them through the SIB test tools and publishes an index with every version of every query. A second pull request (#17 of pathway-lod/Snorql-UI) rebuilds the explorer as a thin configuration layer on the Snorql-UI engine that WikiPathways [@citesForInformation:Agrawal2024] and AOP-Wiki [@citesForInformation:Martens2022AOPWiki] also use. The explorer reads that index, shows the metadata next to each query, lets users pick an older version, and opens a query from a link with its parameters filled in, for example from a tutorial. The tier queries in sparql-examples-pmw use the same SIB format and could be added to the explorer in the same way.
 
 **Score.** Tiers that are not independent are put in one *family*: a gene that is in a pathway and in a BGC with a partner also in that pathway is one piece of evidence, not two. A component takes the weight of the strongest tier it passes in each family, and the families are combined with a noisy-OR (Figure \ref{figureScoring}), so that a further independent family can only raise the score and the score never exceeds 1:
 
@@ -475,7 +477,7 @@ The model works end to end: the tiers are queries that run over the pilot graphs
 
 ### Modelling queries as graphs 
 
-The evidence tiers of the prioritization are written as SPARQL queries, and we published them as a browsable resource, built on the SIB sparql-examples format [@usesMethodIn:Bolleman2025], at <https://pathway-lod.github.io/sparql-examples-pmw/> (source: <https://github.com/pathway-lod/sparql-examples-pmw>). It demonstrates interoperable querying and visualization across PlantMetWiki and the multi-omics-supported predictions. The landing page has two groups: the evidence tiers of PlantMetWiki (EC number, Rhea, UniProt, enzyme nodes, orthologs) and the 20 queries of the *minimum information tiers*, which define the levels of evidence for the results of the pilots. Each query is a Turtle file with a description, the query itself, and keywords for what it uses (for example Rhea, co-expression, gene-metabolite association, biosynthetic gene cluster) and for the use case it belongs to, so that the tiers can be filtered by case or by data source. Every tier query returns the pathway components (reactions, metabolites or genes) that reach its level of evidence, with the putative pathway and the support as extra columns, and the three `ranked-pathway-*` queries combine the tiers into the score described above. The page of each query shows the query as a graph: the variables, classes and properties of its triple patterns are drawn as nodes and labelled edges, the variables that the query returns are highlighted, and filters and bindings are shown as separate nodes, so that a reader can see which part of the evidence model a tier uses without reading the SPARQL. The same page offers the query to download as `.rq` or Turtle and lists where it can be used. In this way the tiers can be navigated as graphs, from the weakest to the strongest evidence, and compared with the data model of the evidence graphs.
+The evidence tiers of the prioritization are written as SPARQL queries, and we published them as a browsable resource, built on the SIB sparql-examples format [@usesMethodIn:Bolleman2025], at <https://pathway-lod.github.io/sparql-examples-pmw/> (source: <https://github.com/pathway-lod/sparql-examples-pmw>). It demonstrates interoperable querying and visualization across PlantMetWiki and the multi-omics-supported predictions. The landing page has two groups: the evidence tiers of PlantMetWiki (EC number, Rhea, UniProt, enzyme nodes, orthologs; folder `examples/PlantMetWiki`) and the 20 queries of the *minimum information tiers*, which define the levels of evidence for the results of the pilots. Each query is a Turtle file with a description, the query itself, and keywords for what it uses (for example Rhea, co-expression, gene-metabolite association, biosynthetic gene cluster) and for the use case it belongs to, so that the tiers can be filtered by case or by data source. Every tier query returns the pathway components (reactions, metabolites or genes) that reach its level of evidence, with the putative pathway and the support as extra columns, and the three `ranked-pathway-*` queries combine the tiers into the score described above. The page of each query shows the query as a graph: the variables, classes and properties of its triple patterns are drawn as nodes and labelled edges, the variables that the query returns are highlighted, and filters and bindings are shown as separate nodes, so that a reader can see which part of the evidence model a tier uses without reading the SPARQL. The same page offers the query to download as `.rq` or Turtle and lists where it can be used. In this way the tiers can be navigated as graphs, from the weakest to the strongest evidence, and compared with the data model of the evidence graphs.
 
 ## 4. Reflections on the implementation of a submission system, governance, and integration with otherrepositories 
 
@@ -513,8 +515,6 @@ Elena Del Pup and Denise Slenter were supported by the ELIXIR Europe BioHackatho
 ## Acknowledgements
 We thank Nicola Zamboni and Adriano Rutz (ETH) for supervising Elena Del Pup during the preparation of the BioHackathon and the writing of this report. We thank Panayiotis Smeros (SIB) for helping with the SIB SPARQL examples interface, and Dominik Martinát (Palacký University Olomouc) for pointing us to the documentation of the correct IDSM queries for the evidence tier queries. We also thank the other BioHackathon 2026 project participants for the feedback provided during the brainstorming and poster session, and ELIXIR Europe for selecting our project and supporting us with two travel grants for onsite participation.
 
-
-# References
 
 ```{=latex}
 \AtEndDocument{%
@@ -579,36 +579,36 @@ We decide that pathway claims should refer to the PlantCyc ID rather than the Pl
 
 ## Appendix B: Tier weights of the ranked queries
 
-Table \ref{tableWeights} gives the draft weights of the evidence tiers (see "3. Ranking and Scoring of Predictions"), generated from `minimum_information/notebooks/weights.csv`. "Live" marks tiers that are part of the ranked query on the endpoint; "Data" says whether the tier finds anything in the current data. The score is read as described in `minimum_information/scoring.md`.
+Table \ref{tableWeights} gives the draft weights of the evidence tiers (see "3. Ranking and Scoring of Predictions"), generated from `minimum_information/notebooks/weights.csv`. "Live" marks tiers that are part of the ranked query on the endpoint; "Data" says whether the tier finds anything in the current data. The score is read as described in `minimum_information/scoring.md`. The last column gives the query that defines the tier, in `examples/MinimumInformationTiers` of sparql-examples-pmw. A tier that has no file of its own is a branch of the ranked query of its scope (`ranked-pathway-metabolites`, `-reactions` or `-genes`), where its family and weight are written in the comments; the standalone queries of the reaction tiers (EC, Rhea, UniProt) are in `examples/PlantMetWiki`.
 
 \begingroup
 \footnotesize
 
 Table: Evidence tiers, families and draft weights of the ranked queries. \label{tableWeights}
 
-| Scope | Family | Tier | Weight | Live | Data |
-|---|---|---|---|---|---|
-| metabolite | identity | inchikey-exact | 0.95 | yes | data |
-| metabolite | identity | inchikey-first-block | 0.80 | yes | data |
-| metabolite | relatedness | shared-chemical-class | 0.20 | yes | no data yet |
-| metabolite | relatedness | similarity-link | 0.40 | yes | no data yet |
-| metabolite | relatedness | structure-similarity | 0.30 | yes | data (about 10 min) |
-| metabolite | relatedness | idsm-similar-metabolites-in-pathway | 0.50 | yes | data (pathway PC968 only) |
-| metabolite | reaction | rhea-step-between-metabolites | 0.70 | no | too slow for the endpoint (60 s proxy limit) |
-| reaction | database identifiers | rhea | 0.60 | yes | data |
-| reaction | database identifiers | ec | 0.40 | yes | data |
-| reaction | enzyme | uniprot | 0.70 | yes | data |
-| reaction | omics | gene-catalyses-the-transformation | 0.70 | yes | no data yet |
-| reaction | omics | rhea-step-between-metabolites | 0.60 | no | too slow for the endpoint (60 s proxy limit) |
-| reaction | omics | idsm-similar-metabolite-with-coexpressed-catalysing-gene | 0.50 | no | example only |
-| reaction | prediction | ml-predicted-reaction | 0.30 | yes | no data yet |
-| gene | membership | gene-in-plantmetwiki-pathway | 0.90 | yes | data |
-| gene | membership | bgc-both-in-pathway | 0.70 | yes | data (sample graph) |
-| gene | membership | bgc-partner-in-pathway | 0.50 | yes | data (sample graph) |
-| gene | membership | genes-in-same-bgc | 0.30 | yes | data (sample graph) |
-| gene | omics | coexpressed-with-pathway-gene | 0.50 | yes | data |
-| gene | sequence | ortholog-in-pathway-species | 0.50 | yes | no data yet |
-| gene | omics | gene-and-metabolite-in-same-pathway | 0.60 | yes | no data yet |
+| Scope | Family | Tier | Weight | Live | Data | Query file |
+|---|---|---|---|---|---|---|
+| metabolite | identity | inchikey-exact | 0.95 | yes | data | ranked-pathway-metabolites |
+| metabolite | identity | inchikey-first-block | 0.80 | yes | data | ranked-pathway-metabolites |
+| metabolite | relatedness | shared-chemical-class | 0.20 | yes | no data yet | shared-chemical-class |
+| metabolite | relatedness | similarity-link | 0.40 | yes | no data yet | similarity-link |
+| metabolite | relatedness | structure-similarity | 0.30 | yes | data (about 10 min) | structure-similarity |
+| metabolite | relatedness | idsm-similar-metabolites-in-pathway | 0.50 | yes | data (pathway PC968 only) | idsm-similar-metabolites-in-pathway |
+| metabolite | reaction | rhea-step-between-metabolites | 0.70 | no | too slow for the endpoint (60 s proxy limit) | rhea-step-between-metabolites |
+| reaction | database identifiers | rhea | 0.60 | yes | data | ranked-pathway-reactions |
+| reaction | database identifiers | ec | 0.40 | yes | data | ranked-pathway-reactions |
+| reaction | enzyme | uniprot | 0.70 | yes | data | ranked-pathway-reactions |
+| reaction | omics | gene-catalyses-the-transformation | 0.70 | yes | no data yet | gene-catalyses-the-transformation |
+| reaction | omics | rhea-step-between-metabolites | 0.60 | no | too slow for the endpoint (60 s proxy limit) | rhea-step-between-metabolites |
+| reaction | omics | idsm-similar-metabolite-with-coexpressed-catalysing-gene | 0.50 | no | example only | idsm-similar-metabolite-with-coexpressed-catalysing-gene |
+| reaction | prediction | ml-predicted-reaction | 0.30 | yes | no data yet | ranked-pathway-reactions |
+| gene | membership | gene-in-plantmetwiki-pathway | 0.90 | yes | data | gene-in-plantmetwiki-pathway |
+| gene | membership | bgc-both-in-pathway | 0.70 | yes | data (sample graph) | ranked-pathway-genes |
+| gene | membership | bgc-partner-in-pathway | 0.50 | yes | data (sample graph) | ranked-pathway-genes |
+| gene | membership | genes-in-same-bgc | 0.30 | yes | data (sample graph) | genes-in-same-bgc |
+| gene | omics | coexpressed-with-pathway-gene | 0.50 | yes | data | ranked-pathway-genes |
+| gene | sequence | ortholog-in-pathway-species | 0.50 | yes | no data yet | ortholog-in-pathway-species |
+| gene | omics | gene-and-metabolite-in-same-pathway | 0.60 | yes | no data yet | gene-and-metabolite-in-same-pathway |
 
 \endgroup
 
