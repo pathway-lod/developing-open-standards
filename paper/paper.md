@@ -11,57 +11,63 @@ authors:
   - name: Elena Del Pup
     orcid: 0000-0002-9472-918X
     affiliation: 1
-  - name: Denise Slenter
-    orcid: 0000-0001-8449-1318
-    affiliation: 2
-  - name: Kumar Saurabh Singh
-    orcid: 0000-0001-8352-5897
-    affiliation: 2
   - name: Niccolò Bianchi
     orcid: 0009-0000-4202-7154
-    affiliation: 3
+    affiliation: 2
   - name: Martin Engst
     orcid: 0009-0004-5043-1420
-    affiliation: 4, 5
+    affiliation: 3, 4
   - name: Anastasiia Okhtienko
     orcid: 0009-0003-5886-811X
+    affiliation: 5
+  - name: Anshika Chowdhary
     affiliation: 6
-  - name: Sebastian Beier
-    orcid: 0000-0002-2177-8781
-    affiliation: 7
-  - name: Marvin Martens
-    orcid: 0000-0003-2230-0840
-    affiliation: 2
   - name: Liese van Ommeren
     affiliation: 1
   - name: Sajal Paudyal
-    affiliation: 2
-  - name: Anshika Chowdhary
+    affiliation: 7
+  - name: Sebastian Beier
+    orcid: 0000-0002-2177-8781
     affiliation: 8
+  - name: Marvin Martens
+    orcid: 0000-0003-2230-0840
+    affiliation: 7
+  - name: Kumar Saurabh Singh
+    orcid: 0000-0001-8352-5897
+    affiliation: 7
+  - name: Denise Slenter
+    orcid: 0000-0001-8449-1318
+    affiliation: 7
+  - name: Justin J. J. van der Hooft
+    orcid: 0000-0002-9340-5511
+    affiliation: 1
+  - name: Marnix H. Medema
+    orcid: 0000-0002-2191-2821
+    affiliation: 1
 affiliations:
   - name: Wageningen University & Research, Wageningen, NL
     ror: 04qw24q55
     index: 1
-  - name: Maastricht University, Maastricht, NL
-    ror: 02jz4aj89
-    index: 2
   - name: SR-Tiget, Milan, IT
     ror: 036jn4298
-    index: 3
+    index: 2
   - name: Institute of Organic Chemistry and Biochemistry of the Czech Academy of Sciences, Prague, Czech Republic
     ror: 04nfjn472
-    index: 4
+    index: 3
   - name: University of Chemistry and Technology Prague, Prague, Czech Republic
     ror: 05ggn0a85
-    index: 5
+    index: 4
   - name: Technical University of Munich (TUM), Munich, DE
     ror: 02kkvpp62
-    index: 6
-  - name: Institute of Bio- and Geosciences (IBG-4 Bioinformatics), Bioeconomy Science Center (BioSC), CEPLAS, Forschungszentrum Jülich GmbH, 52425 Jülich, DE
-    ror: 02nv7yv05
-    index: 7
+    index: 5
   - name: Leibniz Institute for Plant Biochemistry (IPB), Halle, DE
     ror: 01mzk5576
+    index: 6
+  - name: Maastricht University, Maastricht, NL
+    ror: 02jz4aj89
+    index: 7
+  - name: Institute of Bio- and Geosciences (IBG-4 Bioinformatics), Bioeconomy Science Center (BioSC), CEPLAS, Forschungszentrum Jülich GmbH, 52425 Jülich, DE
+    ror: 02nv7yv05
     index: 8
 date: 8 November 2026
 cito-bibliography: paper.bib
@@ -136,7 +142,7 @@ We defined seven use cases, each a type of data or prediction (for example a new
 \begingroup
 \footnotesize
 
-Table: Use cases supported by the framework, with the pilot dataset used to test each. Cases 5 and 6 are emphasised in our working list.
+Table: Use cases supported by the framework, with the pilot dataset used to test each. Cases 5 and 6 are emphasized in our working list.
 
 | # | Use case | Specification | Test data | Pilot |
 | --- | --- | --- | --- | --- |
@@ -145,7 +151,7 @@ Table: Use cases supported by the framework, with the pilot dataset used to test
 | 3 | plantiSMASH-predicted biosynthetic gene clusters (BGCs) | BGC | plantiSMASH 2.0 precalculated database, about 30,400 BGCs in 430 genomes [@citesAsDataSource:DelPup2026plantiSMASH] | `pilots/plantismash_overlap` |
 | 4 | **Transcriptomics** | TX | Tomato co-expression and expression profiles of Jeon et al. [@citesAsDataSource:Jeon2020] (also used in case 6), ATTED-II co-expression matrices [@citesAsDataSource:Obayashi2022] and Expression Atlas E-MTAB-11876 [@citesAsDataSource:Moreno2022] | `pilots/transcriptomics_overlap` |
 | 5 | **Metabolomics** | MET | Brassicaceae metabolic fingerprinting [@citesAsDataSource:Wolters2026] | `pilots/metabolomics_overlap` |
-| 6 | **Paired omics** (transcript–metabolite, transcript–protein, and protein–metabolite associations) | PO | Tomato data of Jeon et al. [@citesAsDataSource:Jeon2020], analysed with MEANtools [@usesMethodIn:Singh2025MEANtools]; *Arabidopsis thaliana* heat-stress multi-omics dataset [@citesAsDataSource:Thirumalaikumar2026] | `pilots/pairedomics_overlap` (tomato); `pilots/pairedomics_overlap/arabidopsis_heat_stress` (Arabidopsis) |
+| 6 | **Paired omics** (transcript–metabolite, transcript–protein, and protein–metabolite associations) | PO | Tomato data of Jeon et al. [@citesAsDataSource:Jeon2020], analyzed with MEANtools [@usesMethodIn:Singh2025MEANtools]; *Arabidopsis thaliana* heat-stress multi-omics dataset [@citesAsDataSource:Thirumalaikumar2026] | `pilots/pairedomics_overlap` (tomato); `pilots/pairedomics_overlap/arabidopsis_heat_stress` (Arabidopsis) |
 | 7 | "Unsupervised" graph neural network (GNN) predictions of conversion steps | UN | PlantMetBench [@citesAsDataSource:DelPup2026PlantMetBench], a benchmark built on PlantMetWiki for enzyme-reaction link prediction (13,682 proteins, 2,741 genes, 4,577 metabolites, 11,980 curated enzyme-reaction pairs; organism-disjoint split) | `pilots/unsupervised_overlap` (planned: its README describes the test data and the proposed alignment, no code yet) |
 
 \endgroup
@@ -221,7 +227,7 @@ The script `check_terms.py` of the repository keeps the term table consistent an
 
 GitHub Actions run these steps for every pull request and for every term suggestion that a maintainer accepts with a label, and regenerate the dashboard before it is published, so that the published specification always follows the term table.
 
-The coverage of the requirements by the candidate terms can be seen in the dashboard and is summarised here (Figures \ref{figureOntologies} and \ref{figureCoverage}; the term table of 3 November 2026). The 158 distinct terms of the table come from 27 vocabularies. Of these, 45 are terms of our local vocabulary `lodp:`, and the other 113 come from 26 existing ontologies: ECO (26 terms), PSI-MS (24), STATO (14), EDAM (8), OBI and SIO (7 each); the remaining 20 ontologies contribute one to three terms each. Of the 119 requirements, 59 are covered by a term of an existing ontology, 19 partly and 41 are a gap. Metabolomics has the most requirements (31) and PlantCyc (PMN) the best coverage (10 of 14 covered), while half of the requirements of paired omics (PO) and of the unsupervised predictions (UN) are a gap. Of the 130 candidate terms from existing ontologies, 75 are an exact fit and 55 a partial fit; the 49 rows of local terms are the ones without a fit.
+The coverage of the requirements by the candidate terms can be seen in the dashboard and is summarized here (Figures \ref{figureOntologies} and \ref{figureCoverage}; the term table of 3 November 2026). The 158 distinct terms of the table come from 27 vocabularies. Of these, 45 are terms of our local vocabulary `lodp:`, and the other 113 come from 26 existing ontologies: ECO (26 terms), PSI-MS (24), STATO (14), EDAM (8), OBI and SIO (7 each); the remaining 20 ontologies contribute one to three terms each. Of the 119 requirements, 59 are covered by a term of an existing ontology, 19 partly and 41 are a gap. Metabolomics has the most requirements (31) and PlantCyc (PMN) the best coverage (10 of 14 covered), while half of the requirements of paired omics (PO) and of the unsupervised predictions (UN) are a gap. Of the 130 candidate terms from existing ontologies, 75 are an exact fit and 55 a partial fit; the 49 rows of local terms are the ones without a fit.
 
 ![Distinct terms of the specification per ontology, split by use case (PMN: PlantCyc inferred, BGC: gene clusters, MET: metabolomics, PO: paired omics, UN: unsupervised predictions, TX: transcriptomics, COM: shared by all). A term that is used by several use cases is counted once in each, so the bars can be longer than the number of distinct terms; MS is the PSI-MS ontology. \label{figureOntologies}](./figures/ontology_terms_per_ontology.png)
 
@@ -230,14 +236,14 @@ The coverage of the requirements by the candidate terms can be seen in the dashb
 
 ## BioHackathon Europe Project 3 Working Groups
 
-The work is organised in four groups, which correspond to the sections of the Results:
+The work is organized in four groups, which correspond to the sections of the Results:
 
 1. **Terms.** Discuss and curate the proposed terms and the gaps in the specification, and identify the terms to propose to an existing ontology.
 2. **Pilots.** Test the alignment of the use case datasets with PlantMetWiki.
 3. **Visualization and extraction of results.** Show what the aligned data say, and rank or score predictions.
-4. **Submission system (optional).** Build and test an automated way to submit, integrate and approve new predictions, with decentralised governance.
+4. **Submission system (optional).** Build and test an automated way to submit, integrate and approve new predictions, with decentralized governance.
 
-Eleven people took part in the project: seven face-to-face at the BioHackathon and four remotely, one of them part time. They declared expertise in sixteen areas (Figure \ref{figureParticipants}). Semantic technologies were covered by RDF and SPARQL (four participants each), ontologies and shape constraints with SHACL or ShEx (three each) and evidence and provenance modelling (one). The plant omics and chemistry expertise was led by transcriptomics (seven) and multi-omics (five), followed by chemical identifiers and structures, metabolomics and plant specialised metabolism (three each), mass spectrometry annotation and statistics (two each). Engineering and community skills were GitHub Actions and CI/CD and web development (six each), FAIR data and research data management (four) and governance and community curation (three). Evidence and provenance modelling rests on one person, and mass spectrometry annotation and statistics on two, which shows where the project depends on few participants.
+Eleven people took part in the project: seven face-to-face at the BioHackathon and four remotely, one of them part time. They declared expertise in sixteen areas (Figure \ref{figureParticipants}). Semantic technologies were covered by RDF and SPARQL (four participants each), ontologies and shape constraints with SHACL or ShEx (three each) and evidence and provenance modelling (one). The plant omics and chemistry expertise was led by transcriptomics (seven) and multi-omics (five), followed by chemical identifiers and structures, metabolomics and plant specialized metabolism (three each), mass spectrometry annotation and statistics (two each). Engineering and community skills were GitHub Actions and CI/CD and web development (six each), FAIR data and research data management (four) and governance and community curation (three). Evidence and provenance modelling rests on one person, and mass spectrometry annotation and statistics on two, which shows where the project depends on few participants.
 
 The participants joined the working groups according to this expertise (Table \ref{tableGroups}). Elena Del Pup, Denise Slenter, and Kumar Saurabh Singh co-led the project.
 
@@ -259,12 +265,12 @@ Table: Working groups of the BioHackathon project and their participants (a part
 
 # Results of the BioHackathon Europe 2026
 
-The results of working groups were organised in three different objectives/topics: 
+The results of working groups were organized in three different objectives/topics: 
 
 1. Ontology modelling: new proposed ontology terms and integrative ontology prototype with CI/CD  
-2. Data integration and modelling: validation framework for transcriptomics, paired omics, and metabollite evidence 
+2. Data integration and modelling: validation framework for transcriptomics, paired omics, and metabolite evidence 
 3. Prioritization and querying: visualization tool for multi-omics evidence and scoring method prototype 
-4. Reflections on the implementation of a submission system, governance, and integration with otherrepositories 
+4. Reflections on the implementation of a submission system, governance, and integration with other repositories 
 
 ## 1. Ontology modelling: new proposed ontology terms and integrative ontology prototype with CI/CD  
 
@@ -326,7 +332,7 @@ Table: Description of the technical implementation of the integrative ontology d
 | 1 | Create a basis for supporting an integrative ontology | The Ontology Development Kit (ODK) [@usesMethodIn:Matentzoglu2022ODK] Docker image (obolibrary/odkfull, version: latest) was used to create the main structure for the integrative ontology following the Basic Formal Ontology (BFO) [@citesAsAuthority:Otte2022BFO]. The class hierarchy was manually inspected using Protege (v 5.6.9)  |
 | 2  |  Integrate SULO to define the meaning of concepts | The Simplified Upper Level Ontology (SULO) [ref](https://ceur-ws.org/Vol-4176/foust-7.pdf) was used to create a layer between the formal ontology from BFO and expected future requests for new terms from domain experts. Mappings from SULO to BFO were integrated based on work described here [ref](https://github.com/AIDAVA-DEV/sulo/blob/main/docs/papers/FOUST2025/SULO_FOUST2025-as-published.pdf). Our local vocabulary `lodp:` and the classes used in the pilot data shared from established ontologies (ECO, SO and EDAM) were aligned to SULO, so that every class present in the pilot data has an established meaning outside the project. |
 | 3 | Review ontologies to include | An integrative ontology requires decisions on the number of ontologies to include (the more different ones, the higher the maintenance load and the potential for conflicting statements). We asked how many ontologies are required to capture multi-omics evidence for plant metabolism, how complete each is, what the pros and cons of each are, and which restrictions are needed. |
-| 4 | Check specific terms for inclusion | For the terms identified as candidate terms, we analysed how well the match fits the description using the SKOS terminology. We also checked which other terms might be relevant, how the individual terms fit in the overall ontology, their availability in BioPortal, version history, clarity of the description, and the match to the described use cases. |
+| 4 | Check specific terms for inclusion | For the terms identified as candidate terms, we analyzed how well the match fits the description using the SKOS terminology. We also checked which other terms might be relevant, how the individual terms fit in the overall ontology, their availability in BioPortal, version history, clarity of the description, and the match to the described use cases. |
 | 5 | Extract relevant terms and their parents automatically | For the alignment with SULO, the parents of the shared classes are already fetched by a script (`fetch_alignment.py`); ROBOT is planned for the integrated ontology, to extract the relevant terms and their parent terms from the source ontologies automatically. The ROBOT extraction is not implemented yet. |
 | 6 | Create a GitHub CI/CD pipeline for ROBOT | GitHub Actions workflows check the local vocabulary `lodp:` and the borrowed terms whenever the specification changes (see "Continuous checks with ROBOT" below). |
 | 7 | Create placeholders for missing terms | When no existing term fits a requirement, a placeholder term is defined in the local vocabulary `lodp:` (`shape_constraints/vocab/lodp.ttl`; 67 terms, 14 classes and 53 properties). Terms that exist in other ontologies are not redefined there. The namespace is a placeholder (`example.org`) until a permanent one is chosen, for example under w3id.org. The class hierarchy is used by the shapes, which target `lodp:Claim` and `lodp:Run`. Each placeholder is a candidate for replacement, or for a request to an existing ontology (action `local_term` or `request_term` in the term table); before a term is proposed, the ROBOT checks require a standard definition, a parent class and the ontology metadata. |
@@ -353,9 +359,9 @@ To check the consistency of the vocabulary and the shapes with external referenc
 
 <!-- TODO: the workflows robot-checks.yml and borrowed-terms.yml and the script list_borrowed_terms.py were not found in the community repository or in this repository; add the location or push them. -->
 
-## 2. Data integration and modelling: validation framework for transcriptomics, paired omics, and metabollite evidence 
+## 2. Data integration and modelling: validation framework for transcriptomics, paired omics, and metabolite evidence 
 
-Each pilot checks how much of a real dataset can be aligned with PlantMetWiki, and what evidence is available. TODO: add the headline numbers of the first three pilots from their READMEs.
+Each pilot checks how much of a real dataset can be aligned with PlantMetWiki, and what evidence is available. The headline results are the following. Transcriptomics: 619 claims on 21 tomato genes, all valid against the SHACL shapes. Metabolomics: with strong evidence (a library match or a consensus of at least two tools), 139 of the 2,732 PlantMetWiki metabolites (5.1%) were detected, and 567 (20.8%) when every tier counts; 129 library-identified structures are not yet in PlantMetWiki. Paired omics: 311 of 3,406 clustered genes (9%) and 43 of 137 clustered features (31%) reach a PlantMetWiki pathway, but none of the 721 fully mapped gene-metabolite pairs shares a pathway, where about 5 are expected by chance.
 
 - **Transcriptomics** (`pilots/transcriptomics_overlap`): differential expression (Expression Atlas E-MTAB-11876, jasmonate vs mock), response profiles and gene and pathway co-expression (the tomato expression matrix of Jeon et al. [@citesAsDataSource:Jeon2020], as used in MEANtools [@usesMethodIn:Singh2025MEANtools], and ATTED-II tomato matrices) of the 21 PlantMetWiki tomato genes with a Solyc locus, processed through [nf-core/rnaseq](https://github.com/nf-core/RNAseq) and [nf-core/differentialabundance](https://github.com/nf-core/differentialabundance) outputs; each claim is an RDF statement whose subject is the PlantMetWiki gene (or the PlantCyc pathway), with no anchor tier; 619 claims in the pilots (_i.e._ 19 differential-expression, 432 response-profile, 163 gene-pair and 5 pathway co-expression claims) were validated against the SHACL shapes (Figure \ref{figureTXcoexpression}).
 - **Metabolomics** (`pilots/metabolomics_overlap`): LC-MS/MS annotations of 14 Brassicaceae species [@citesAsDataSource:Wolters2026] matched to PlantMetWiki metabolites on the first InChIKey block, with six evidence tiers from the GNPS library match [@usesMethodIn:Wang2016GNPS] to MS2Query analogues [@usesMethodIn:deJonge2023MS2Query]; the three annotation tools (SIRIUS [@usesMethodIn:Duhrkop2019SIRIUS], MS2Query and DreaMS [@usesMethodIn:Bushuiev2025DreaMS]) are combined in a consensus (agreement of three tools counts 1.0, two tools 0.5).
@@ -369,7 +375,7 @@ The transcriptomics pilot tests the evidence model on measured –not predicted�
 
 **Four statements:** Each claim is an `rdf:Statement` whose IRI is built from its 'subject-predicate-object' triple: a gene is differentially expressed in a contrast; a gene's expression deviates in a condition; two genes are correlated in expression, with the gene IRIs in alphabetical; and a pathway's genes are co-expressed more than random gene sets of the same size. One claim can be supported by several datasets, thus it will show as one node with several evidence nodes. Since the contrast or condition are the object of the triple, its details (_i.e._ treatment, plant structure, replicates) are statements on the claim –not separate nodes.
 
-**Evidence and run:** For each dataset, the values are added as an ECO-typed evidence node [@citesAsAuthority:Nadendla2022], linked (`prov:wasGeneratedBy`) to a run node that holds the provenance (_i.e._ software, versions, parameters, input matrix and its unit, normalisation method). Both are written by `to_turtle.py` from the tables and provenance files of four scripts:
+**Evidence and run:** For each dataset, the values are added as an ECO-typed evidence node [@citesAsAuthority:Nadendla2022], linked (`prov:wasGeneratedBy`) to a run node that holds the provenance (_i.e._ software, versions, parameters, input matrix and its unit, normalization method). Both are written by `to_turtle.py` from the tables and provenance files of four scripts:
 - `export_differential.py` reads the [nf-core/differentialabundance](https://github.com/nf-core/differentialabundance) output folder (DESeq2 results [@usesMethodIn:Love2014], plus the parameters and versions in `pipeline_info/`);
 - `coexpression_table.py`, `pathway_coexpression_table.py` and `expression_profile_table.py` read the expression matrix of [nf-core/rnaseq](https://github.com/nf-core/RNAseq) (`salmon.merged.gene_tpm.tsv` [@usesMethodIn:Patro2017]).
 
@@ -387,7 +393,7 @@ Molecular features were mapped to PlantMetWiki/PlantCyc using hierarchical ident
 
 The pilot informed proposed extensions to the LODP paired-omics requirements (PO-01–PO-22). In particular, PO-04/15 should support explicitly typed quantitative metrics with defined scopes, accommodating correlation coefficients as well as factor loadings, explained variance, and network weights generated by methods such as MOFA and network-based integration. PO-11/12 should distinguish identifier-mapping provenance from pathway relationships, including exact matches, hierarchy, and shared reactions. Further requirements address pairwise and non-pairwise integration results, evidence direction, experimental conditions, timepoints, matched samples, statistical models, and computational provenance (PO-01/13, PO-16–20). These extensions remain to be implemented and evaluated against LODP SHACL constraints.
 
-### Building Evidence from multi-omics studies in plant specialised metabolism (pilots/falcarindiol-evidence-pilot)
+### Building Evidence from multi-omics studies in plant specialized metabolism (pilots/falcarindiol-evidence-pilot)
 
 We contributed to the development of a community-supported Minimum Information Standard (MIS) for representing predicted plant specialized metabolic pathways, focusing on how literature-derived knowledge, experimental evidence, and multi-omics predictions can be integrated into interoperable, machine-actionable knowledge graphs. Using falcarindiol biosynthesis in tomato as a representative case study, we developed an RDF-based framework connecting genes, proteins, metabolites, biochemical reactions, and scientific assertions to their supporting evidence and provenance. Particular emphasis was placed on distinguishing experimentally characterized enzymatic reactions, genetically supported pathway involvement, and computationally predicted functions. We reviewed the existing community ontology-term registry and proposed refinements and additional requirements covering evidence representation, uncertainty, biosynthetic gene clusters, co-expression, gene–metabolite associations, and temporal relationships, prioritizing established vocabularies such as ECO, PROV-O, STATO, and QUDT. To support the validation and integration of experimental multi-omics datasets and pathway predictions, we developed example Turtle/RDF representations and SHACL validation constraints aligned with the proposed MIS requirements. These address biological identifiers, evidence provenance, statistical associations, temporal lag information, and the distinction between validated and hypothetical pathway relationships. SPARQL competency queries were developed to demonstrate how experimental findings and computational predictions can be retrieved and compared, while a preliminary GPML visualization illustrated the connection between pathway diagrams and semantic representations. A reproducible falcarindiol pilot was also prepared for the pathway-lod community repository, providing a practical example for testing and refining the proposed standards. Finally, we explored a claim-centric approach for aligning pathway-related predictions across bioinformatics pipelines, in which predictions of gene function, biochemical reactions, and gene–metabolite relationships can be associated with their originating analyses, datasets, methods, and supporting or conflicting evidence. This provides a conceptual foundation for comparing predictions from different computational workflows and developing future evidence-aware scoring and prioritization strategies based on evidence strength, provenance, statistical support, and community-defined criteria. Although a unified scoring framework remains to be developed and benchmarked, our work establishes reusable semantic representations, validation requirements, and a biological pilot that can support its future implementation. Together, these contributions help bridge the gap between heterogeneous pathway predictions and FAIR, transparent, and community-curated knowledge resources for plant specialized metabolism.
 
@@ -421,11 +427,11 @@ To facilitate exploration of claim-evidence data anchored to PlantMetWiki as wel
 
 The viewer is written in JavaScript with React Flow [@usesMethodIn:ReactFlow] for the detail view, Cytoscape.js [@usesMethodIn:Franz2016] for the global view and N3.js [@usesMethodIn:N3js] for parsing RDF. SHACL validation in the browser uses shacl-engine [@usesMethodIn:ShaclEngine], which evaluates SPARQL-based constraints with Comunica [@usesMethodIn:Taelman2018], the example data and the precomputed reports are built in Python with RDFLib [@usesMethodIn:RDFLib] and pySHACL [@usesMethodIn:pySHACL].
 
-![The detail view of one claim of the pilots, a metabolite annotation of feature 1004 of the dataset MTBLS14270 with a DreaMS similarity of 0.5881. The cards are coloured by role (claim, evidence, data), the rows by the status of their term, and the labels at the right of each row give the requirements of the term table that the property serves. The legend at the bottom right explains the colours and marks. \label{figureDetail}](./figures/viewer_detail_view.png){ width=100% }
+![The detail view of one claim of the pilots, a metabolite annotation of feature 1004 of the dataset MTBLS14270 with a DreaMS similarity of 0.5881. The cards are coloured by role (claim, evidence, data), the rows by the status of their term, and the labels at the right of each row give the requirements of the term table that the property serves. The legend at the bottom right explains the colors and marks. \label{figureDetail}](./figures/viewer_detail_view.png){ width=100% }
 
-**Scoring of the claims.** The claims can be ranked by a strength metric that comes with their evidence, in the score panel of the global view (Figure \ref{figureScore}). Three metrics are implemented at present: the DreaMS similarity of the top hit of the metabolite annotations (1798 claims), the approximate confidence of SIRIUS (585 claims) and the p-value of the correlation between a gene and a metabolite (1293 claims); each claim carries at most the metrics of its own evidence, so a claim passes only the metrics that apply to it. For the chosen metric the panel gives the property, whether higher or lower values are better, the theoretical range (marked as assumed when it is not defined by the method), the range and median in the file, and the number of claims with the score, together with a histogram of the values over the theoretical range. The user then sets a cut-off as the number of best claims (top 100 in the figure), the claims above the cut-off are circled in the global view around the pathways they are anchored to, and they can be opened in the detail view. The three metrics are not comparable and are not combined here; combining them is the aim of the scoring method described in Section 3.
+**Scoring of the claims.** The claims can be ranked by a strength metric that comes with their evidence, in the score panel of the global view (Figure \ref{figureScore}). Three metrics are implemented at present: the DreaMS similarity of the top hit of the metabolite annotations (1,798 claims), the approximate confidence of SIRIUS (585 claims) and the p-value of the correlation between a gene and a metabolite (1,293 claims); each claim carries at most the metrics of its own evidence, so a claim passes only the metrics that apply to it. For the chosen metric the panel gives the property, whether higher or lower values are better, the theoretical range (marked as assumed when it is not defined by the method), the range and median in the file, and the number of claims with the score, together with a histogram of the values over the theoretical range. The user then sets a cut-off as the number of best claims (top 100 in the figure), the claims above the cut-off are circled in the global view around the pathways they are anchored to, and they can be opened in the detail view. The three metrics are not comparable and are not combined here; combining them is the aim of the scoring method described in Section 3.
 
-![The global view with the score panel. The claims are placed around PlantMetWiki (pathways in the inner rings, grouped by category), and the panel at the right shows the DreaMS similarity of the 1798 claims that carry it (range 0.438 to 0.972, median 0.65) with the cut-off of the top 100 (0.843); these claims are circled in the global view and listed below. \label{figureScore}](./figures/viewer_score_panel.png){ width=100% }
+![The global view with the score panel. The claims are placed around PlantMetWiki (pathways in the inner rings, grouped by category), and the panel at the right shows the DreaMS similarity of the 1,798 claims that carry it (range 0.438 to 0.972, median 0.65) with the cut-off of the top 100 (0.843); these claims are circled in the global view and listed below. \label{figureScore}](./figures/viewer_score_panel.png){ width=100% }
 
 
 ## 3. Prioritization and querying: visualization tool for multi-omics evidence and scoring method prototype 
@@ -442,44 +448,55 @@ Our prioritization framework has five steps:
 4. score the resulting reactions, genes and metabolites;
 5. rank them by score, for experimental validation.
 
-**Evidence tiers.** Each kind of evidence is a *tier*, written as one SPARQL query that returns a pathway component (a metabolite, a reaction or a gene), its type, the pathway and the supporting evidence as metadata. Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC, the weakest gene tier) or a Rhea identifier on the reaction [@citesAsDataSource:Bansal2022Rhea]. The tiers model the evidence at the level of the graph, and some use federated services inside the query: PlantMetWiki (pathways, reactions, metabolites), Rhea (reaction participants), UniProt [@citesAsDataSource:UniProt2025] (enzymes), OrthoDB (orthologs) and the IDSM service [@usesMethodIn:Kratochvil2019IDSM] (chemical similarity to a pathway metabolite). 
+We defined each kind of evidence as a *tier*, written as one SPARQL query that returns a pathway component (a metabolite, a reaction or a gene), its type, the pathway and the supporting evidence as metadata. Examples are an annotation match to a pathway metabolite, a gene listed in the pathway, two genes in the same biosynthetic gene cluster (BGC, the weakest gene tier) or a Rhea identifier on the reaction [@citesAsDataSource:Bansal2022Rhea]. The tiers model the evidence at the level of the graph, and some use federated services inside the query: PlantMetWiki (pathways, reactions, metabolites), Rhea (reaction participants), UniProt [@citesAsDataSource:UniProt2025] (enzymes), OrthoDB (orthologs) and the IDSM service [@usesMethodIn:Kratochvil2019IDSM] (chemical similarity to a pathway metabolite). 
 
-**Resources.** Because the tiers are queries over a graph, the levels of evidence and the connectivity layers they use can also be inspected. To achieve this, we have modelled the tier queries as .ttl files using the SHACL vocabulary and made them available as SPARQL examples, following the template of the SIB sparql-examples collection [@usesMethodIn:Bolleman2025], in the repository [sparql-examples-pmw](https://github.com/pathway-lod/sparql-examples-pmw) (folder `examples/MinimumInformationTiers`, one file per tier and the three ranked queries `ranked-pathway-metabolites`, `ranked-pathway-reactions` and `ranked-pathway-genes`), published with their descriptions and keywords at <https://pathway-lod.github.io/sparql-examples-pmw/>. The definitions of the tiers, the explanation of how to read the score, the draft weights and the notebooks that run all queries and keep their outputs are in the `minimum_information/` folder of the community repository ([lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community/tree/edp-visualization/minimum_information); `scoring.md` explains the score, `notebooks/05_ranked_components.ipynb` runs the ranked queries, `notebooks/weights.csv` holds the weights).
+### Modelling queries as graphs 
 
-**Versioned example queries.** In addition to the multi-omics evidence tier queries, also the 36 example queries of the PlantMetWiki SPARQL Explorer have been converted to Turtle files in the SIB sparql-examples format [@usesMethodIn:Bolleman2025]  (pull request #18 of pathway-lod/SPARQLQueries). Besides the query and its description, each file holds a persistent identifier (PMWQ001 to PMWQ036) with a resolvable IRI, the creators by ORCID, a creation date, a licence, a category, keywords and a version number. A CI job checks the files against a SHACL profile, runs them through the SIB test tools and publishes an index with every version of every query. A second pull request (#17 of pathway-lod/Snorql-UI) rebuilds the explorer as a thin configuration layer on the Snorql-UI engine that WikiPathways [@citesForInformation:Agrawal2024] and AOP-Wiki [@citesForInformation:Martens2022AOPWiki] also use. The explorer reads that index, shows the metadata next to each query, lets users pick an older version, and opens a query from a link with its parameters filled in, for example from a tutorial. The tier queries in sparql-examples-pmw use the same SIB format and could be added to the explorer in the same way.
+The evidence tiers of the prioritization are written as SPARQL queries and published as a browsable resource at <https://pathway-lod.github.io/sparql-examples-pmw/> (source: <https://github.com/pathway-lod/sparql-examples-pmw>). We modelled each query as a Turtle file with the SHACL vocabulary, following the template of the SIB sparql-examples collection [@usesMethodIn:Bolleman2025]. The landing page has two groups: the evidence tiers of PlantMetWiki (EC number, Rhea, UniProt, enzyme nodes, orthologs; folder `examples/PlantMetWiki`) and the 20 queries of the *minimum information tiers* (folder `examples/MinimumInformationTiers`), which define the levels of evidence for the results of the pilots: one file per tier and the three ranked queries `ranked-pathway-metabolites`, `ranked-pathway-reactions` and `ranked-pathway-genes`. Each file holds a description, the query itself, and keywords for what it uses (for example Rhea, co-expression, gene-metabolite association, biosynthetic gene cluster) and for the use case it belongs to, so that the tiers can be filtered by case or by data source. Every tier query returns the pathway components (reactions, metabolites or genes) that reach its level of evidence, with the putative pathway and the support as extra columns, and the ranked queries combine the tiers into the score described above. The resource demonstrates interoperable querying and visualization across PlantMetWiki and the multi-omics-supported predictions.
 
-**Score.** Tiers that are not independent are put in one *family*: a gene that is in a pathway and in a BGC with a partner also in that pathway is one piece of evidence, not two. A component takes the weight of the strongest tier it passes in each family, and the families are combined with a noisy-OR (Figure \ref{figureScoring}), so that a further independent family can only raise the score and the score never exceeds 1:
+Because the tiers are queries over a graph, the levels of evidence and the connectivity layers they use can also be inspected. The page of each query shows the query as a graph: the variables, classes and properties of its triple patterns are drawn as nodes and labelled edges, the variables that the query returns are highlighted, and filters and bindings are shown as separate nodes, so that a reader can see which part of the evidence model a tier uses without reading the SPARQL. The same page offers the query to download as `.rq` or Turtle and lists where it can be used. In this way the tiers can be navigated as graphs and compared with the data model of the evidence graphs. Figures \ref{figureQueryLocal} and \ref{figureQueryFederated} show two examples, one query on the local evidence graph and one that calls a federated service.
+
+![Graph view of the tier query `genes-in-same-bgc` (the lowest gene tier): the genes (`?component`) of a plantiSMASH biosynthetic gene cluster (`obo:SO_0002357`) that has two or more genes. Green: variables returned by the query; yellow: a class; orange: a literal; the other nodes are variables, expressions and filters. Redrawn from the graph that the query page generates, with the cluster size and the component type shown as separate variables. \label{figureQueryLocal}](./figures/sparql_graph_genes-in-same-bgc.png)
+
+![Graph view of the tier query `metabolite-similar-to-pathway-metabolite-idsm`, which calls a federated service. A detected metabolite (given by its SMILES) is searched in the IDSM Sachem service for similar ChEBI compounds (similarity of at least 0.9); the ChEBI identifier is then matched to the metabolites of PlantMetWiki, which gives the pathways. The two frames are the two endpoints. Colors as in Figure \ref{figureQueryLocal}; simplified from the generated graph (the string functions that build the identifiers are shown as one dotted link). \label{figureQueryFederated}](./figures/sparql_graph_idsm-federated.png)
+
+The definitions of the tiers, the explanation of how to read the score, the draft weights and the notebooks that run all queries and keep their outputs are in the `minimum_information/` folder of the community repository ([lod-pathways-community](https://github.com/pathway-lod/lod-pathways-community/tree/main/minimum_information); `scoring.md` explains the score, `notebooks/05_ranked_components.ipynb` runs the ranked queries, `notebooks/weights.csv` holds the weights).
+
+### Versioned example queries in PlantMetWiki 
+In addition to the multi-omics evidence tier queries, also the 36 example queries of the PlantMetWiki SPARQL Explorer have been converted to Turtle files in the SIB sparql-examples format [@usesMethodIn:Bolleman2025]  (pull request #18 of pathway-lod/SPARQLQueries). Besides the query and its description, each file holds a persistent identifier (PMWQ001 to PMWQ036) with a resolvable IRI, the creators by ORCID, a creation date, a licence, a category, keywords and a version number. A CI job checks the files against a SHACL profile, runs them through the SIB test tools and publishes an index with every version of every query. A second pull request (#17 of pathway-lod/Snorql-UI) rebuilds the explorer as a thin configuration layer on the Snorql-UI engine that WikiPathways [@citesForInformation:Agrawal2024] and AOP-Wiki [@citesForInformation:Martens2022AOPWiki] also use. The explorer reads that index, shows the metadata next to each query, lets users pick an older version, and opens a query from a link with its parameters filled in, for example from a tutorial. The tier queries in sparql-examples-pmw use the same SIB format and could be added to the explorer in the same way.
+
+### Defining a scoring method 
+ Tiers that are not independent are put in one *family*: a gene that is in a pathway and in a BGC with a partner also in that pathway is one piece of evidence, not two. A component takes the weight of the strongest tier it passes in each family, and the families are combined with a noisy-OR (Figure \ref{figureScoring}), so that a further independent family can only raise the score and the score never exceeds 1:
 
 $$\mathrm{score} = 1 - \prod_{f}\,(1 - w_f), \qquad w_f = \max_{t \in f}\; w_t$$
 
-For metabolites the identity weight is also multiplied by the number of annotation tools that agree (0.65 for one tool, 0.80 for two, 1.0 from three). One ranked query per scope (metabolites, reactions, genes) holds all tiers as optional branches, so a component keeps the evidence it has and none is required. The weights (Appendix B) are drafts, and until they are calibrated the score is an ordering of the evidence, not a probability.
+For metabolites the identity weight is also multiplied by the number of annotation tools that agree (0.65 for one tool, 0.80 for two, 1.0 from three). One ranked query per scope (metabolites, reactions, genes) holds all tiers as optional branches, so a component keeps the evidence it has and none is required. The weights (Appendix B) are drafts to establish an ordering of the evidence, but they are not yet calibrated to reflect a probability.
 
 ![From evidence to score, shown for a gene. Each tier is a query (federated services included); tiers that are not independent share a family and only the strongest counts; the families are combined with a noisy-OR into a score that ranks the components. Weights are drafts. \label{figureScoring}](./figures/scoring_schema.png)
 
-**What we have.** The three ranked queries were run on PlantMetWiki r17.0.0_20260605-171052 and the evidence graphs of the pilots (Table \ref{tableRanked}; TODO: update the numbers before submission; `minimum_information/notebooks/results/summary.csv`):
+### The Resulting ranked metabolites, genes, and reactions 
+The three ranked queries were run on PlantMetWiki r17.0.0_20260605-171052 and the evidence graphs of the pilots (Table \ref{tableRanked}; run dates, row counts and run times in `minimum_information/notebooks/results/summary.csv`):
 
 \begingroup
 \footnotesize
 
-Table: Results of the ranked queries (run on 2026-11-12). \label{tableRanked}
+Table: Results of the ranked queries (run on 2026-11-18). \label{tableRanked}
 
 | Scope | Rows scored | Run time | What the evidence is |
 |---|---|---|---|
-| Metabolites | 3,688 metabolite-pathway pairs (492 metabolites, 674 pathways) | about 10 min | annotation matches of the metabolomics pilot (exact InChIKey or first block), a formula-layer proxy for structure similarity (934 pairs only by this tier) and IDSM similarity to the substrates of one pathway (19) |
-| Reactions | 7,772 (all PlantMetWiki reactions): 1,062 with a UniProt enzyme (score 0.70 to 0.88), 592 with Rhea but no enzyme (0.60), 4,513 with EC only (0.40), 1,605 with none (0) | 3 s | Rhea identifier, EC number and UniProt enzyme of the reaction |
+| Metabolites | 3,688 metabolite-pathway pairs (492 metabolites, 674 pathways) | about 11 min | annotation matches of the metabolomics pilot (exact InChIKey or first block), a formula-layer proxy for structure similarity (934 pairs only by this tier) and IDSM similarity to the substrates of one pathway (19) |
+| Reactions | 7,772 (all PlantMetWiki reactions): 1,062 with a UniProt enzyme (score 0.70 to 0.88), 592 with Rhea but no enzyme (0.60), 4,513 with EC only (0.40), 1,605 with none (0) | 2 s | Rhea identifier, EC number and UniProt enzyme of the reaction |
 | Genes | 266 gene-pathway pairs (62 genes, 213 pathways) | about 2 min | the gene tiers of the pilot: locus (4 genes: GAME17 of tomato and three genes of the Arabidopsis cluster of the sample graph), UniProt entry (none), EC number of the gene (47 genes, weak), OrthoDB ortholog of a pathway enzyme (23 genes), and the genes of the tomato and Arabidopsis gene clusters |
 
 \endgroup
 
 Two worked examples: a reaction with an Rhea identifier (0.60) and a UniProt enzyme (0.70) in different families scores 1 - 0.40 x 0.30 = 0.88, and one with an EC number only scores 0.40; a gene in a pathway (0.90) that is also in a BGC with a partner (0.70) keeps 0.90, because both tiers belong to the same family. Changing all weights by up to 20% hardly changed the order (rank correlation above 0.99).
 
-The model works end to end: the tiers are queries that run over the pilot graphs and PlantMetWiki, and every score can be traced to the list of tiers it comes from. For the reactions the ranking gives a result by itself: of the 7,772 reactions of PlantMetWiki, 1,062 (14%) have a UniProt enzyme (601 of them also with an Rhea identifier, 430 with an EC number only, 31 with the enzyme alone), 592 (8%) have an Rhea identifier without an enzyme, 4,513 (58%) only an EC number, and 1,605 (21%) none of the three. The 4,513 reactions with an EC number only and the 1,605 without evidence are the first candidates for curation or experimental validation. For metabolites, the ranking is only as strong as the annotation tools, and because the exact-InChIKey tier is inflated in the current annotation graph (it stores the PlantMetWiki key that the pilot matched) we do not claim a hit rate. For genes, the first version found almost nothing (12 rows) because the graph had only the Solyc locus of each gene and PlantMetWiki lists about 30 tomato genes by locus. After adding the UniProt entry, the EC numbers and the OrthoDB orthologs of the genes (supporting graphs of the pilot), 266 gene-pathway pairs are scored: 62 genes reach a pathway, most of them (111 pairs) only through an EC number (score 0.40, weak because an EC number is shared by many genes) or only through an ortholog of a pathway enzyme (0.50), 35 pairs through both (0.70), and 5 through the locus (0.90), among them the gene GAME17 of the alpha-tomatine pathway. We cannot yet say that a gene belongs to a pathway on this evidence alone, because the combined tier does not fire: none of the 721 fully mapped gene-metabolite pairs shares a PlantMetWiki pathway (the same result as the pilot, where about 5 are expected by chance), and only 6 of the 350 genes of the associations lie in a tomato biosynthetic gene cluster. The weights are uncalibrated. Some tiers find nothing because their data are not in the graphs yet (chemical classes, similarity links, machine-learning predictions), so zero rows there say nothing about the biology; others return zero as a computed result and the notebooks document why.
+The model works end to end: the tiers are queries that run over the pilot graphs and PlantMetWiki, and every score can be traced to the list of tiers it comes from. For the reactions the ranking gives a result by itself: of the 7,772 reactions of PlantMetWiki, 1,062 (14%) have a UniProt enzyme (601 of them also with an Rhea identifier, 430 with an EC number only, 31 with the enzyme alone), 592 (8%) have an Rhea identifier without an enzyme, 4,513 (58%) only an EC number, and 1,605 (21%) none of the three. The 4,513 reactions with an EC number only and the 1,605 without evidence are the first candidates for curation or experimental validation. For metabolites, the ranking is only as strong as the annotation tools, and because the exact-InChIKey tier is inflated in the current annotation graph (it stores the PlantMetWiki key that the pilot matched) we do not claim a hit rate. For genes, the first version found almost nothing (12 rows) because the graph had only the Solyc locus of each gene and PlantMetWiki lists about 30 tomato genes by locus. After adding the UniProt entry, the EC numbers and the OrthoDB orthologs of the genes (supporting graphs of the pilot), 266 gene-pathway pairs are scored: 62 genes reach a pathway, most of them (111 pairs) only through an EC number (score 0.40, weak because an EC number is shared by many genes) or only through an ortholog of a pathway enzyme (0.50), 35 pairs through both (0.70), and 5 through the locus (0.90), among them the gene GAME17 of the alpha-tomatine pathway. We cannot yet say that a gene belongs to a pathway on this evidence alone, because the combined tier does not fire: none of the 721 fully mapped gene-metabolite pairs shares a PlantMetWiki pathway (the same result as the pilot, where about 5 are expected by chance), and only 6 of the 350 genes of the associations lie in a tomato biosynthetic gene cluster. Some tiers find nothing because their data are not in the graphs yet (chemical classes, similarity links, machine-learning predictions), so zero rows there say nothing about the biology; others return zero as a computed result and the notebooks document why.
 
-### Modelling queries as graphs 
 
-The evidence tiers of the prioritization are written as SPARQL queries, and we published them as a browsable resource, built on the SIB sparql-examples format [@usesMethodIn:Bolleman2025], at <https://pathway-lod.github.io/sparql-examples-pmw/> (source: <https://github.com/pathway-lod/sparql-examples-pmw>). It demonstrates interoperable querying and visualization across PlantMetWiki and the multi-omics-supported predictions. The landing page has two groups: the evidence tiers of PlantMetWiki (EC number, Rhea, UniProt, enzyme nodes, orthologs; folder `examples/PlantMetWiki`) and the 20 queries of the *minimum information tiers*, which define the levels of evidence for the results of the pilots. Each query is a Turtle file with a description, the query itself, and keywords for what it uses (for example Rhea, co-expression, gene-metabolite association, biosynthetic gene cluster) and for the use case it belongs to, so that the tiers can be filtered by case or by data source. Every tier query returns the pathway components (reactions, metabolites or genes) that reach its level of evidence, with the putative pathway and the support as extra columns, and the three `ranked-pathway-*` queries combine the tiers into the score described above. The page of each query shows the query as a graph: the variables, classes and properties of its triple patterns are drawn as nodes and labelled edges, the variables that the query returns are highlighted, and filters and bindings are shown as separate nodes, so that a reader can see which part of the evidence model a tier uses without reading the SPARQL. The same page offers the query to download as `.rq` or Turtle and lists where it can be used. In this way the tiers can be navigated as graphs, from the weakest to the strongest evidence, and compared with the data model of the evidence graphs.
 
-## 4. Reflections on the implementation of a submission system, governance, and integration with otherrepositories 
+## 4. Reflections on the implementation of a submission system, governance, and integration with other repositories 
 
 ### Reuse of data in public repositories
 
@@ -487,7 +504,7 @@ The ISA mapping separates the information that can go to a public repository (sa
 
 ### Submission system 
 
-The discussion workflow of the specification (issue forms, labels and Actions that open pull requests) is already an automated, reviewed way to approve *terms*. In the future, we will work towards an automated system to submit, validate (against the SHACL shapes) and approve new *predictions*. A submission system will require further reflection on governance and the potential for decentralised governance: who may propose, who may approve, and how decisions are traced. Today only people with triage or write access to the repository can approve, and every change passes a reviewed pull request. 
+Users can already interact with the discussion workflow of the specification (issue forms, labels and Actions that open pull requests). That is already an automated, reviewed way to approve *terms*, which passes through a reviewed pull request. In the future, we will work towards an automated system to submit new multiomics datasets, validate (against the SHACL shapes) and approve new *predictions*. A submission system will require further reflection on governance and the potential for decentralized governance [@citesForInformation:kuhn2026robust]: who may propose, who may approve, and how decisions are traced. During the BioHackathon, we investigated the potential use of Nanopublications. 
 
 
 # Discussion
@@ -497,7 +514,7 @@ Our project expands the plant metabolism knowledge graph PlantMetWiki with predi
 
 The paired-omics use cases revealed gaps in both evidence classification and reporting requirements. Existing ECO terms do not clearly distinguish the cross-omics abundance associations considered here, motivating evaluation of a new term, provisionally named *cross-omics abundance association evidence*. At the same time, the LODP specification must accommodate methods producing different result structures and metrics: correlations generate molecular pairs and coefficients, MOFA produces latent factors, feature weights, and explained variance, while network approaches generate modules and connectivity scores. We therefore propose a common representation of integration results with method-specific, typed metrics linked to their appropriate scope, rather than a fixed set of correlation-related properties. Experimental conditions, matched samples, timepoints, preprocessing, and analysis parameters must remain traceable through the computational provenance. Where applicable, evidence direction should be represented separately from the biological assertion, distinguishing negative correlations, signed factor weights, and differential abundance effects without equating them with biological inhibition or activation.
 
-We built a scoring framework for pathway prioritization and hypothesis generation. The predictions for the proof-of-concept species are mapped to a common semantic representation and aligned with experimental observations. The ranking of candidate components is transparent, because every score is the list of tiers passed and their weights, but it is not yet calibrated. A scoring framework that ranks candidates by evidence strength, completeness, provenance and reproducibility will be benchmarked using the experimentally validated pathways already curated in PlantMetWiki as ground truth. This gives an objective measure of whether evidence-based scoring adds discriminative power, and yields a prioritised list of candidate components that are well supported but not yet experimentally described, which are of direct interest for follow-up work in both laboratories. In the future, calibration of these weights will be needed.
+We built a scoring framework for pathway prioritization and hypothesis generation. The predictions for the proof-of-concept species are mapped to a common semantic representation and aligned with experimental observations. The ranking of candidate components is transparent, because every score is the list of tiers passed and their weights, but it is not yet calibrated. A scoring framework that ranks candidates by evidence strength, completeness, provenance and reproducibility will be benchmarked using the experimentally validated pathways already curated in PlantMetWiki as ground truth. This gives an objective measure of whether evidence-based scoring adds discriminative power, and yields a prioritized list of candidate components that are well supported but not yet experimentally described, which are of direct interest for follow-up work in both laboratories. In the future, calibration of these weights will be needed.
 
 ## Limitations
 
@@ -505,7 +522,7 @@ The specification is a draft. The local `lodp:` terms are placeholders until the
 
 ## Outlook
 
-In the future, we hope that our workflow will establish minimum information guidelines for the representation of multi-omics evidence for pathway reconstruction. Other minimum information criteria in the natural product community are MIBiG [@citesAsDataSource:Zdouc2025] and MITE [@citesForInformation:Rutz2026]. Unlinke these, our framework is built directly on a machine-actionable RDF-based model, so that the description can be validated, queried and visualized without conversion, and reuses terms of existing ontologies instead of defining a new vocabulary. The alignment of our Turtle files with SULO shows how the model relates to other upper-level resources.
+In the future, we hope that our workflow will establish minimum information guidelines for the representation of multi-omics evidence for pathway reconstruction. Other minimum information criteria in the natural product community are MIBiG [@citesAsDataSource:Zdouc2025] and MITE [@citesForInformation:Rutz2026]. Unlike these, our framework is built directly on a machine-actionable RDF-based model, so that the description can be validated, queried and visualized without conversion, and reuses terms of existing ontologies instead of defining a new vocabulary. The alignment of our Turtle files with SULO shows how the model relates to other upper-level resources.
 
 We intend to submit the seven term requests of section 1 of the Results to the maintainers of the existing ontologies, mainly ECO and STATO, and to replace the local `lodp:` terms by the accepted ones in the specification and the shapes. The alignment with SULO and the ROBOT checks are to be added to the community repository. The minimum information guidelines will be released openly and registered on FAIRsharing [@citesAsAuthority:Wilkinson2016] to maximize visibility, reuse and long-term sustainability, and machine-actionable validation of multi-omics datasets (transcriptomics and metabolomics) is the next use of the shapes. Overall, the work contributes towards a FAIR and interoperable framework for integrating experimentally validated pathway knowledge, multi-omics evidence and computational predictions, enabling more reproducible and scalable discovery of plant specialized metabolic pathways.
 
@@ -555,8 +572,8 @@ Table: The 22 transcriptomics (TX) requirements in the pilot. \label{tableTXterm
 | TX-01 RNA-seq assay | not used: the ECO class of the evidence (TX-02) states the assay | remove |
 | TX-02 RNA-seq evidence | `ECO:0006069` on every evidence node; co-expression also `ECO:0007590` | add `ECO:0007590`, and `ECO:0007301` for microarrays |
 | TX-03 raw read count | input unit of a DESeq2 run (`STATO:0000064`) | the term is defined for one count, not a matrix |
-| TX-04 normalised value | input unit of the run (TPM or RPKM) | – |
-| TX-05 normalisation method | normalisation method of a DESeq2 run (`STATO:0000590`) | `STATO:0000590` as the primary term |
+| TX-04 normalized value | input unit of the run (TPM or RPKM) | – |
+| TX-05 normalization method | normalization method of a DESeq2 run (`STATO:0000590`) | `STATO:0000590` as the primary term |
 | TX-06 z-score | response profile claims (gene `lodp:expressionDeviatesIn` condition) | state what the z-score is computed against |
 | TX-07 differential expression method | run type; claims gene `lodp:differentiallyExpressedIn` contrast | – |
 | TX-08 log2 fold change | on the evidence, unshrunken | state whether it is shrunken |
