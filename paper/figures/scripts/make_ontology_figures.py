@@ -38,7 +38,7 @@ tot = {o: len(set().union(*u.values())) for o, u in per.items()}
 order = sorted(tot, key=lambda o: (-tot[o], o))
 TOP = 12
 top, rest = order[:TOP], order[TOP:]
-fig, ax = plt.subplots(figsize=(8.2, 5.4))
+fig, ax = plt.subplots(figsize=(8.2, 6.0))
 labels = top + ["other"]
 for yi, o in enumerate(labels):
     left = 0
@@ -61,8 +61,11 @@ for yi, o in enumerate(labels):
 ax.set_yticks(range(len(labels))); ax.set_yticklabels(labels); ax.invert_yaxis()
 ax.set_xlabel("Terms (counted per use case)"); ax.set_xlim(0, max(tot.values()) * 1.55)
 ax.set_title("Terms of the specification per ontology, split by use case", loc="left", fontsize=11, fontweight="bold")
+# requirements and distinct terms per use case, so that this figure can be read together with Figure 2A (a requirement has several candidate terms)
+nreq = Counter(UC[u] for u in {r["req_id"]: r["use_case"] for r in rows}.values())
+nterm = {a: len({r["curie"] for r in rows if r["curie"] and UC[r["use_case"]] == a}) for a in UC.values()}
 handles = [plt.Rectangle((0, 0), 1, 1, color=UCCOL[a]) for a in UC.values()]
-ax.legend(handles, list(UC.values()), ncol=7, frameon=False, loc="upper center", bbox_to_anchor=(0.45, -0.13), fontsize=9, title="Use case", title_fontsize=9)
+ax.legend(handles, [f"{a}: {nreq[a]} requirements, {nterm[a]} terms" for a in UC.values()], ncol=2, frameon=False, loc="upper center", bbox_to_anchor=(0.45, -0.13), fontsize=9, title="Use case: number of requirements and of distinct terms", title_fontsize=9)
 fig.tight_layout()
 for ext in ("svg", "png"): fig.savefig(OUT / f"ontology_terms_per_ontology.{ext}", dpi=200, facecolor=SURFACE)
 plt.close(fig)
