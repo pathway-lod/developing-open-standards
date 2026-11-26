@@ -85,7 +85,7 @@ authors_short: Elena Del Pup \emph{et al.}
 
 # Abstract 
 
-Predictions of plant specialized metabolic pathways and their enzymes, metabolites, and reactions, rely on bioinformatics pipelines that use different data, scores and formats, which makes them hard to compare, combine or reuse and their outputs difficult to integrate for a joint view of plant metabolism. During BioHackathon Europe 2026, we laid the groundwork for a community-supported minimum information guideline. We established what to model for each prediction or experimental result attached to a PlantMetWiki pathway, gene, enzyme or metabolite: a typed evidence statement, provenance (tool, version, input data) and how strongly it is anchored in the knowledge graph. We collected 119 requirements across three omics use cases (metabolomics, paired omics, and transcriptomics) and matched them to terms of existing ontologies. Gap terms are marked for requests to the maintainers of the existing ontologies or kept as placeholders in a local vocabulary. The model was expressed as RDF with SHACL shapes and applied to four pilots (91,926 triples, 4,884 claims). We built a browser-based viewer that validates, visualizes and scores the claims, and a browsable set of SPARQL queries that define evidence tiers and rank reactions, metabolites, and genes accordingly. These outcomes will enable scalable community annotation of pathways following minimum information guidelines, interoperable with existing standards, improved integration of multi-omics data with a community-supported validation schema, an evidence-based scoring method for the prioritization of candidate pathway components, and more reproducible and transparent multi-omics analyses.
+Plant specialized metabolites are a major source of innovative pharmaceuticals, novel foods, and biobased natural products. However, reconstructing their plant specialized metabolic pathways, across enzymes, metabolites, and reactions, relies on bioinformatics pipelines that use different omics data, scores and formats. As a result, pathway predictions are hard to compare, reuse, and integrate for a joint view of plant metabolism. During BioHackathon Europe 2026, we laid the groundwork for a community-supported minimum information guideline of multi omics evidence for pathway reconstruction. We established a semantic model for multi omics experimental results and predictions: a typed evidence statement, provenance (tool, version, input data) and how strongly it is anchored in the experimentally-validated PlantMetWiki knowledge graph. We collected 119 modelling requirements across omics use cases and matched them to terms of existing ontologies. Gap terms were marked for requests to the maintainers of the existing ontologies and included in a local vocabulary. The model was expressed as RDF with SHACL shapes and applied to four pilots datasets (91,926 triples, 4,884 claims). A validation workflow was developed for metabolomics, paired omics, and transcriptomics data. We built a browser-based viewer that validates, visualizes, and scores the claims, and a browsable set of SPARQL queries that define evidence tiers and rank reactions, metabolites, and genes accordingly. These outcomes will enable scalable community annotation of pathways following minimum information guidelines interoperable with existing standards, improved integration of multi-omics data with a open-source validation schema, and an evidence-based scoring method for the prioritization of novel pathway components.
 
 
 # Introduction
@@ -178,24 +178,26 @@ Table: The six steps of the pipeline.
 
 ## Pilots and generated Turtle files
 
-Pilots with testing data and example turtle files were provided to the participants as described in table turtle. 
+Before the BioHackathon, we prepared four pilots with testing data and example Turtle files (Table \ref{tableTurtle}) and provided them to the participants as a starting point: the metabolite annotations (MET), the paired-omics associations of the tomato data (PO), the plantiSMASH gene clusters (BGC) and the PlantCyc inferred evidence (PMN). 
 
 \begingroup
 \footnotesize
 
-Table: Turtle files generated for the project and available in the community repository (triples counted on the `main` branch). \label{tableTurtle}
+Table: Turtle files generated for the project and available in the community repository (triples counted on the `main` branch; claims counted as in the viewer, for BGC the 448 gene-cluster-to-pathway links plus the 57 plantiSMASH clusters). \label{tableTurtle}
 
-| File | Content | Triples | Use |
-| --- | --- | --- | --- |
-| `shape_constraints/rdf/annotation.ttl` | metabolite annotation claims (use case MET) | 54,097 | testing, viewer |
-| `shape_constraints/rdf/association.ttl` | paired-omics associations of the tomato data (use case PO) | 26,338 | testing, viewer |
-| `shape_constraints/rdf/bgc.ttl` | BGC evidence of plantiSMASH clusters (use case BGC) | 7,284 | testing, viewer |
-| `shape_constraints/rdf/plantcyc.ttl` | PlantCyc inferred evidence (use case PMN) | 4,207 | testing, viewer |
-| `visualization_tool/public/data/all_pilots.ttl` | the four files above as one plain Turtle file; the default dataset of the viewer | 91,926 | viewer, SULO checks |
-| `examples/sample_evidence_graph.ttl` | a small sample graph that conforms to the shapes | 152 | testing, documentation |
-| `shape_constraints/shapes/*.ttl` | the SHACL shapes (common, annotation, association, bgc, plantcyc); copies in `visualization_tool/public/data/validation/` | n/a | validation, also in the browser |
-| `shape_constraints/vocab/lodp.ttl` | the local vocabulary `lodp:` (67 terms) | 252 | validation (class hierarchy), viewer |
-| `pilots/pairedomics_overlap/results/associations.ttl`, `pilots/plantismash_overlap/results/bgc_evidence.ttl` | earlier exports of the pilots, before `build_rdf.py` (drafts, superseded by the files above) | 47,803 and 6,496 | reference |
+<!-- Claims per file: MetaboliteAnnotation 2,722; GeneMetaboliteAssociation 1,293; BGC 505 (448 BGCPathwayLink + 57 plantiSMASH clusters, obo:SO_0002357); PathwayMembershipClaim 364; total 4,884 as counted by the viewer. TODO: verify in the viewer code that the clusters are counted as claims. -->
+
+| File | Content | Triples | Claims | Use |
+| --- | --- | --- | --- | --- |
+| `shape_constraints/rdf/annotation.ttl` | metabolite annotation claims (use case MET) | 54,097 | 2,722 | testing, viewer |
+| `shape_constraints/rdf/association.ttl` | paired-omics associations of the tomato data (use case PO) | 26,338 | 1,293 | testing, viewer |
+| `shape_constraints/rdf/bgc.ttl` | BGC evidence of plantiSMASH clusters (use case BGC) | 7,284 | 505 | testing, viewer |
+| `shape_constraints/rdf/plantcyc.ttl` | PlantCyc inferred evidence (use case PMN) | 4,207 | 364 | testing, viewer |
+| `visualization_tool/public/data/all_pilots.ttl` | the four files above as one plain Turtle file; the default dataset of the viewer | 91,926 | 4,884 | viewer, SULO checks |
+| `examples/sample_evidence_graph.ttl` | a small sample graph that conforms to the shapes | 152 | n/a | testing, documentation |
+| `shape_constraints/shapes/*.ttl` | the SHACL shapes (common, annotation, association, bgc, plantcyc); copies in `visualization_tool/public/data/validation/` | n/a | n/a | validation, also in the browser |
+| `shape_constraints/vocab/lodp.ttl` | the local vocabulary `lodp:` (67 terms) | 252 | n/a | validation (class hierarchy), viewer |
+| `pilots/pairedomics_overlap/results/associations.ttl`, `pilots/plantismash_overlap/results/bgc_evidence.ttl` | earlier exports of the pilots, before `build_rdf.py` (drafts, superseded by the files above) | 47,803 and 6,496 | n/a | reference |
 
 \endgroup
 
@@ -265,7 +267,7 @@ Table: Working groups of the BioHackathon project and their participants (a part
 
 # Results of the BioHackathon Europe 2026
 
-The results of working groups were organized in three different objectives/topics: 
+The four pilots described in the Implementation were the material provided to the participants at the start. During the BioHackathon, the working groups experimented with further data of their own, as we report below. The results of working groups were organized in three different objectives/topics: 
 
 1. Ontology modelling: new proposed ontology terms and integrative ontology prototype with CI/CD  
 2. Data integration and modelling: validation framework for transcriptomics, paired omics, and metabolite evidence 
