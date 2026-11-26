@@ -183,9 +183,9 @@ Before the BioHackathon, we prepared four pilots with testing data and example T
 \begingroup
 \footnotesize
 
-Table: Turtle files generated for the project and available in the community repository (triples counted on the `main` branch; claims counted as in the viewer, for BGC the 448 gene-cluster-to-pathway links plus the 57 plantiSMASH clusters). \label{tableTurtle}
+Table: Turtle files generated for the project and available in the community repository (triples counted on the `main` branch; claims counted as in the viewer, for BGC the 448 gene-cluster-to-pathway links plus the 57 plantiSMASH clusters, which carry the evidence of the cluster). \label{tableTurtle}
 
-<!-- Claims per file: MetaboliteAnnotation 2,722; GeneMetaboliteAssociation 1,293; BGC 505 (448 BGCPathwayLink + 57 plantiSMASH clusters, obo:SO_0002357); PathwayMembershipClaim 364; total 4,884 as counted by the viewer. TODO: verify in the viewer code that the clusters are counted as claims. -->
+<!-- Claims per file: MetaboliteAnnotation 2,722; GeneMetaboliteAssociation 1,293; BGC 505 (448 BGCPathwayLink + 57 plantiSMASH clusters, obo:SO_0002357); PathwayMembershipClaim 364; total 4,884 as counted by the viewer. Verified with rdflib on community main: the viewer profile (public/profiles/lod-pathways-draft.json) counts a node as a claim if it is a lodp:Claim or has sio:SIO_000772 (has evidence); the 57 clusters carry it. -->
 
 | File | Content | Triples | Claims | Use |
 | --- | --- | --- | --- | --- |
