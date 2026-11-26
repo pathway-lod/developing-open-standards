@@ -341,7 +341,7 @@ Table: Description of the technical implementation of the integrative ontology d
 
 **Integrating SULO**
 
-The pilots describe their results using the local vocabulary `lodp:` introduced above, whose terms are defined only within this project. A program that is unaware of these files cannot tell whether a claim is a physical thing, an event, or a piece of information. To state this, we placed each local term under a class or relation  of SULO, a small upper-level ontology with simple names. Claims and mass spectrometry features became information objects, tool runs were classified  as processes, and the relations that anchor a claim to a pathway or a metabolite became kinds of `refers to`. All the 14 classes of `lodp:` are mapped to SULO, and five of its eight object properties have a parent relation; the other three are not used in the pilots yet. The pilot data also uses 17 classes that are borrowed from ECO, SO, and EDAM. These ontologies were not mapped one by one. Each class was followed up the hierarchy of its ontology, and only the top class was placed in SULO i.e. evidence as an information object, a sequence feature as a spatial object and an operation as a process. Finding the shared classes, retrieving their parents and placing them is automated, so the manual work grows with the addition of ontologies rather than the number of terms. 
+The pilots describe their results using the local vocabulary `lodp:` introduced above, whose terms are defined only within this project. A program that is unaware of these files cannot tell whether a claim is a physical thing, an event, or a piece of information. To state this, we placed each local term under a class or relation  of SULO, a small upper-level ontology with simple names. Claims and mass spectrometry features became information objects, tool runs were classified  as processes, and the relations that anchor a claim to a pathway or a metabolite became kinds of `refers to`. All the 14 classes of `lodp:` are mapped to SULO, and five of its eight object properties have a parent relation; the other three are not used in the pilots yet. The pilot data also uses 17 classes that are borrowed from ECO, SO, and EDAM (Figure \ref{figureSULO}). These ontologies were not mapped one by one. Each class was followed up the hierarchy of its ontology, and only the top class was placed in SULO i.e. evidence as an information object, a sequence feature as a spatial object and an operation as a process. Finding the shared classes, retrieving their parents and placing them is automated, so the manual work grows with the addition of ontologies rather than the number of terms. 
 
 The alignment was checked against the rules of SULO (which classes exclude each other, and what can stand on either side of the relation as domain and range) and against all 91,926 triples of the pilots. All checks pass, and each one fails when intentional mistakes are introduced, for example when a claim is falsely classified as a process. With RDFS inference, a query only written in SULO terms finds 13,170 information objects, 57 spatial objects, and 9 processes in the pilot data; without the alignment it finds **none**. 
 
@@ -349,9 +349,7 @@ Three questions remain open. The first one is how values should be modeled. SULO
 
 <!-- TODO: (1) the scripts of the SULO alignment are in shape_constraints/sulo_alignment on the branch sulo-alignment of the community repository, which is not merged into main yet: merge it, or cite the branch. -->
 
-![Without the alignment](./figures/sulo_shared_before_after.png)
-
-*Figure: Classes borrowed from ECO, SO and EDAM before (left) and after (right) the alignment to SULO. SULO classes are the orange nodes.*
+![Classes borrowed from ECO, SO and EDAM (A) before and (B) after the alignment to SULO. SULO classes are the orange nodes. \label{figureSULO}](./figures/sulo_shared_before_after.png){ width=75% }
 
 **Continuous checks with ROBOT**
 
